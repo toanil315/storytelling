@@ -45,7 +45,7 @@ const StyledSidebar = () => {
   return (
     <SidebarWrapper>
       <div className="relative w-40 h-6 mb-5">
-        <Image src={"./assets/Logo.png"} layout={"fill"} objectFit={"cover"} />
+        <Image src={"/assets/Logo.png"} layout={"fill"} objectFit={"cover"} />
       </div>
       <MenuWrapper>
         <p className="title">Menu</p>
