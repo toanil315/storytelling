@@ -1,7 +1,7 @@
-const basePath = "/"
+const basePath = ""
 
 export const Path = {
-    home: basePath,
+    home: `${basePath}/`,
     popular: `${basePath}/popular`,
     trendy: `${basePath}/trendy`
 }

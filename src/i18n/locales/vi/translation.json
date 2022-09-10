@@ -1,0 +1,6 @@
+{
+    "test": "kiểm thử",
+    "nestedLocales": {
+        "nested1": "lồng 1"
+    }
+}

@@ -1,0 +1,6 @@
+{
+    "test": "test",
+    "nestedLocales": {
+        "nested1": "nested 1"
+    }
+}
