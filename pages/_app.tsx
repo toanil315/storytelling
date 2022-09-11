@@ -5,6 +5,7 @@ import type { NextPage } from "next";
 import type { AppProps } from "next/app";
 import { I18nextProvider } from "react-i18next";
 import i18next from "src/i18n/i18n";
+import DefaultLayout from "src/layouts/DefaultLayout";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -16,7 +17,8 @@ type AppPropsWithLayout = AppProps & {
 
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   // Use the layout defined at the page level, if available
-  const getLayout = Component.getLayout ?? ((page) => page);
+  const getLayout =
+    Component.getLayout ?? ((page) => <DefaultLayout>{page}</DefaultLayout>);
 
   return (
     <I18nextProvider i18n={i18next}>

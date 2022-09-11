@@ -2,13 +2,10 @@ import { color } from "src/utils/colors";
 import styled from "styled-components";
 
 export const VideoCardWrapper = styled.div`
-  // example width
-  width: 25%;
-
   background-color: ${color.white};
   padding: 14px;
   border-radius: 10px;
-box-shadow: 0 5px 10px rgba(0,0,0, 0.1);
+  box-shadow: 0 5px 10px rgba(0,0,0, 0.1);
 `;
 
 export const Content = styled.div`

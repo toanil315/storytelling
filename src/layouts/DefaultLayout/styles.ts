@@ -21,6 +21,16 @@ export const ContentWrapper = styled.div<ContentWrapperProps>`
   background-repeat: no-repeat;
   background-position: -126px -30px;
   overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    background-color: #f5f5f5;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: ${color.textLight};
+  }
 `;
 
 export const Container = styled.div`
@@ -31,24 +41,12 @@ export const Container = styled.div`
     margin-top: 25px;
   }
 
-  @media(min-width: 992px) {
+  @media (min-width: 992px) {
     width: 100%;
   }
 
-  @media(min-width: 1600px) {
+  @media (min-width: 1600px) {
     width: 80%;
   }
 `;
 
-export const Header = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  & > div {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    gap: 10px;
-  }
-`;
