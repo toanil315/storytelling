@@ -1,18 +1,42 @@
-import React, { ButtonHTMLAttributes } from "react";
-import { ButtonWhite } from "./styles";
+import type { ReactNode } from "react";
+import { memo } from "react";
+import * as S from "./styles";
 
-interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-  $type: "primary" | "secondary" | "white" | "disabled";
+interface ButtonProps {
+  $type?: "primary" | "secondary" | "white";
+  children: ReactNode;
+  loading?: boolean;
 }
 
-const Button = ({ $type, children, ...rest }: Props) => {
+const Button = ({
+  $type = "primary",
+  children,
+  loading,
+  ...rest
+}: ButtonProps) => {
   switch ($type) {
+    case "primary":
+      return (
+        <S.PrimaryButton loading={loading} {...rest}>
+          {loading && <S.Loading />}
+          {children}
+        </S.PrimaryButton>
+      );
+
+    case "secondary":
+      return (
+        <S.SecondaryButton loading={loading} {...rest}>
+          {loading && <S.LoadingSecondary />}
+          {children}
+        </S.SecondaryButton>
+      );
+
     case "white":
-      return <ButtonWhite {...rest}>{children}</ButtonWhite>;
+      return <S.WhiteButton {...rest}>{children}</S.WhiteButton>;
 
     default:
-      throw(`Unknow type ${$type} of button`);
+      throw new Error("Invalid type button!");
   }
 };
 
-export default Button;
+export default memo(Button);
