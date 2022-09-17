@@ -1,8 +1,8 @@
-import type { ReactNode } from "react";
+import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { memo } from "react";
 import * as S from "./styles";
 
-interface ButtonProps {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   $type?: "primary" | "secondary" | "white";
   children: ReactNode;
   loading?: boolean;

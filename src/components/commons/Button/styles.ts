@@ -40,7 +40,7 @@ export const LoadingSecondary = styled(Loading)`
   }
 `;
 
-export const ButtonBase = styled.div<Props>`
+export const ButtonBase = styled.button<Props>`
   /* css BaseButton */
   border-width: 1.6px;
   border-style: solid;

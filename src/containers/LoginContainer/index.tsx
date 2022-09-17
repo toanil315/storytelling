@@ -1,16 +1,12 @@
 import Image from "next/image";
 import React from "react";
-import {
-  AuthenticateContainer,
-  ChangeForm,
-  FormWrapper,
-  ImageContainer,
-  Title,
-} from "./styles";
-import * as Form from "src/components/Form";
-import { useForm } from "react-hook-form";
+import { AuthenticateContainer, ImageContainer } from "./styles";
+import Form from "src/components/Form";
+import { SubmitHandler } from "react-hook-form";
 import Button from "src/components/commons/Button";
 import Link from "next/link";
+import { Path } from "src/utils/Path";
+import { loginSchema } from "src/utils/schemas/AuthSchema";
 
 interface LoginInputProps {
   email: string;
@@ -18,12 +14,7 @@ interface LoginInputProps {
 }
 
 const LoginContainer = () => {
-  const { control } = useForm<LoginInputProps>({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
+  const onSubmit: SubmitHandler<LoginInputProps> = (data) => console.log(data);
 
   return (
     <AuthenticateContainer>
@@ -35,28 +26,42 @@ const LoginContainer = () => {
           objectFit="cover"
         />
       </ImageContainer>
-      <FormWrapper>
-        <Title>Sign Up for an Account</Title>
-        <Form.Input
-          width="100%"
-          placeholder="Enter your email here"
-          name="email"
-          label="Email"
-          control={control}
-        />
-        <Form.Input
-          width="100%"
-          placeholder="Enter your password here"
-          name="password"
-          label="Password"
-          type="password"
-          control={control}
-        />
-        <Button>Login</Button>
-        <Link href={"/signup"}>
-          <ChangeForm>You haven't any account? Sign Up</ChangeForm>
-        </Link>
-      </FormWrapper>
+      <Form
+        width="50%"
+        defaultValues={{
+          email: "",
+          password: "",
+        }}
+        onSubmit={onSubmit}
+        schema={loginSchema}
+      >
+        {({ control }) => (
+          <>
+            <Form.Title>Sign Up for an Account</Form.Title>
+            <Form.Input
+              width="100%"
+              placeholder="Enter your email here"
+              name="email"
+              label="Email"
+              control={control}
+            />
+            <Form.Input
+              width="100%"
+              placeholder="Enter your password here"
+              name="password"
+              label="Password"
+              type="password"
+              control={control}
+            />
+            <Button type="submit">Login</Button>
+            <Link href={`${Path.signUp}`}>
+              <Form.ChangeForm>
+                You haven't any account? Sign Up
+              </Form.ChangeForm>
+            </Link>
+          </>
+        )}
+      </Form>
     </AuthenticateContainer>
   );
 };

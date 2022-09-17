@@ -26,20 +26,23 @@ const Input: React.FC<InputProps> = React.forwardRef(
       disabled = false,
       error,
       handleChange,
+      value,
       ...restProps
     },
     ref
   ) => {
     const { name } = restProps;
-    const [value, setValue] = useState<string | number | undefined>(undefined);
+    const [inputValue, setInputValue] = useState<string | number | undefined>(
+      undefined
+    );
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-      setValue(e.target.value);
+      setInputValue(e.target.value);
     };
 
     useEffect(() => {
-      handleChange && handleChange(value);
-    }, [value]);
+      handleChange && handleChange(inputValue);
+    }, [inputValue]);
 
     return (
       <S.Wrapper width={width}>
@@ -50,7 +53,7 @@ const Input: React.FC<InputProps> = React.forwardRef(
         <S.InputWrapper disabled={disabled} isError={!!error}>
           {/* put suffix icon here */}
           <input
-            value={value}
+            value={inputValue}
             id={name}
             {...restProps}
             onChange={handleInputChange}

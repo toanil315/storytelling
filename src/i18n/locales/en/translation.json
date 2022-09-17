@@ -1,6 +1,11 @@
 {
-    "test": "test",
-    "nestedLocales": {
-        "nested1": "nested 1"
+  "validation": {
+    "userName": {
+      "required": "Username or Email is required",
+      "invalid": "UserName or Email is invalid"
+    },
+    "password": {
+      "required": "Password is required"
     }
+  }
 }

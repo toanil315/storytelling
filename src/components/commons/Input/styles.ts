@@ -56,7 +56,7 @@ export const InputWrapper = styled.div<InputWrapperProps>`
     `};
   input {
     width: 100%;
-    padding: 12px 16px;
+    padding: 14px 16px;
     color: ${color.textLight};
     font-weight: 400;
     font-size: 14px;
@@ -66,6 +66,14 @@ export const InputWrapper = styled.div<InputWrapperProps>`
     &:focus {
       color: ${color.text};
       outline: none;
+    }
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px white inset !important;
+      box-shadow: 0 0 0 30px white inset !important;
     }
   }
 `;
