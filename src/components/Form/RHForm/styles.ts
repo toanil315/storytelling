@@ -1,17 +1,6 @@
-import { color } from "src/utils/colors";
 import styled from "styled-components";
 
-export interface FormWrapperProps {
-  width?: string;
-  padding?: string;
-  margin?: string;
-}
-
-export const FormWrapper = styled.form<FormWrapperProps>`
-  width: ${({ width }) => width ?? "100%"};
-  padding: ${({ padding }) => padding ?? "0 90px"};
-  margin: ${({ margin }) => margin ?? ""};
-
+export const FormWrapper = styled.form`
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -29,12 +18,12 @@ export const ChangeForm = styled.p`
   font-size: 14px;
   font-weight: 500;
   line-height: 22px;
-  color: ${color.text};
+  color: ${({ theme }) => theme.colors.text};
   text-align: center;
   transition: all 0.2s ease-in;
   cursor: pointer;
 
   &:hover {
-    color: ${color.primary};
+    color: ${({ theme }) => theme.colors.primary};
   }
 `;

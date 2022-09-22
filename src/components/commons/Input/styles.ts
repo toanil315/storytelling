@@ -1,4 +1,3 @@
-import { color } from "src/utils/colors";
 import styled, { css } from "styled-components";
 
 interface WrapperProps {
@@ -16,10 +15,10 @@ export const Wrapper = styled.div<WrapperProps>`
 `;
 
 export const Label = styled.span`
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 18px;
-  color: ${color.text};
+  font-size: ${({ theme }) => theme.fontSizes.xs};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  line-height: ${({ theme }) => theme.lineHeights.small};
+  color: ${({ theme }) => theme.colors.text};
   padding: 0 8px;
   background-color: white;
 
@@ -32,22 +31,22 @@ export const Label = styled.span`
 export const InputWrapper = styled.div<InputWrapperProps>`
   border-width: 2px;
   border-style: solid;
-  border-color: ${({ isError }) =>
-    !isError ? color.lightGray : `${color.danger} !important`};
+  border-color: ${({ isError, theme }) =>
+    !isError ? theme.colors.lightGray : `${theme.colors.danger} !important`};
   border-radius: 6px;
   transition: all 0.2s ease-in;
   &:focus-within {
-    border-color: ${color.primary};
+    border-color: ${({ theme }) => theme.colors.primary};
     box-shadow: 0 1px 8px -2px ${({ isError }) => (!isError ? `#FDD32B` : `#F27166`)};
   }
   &:hover {
-    border-color: ${color.primary};
+    border-color: ${({ theme }) => theme.colors.primary};
   }
   ${({ disabled }) =>
     disabled &&
     css`
-      background-color: ${color.lightGray};
-      border-color: ${color.lightGray} !important;
+      background-color: ${({ theme }) => theme.colors.lightGray};
+      border-color: ${({ theme }) => theme.colors.lightGray} !important;
       box-shadow: unset !important;
       cursor: no-drop;
       input {
@@ -57,23 +56,23 @@ export const InputWrapper = styled.div<InputWrapperProps>`
   input {
     width: 100%;
     padding: 14px 16px;
-    color: ${color.textLight};
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 22px;
-    background-color: transparent;
+    color: ${({ theme }) => theme.colors.textLight};
+    font-weight: ${({ theme }) => theme.fontWeights.regular};
+    font-size: ${({ theme }) => theme.fontSizes.sm};
+    line-height: ${({ theme }) => theme.lineHeights.normal};
+    background-color: transparent !important;
     border: 0;
     &:focus {
-      color: ${color.text};
+      color: ${({ theme }) => theme.colors.text};
       outline: none;
     }
 
+    // Remove background color of autocomplete
     &:-webkit-autofill,
     &:-webkit-autofill:hover,
     &:-webkit-autofill:focus,
     &:-webkit-autofill:active {
-      -webkit-box-shadow: 0 0 0 30px white inset !important;
-      box-shadow: 0 0 0 30px white inset !important;
+      transition: background-color 5000000s ease-in-out 0s;
     }
   }
 `;

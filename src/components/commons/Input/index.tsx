@@ -19,7 +19,7 @@ export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
 const Input: React.FC<InputProps> = React.forwardRef(
   (
     {
-      width,
+      width = "100%",
       suffixIcon,
       label,
       isRequired = false,
@@ -33,7 +33,7 @@ const Input: React.FC<InputProps> = React.forwardRef(
   ) => {
     const { name } = restProps;
     const [inputValue, setInputValue] = useState<string | number | undefined>(
-      undefined
+      ""
     );
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {

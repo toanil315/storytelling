@@ -1,4 +1,3 @@
-import { color } from "src/utils/colors";
 import styled from "styled-components";
 import HeaderImage from "public/assets/Background.png";
 
@@ -16,7 +15,7 @@ export const DefaultLayoutWrapper = styled.section`
 export const ContentWrapper = styled.div<ContentWrapperProps>`
   width: ${({ width }) => width ?? "85%"};
   height: 100vh;
-  background-color: ${color.lightGray};
+  background-color: ${({ theme }) => theme.colors.lightGray};
   background-image: url(${HeaderImage.src});
   background-repeat: no-repeat;
   background-position: -126px -30px;
@@ -29,7 +28,7 @@ export const ContentWrapper = styled.div<ContentWrapperProps>`
 
   &::-webkit-scrollbar-thumb {
     border-radius: 5px;
-    background-color: ${color.textLight};
+    background-color: ${({ theme }) => theme.colors.textLight};
   }
 `;
 
@@ -49,4 +48,3 @@ export const Container = styled.div`
     width: 80%;
   }
 `;
-

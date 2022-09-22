@@ -15,6 +15,8 @@ import { StyledDropdown } from "src/components/commons/Dropdown/styles";
 import { StyledMenu } from "src/components/commons/Menu/styles";
 import { Languages } from "src/utils/constants";
 import { useTranslation } from "react-i18next";
+import Text from "src/components/commons/Typography";
+import Box from "src/components/commons/Box";
 
 interface LanguageItemProps {
   Icon: React.MemoExoticComponent<
@@ -25,7 +27,7 @@ interface LanguageItemProps {
 }
 
 const LanguageItem = ({ Icon, text, itemKey }: LanguageItemProps) => {
-  const {i18n} = useTranslation();
+  const { i18n } = useTranslation();
 
   if (i18n.language === itemKey) {
     return (
@@ -45,7 +47,7 @@ const LanguageItem = ({ Icon, text, itemKey }: LanguageItemProps) => {
 };
 
 const LanguageMenu = () => {
-  const {i18n} = useTranslation();
+  const { i18n } = useTranslation();
 
   const handleClick = (value: any) => {
     i18n.changeLanguage(value.key);
@@ -88,9 +90,11 @@ const Header = () => {
           <GlobalIcon />
         </StyledDropdown>
         <NotificationIcon />
-        <Button $type="white">
+        <Button $type="white" borderRadius="25px">
           <UploadIcon />
-          Upload
+          <Box as={Text} padding="0 10px">
+            Upload
+          </Box>
         </Button>
       </div>
     </HeaderWrapper>

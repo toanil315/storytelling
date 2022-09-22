@@ -7,6 +7,8 @@ import { I18nextProvider } from "react-i18next";
 import i18next from "src/i18n/i18n";
 import DefaultLayout from "src/layouts/DefaultLayout";
 import App from "next/app";
+import { ThemeProvider } from "styled-components";
+import theme from "styles/theme";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -24,7 +26,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <I18nextProvider i18n={i18next}>
-      {getLayout(<Component {...pageProps} />)}
+      <ThemeProvider theme={theme}>
+        {getLayout(<Component {...pageProps} />)}
+      </ThemeProvider>
     </I18nextProvider>
   );
 }

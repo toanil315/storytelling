@@ -1,8 +1,12 @@
 import React from "react";
-import { ErrorMessageContainer } from "./styles";
+import Text from "../Typography";
 
 const ErrorMessage = ({ text }: { text: string }) => {
-  return <ErrorMessageContainer>{text}</ErrorMessageContainer>;
+  return (
+    <Text fontSize="xs" fontWeight="medium" lineHeight="small" color="danger">
+      {text}
+    </Text>
+  );
 };
 
 export default ErrorMessage;

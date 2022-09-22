@@ -6,10 +6,12 @@ import {
   SubmitHandler,
   useForm,
 } from "react-hook-form";
-import { FormWrapper, FormWrapperProps } from "./styles";
+import { FormWrapper } from "./styles";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { ObjectShape } from "yup/lib/object";
+import Box, { BoxProps } from "src/components/commons/Box";
+import { Form } from "antd";
 
 type ChildrenOfRHForm<T> = ({
   control,
@@ -17,11 +19,11 @@ type ChildrenOfRHForm<T> = ({
   control: Control<T & FieldValues>;
 }) => JSX.Element | JSX.Element[] | undefined;
 
-interface Props<T> extends FormWrapperProps {
+interface Props<T> extends BoxProps {
   defaultValues?: DeepPartial<T>;
-  schema: yup.ObjectSchema<T & ObjectShape>;
+  schema: yup.ObjectSchema<ObjectShape>;
   children: ChildrenOfRHForm<T>;
-  onSubmit: SubmitHandler<any>;
+  onSubmit: SubmitHandler<T & FieldValues>;
 }
 
 const RHForm = <T extends FieldValues>({
@@ -37,9 +39,9 @@ const RHForm = <T extends FieldValues>({
   });
 
   return (
-    <FormWrapper {...restProps} onSubmit={handleSubmit(onSubmit)}>
+    <Box as={FormWrapper} {...restProps} onSubmit={handleSubmit(onSubmit)}>
       {children({ control })}
-    </FormWrapper>
+    </Box>
   );
 };
 

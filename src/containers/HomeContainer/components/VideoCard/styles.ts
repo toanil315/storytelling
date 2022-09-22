@@ -1,11 +1,10 @@
-import { color } from "src/utils/colors";
 import styled from "styled-components";
 
 export const VideoCardWrapper = styled.div`
-  background-color: ${color.white};
+  background-color: ${({ theme }) => theme.colors.white};
   padding: 14px;
   border-radius: 10px;
-  box-shadow: 0 5px 10px rgba(0,0,0, 0.1);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 `;
 
 export const Content = styled.div`
@@ -22,14 +21,14 @@ export const Author = styled.div`
     font-size: 16px;
     font-weight: 500;
     line-height: 24px;
-    color: ${color.text};
+    color: ${({ theme }) => theme.colors.text};
   }
 
   & .time-stamp {
     font-size: 12px;
     font-weight: 400;
     line-height: 18px;
-    color: ${color.textLight};
+    color: ${({ theme }) => theme.colors.textLight};
   }
 `;
 
@@ -47,12 +46,12 @@ export const Thumbnail = styled.div`
 
     padding: 1px 5px;
     border-radius: 2px;
-    background-color: ${color.text};
+    background-color: ${({ theme }) => theme.colors.text};
 
     font-size: 12px;
     font-weight: 400;
     line-height: 18px;
-    color: ${color.white};
+    color: ${({ theme }) => theme.colors.white};
   }
 
   & > .play-btn {
@@ -64,7 +63,7 @@ export const Thumbnail = styled.div`
     width: 38px;
     height: 38px;
     border-radius: 50%;
-    background-color: ${color.primary};
+    background-color: ${({ theme }) => theme.colors.primary};
 
     display: flex;
     justify-content: center;
@@ -88,28 +87,28 @@ export const CategoryName = styled.h4`
   font-size: 14px;
   font-weight: 500;
   line-height: 22px;
-  color: ${color.green};
+  color: ${({ theme }) => theme.colors.green};
 `;
 
 export const Title = styled.h3`
   font-size: 18px;
   font-weight: 500;
   line-height: 26px;
-  color: ${color.text};
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 export const Description = styled.p`
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
-  color: ${color.textLight};
+  color: ${({ theme }) => theme.colors.textLight};
 `;
 
 export const VideoFigures = styled.p`
   font-size: 12px;
   font-weight: 400;
   line-height: 18px;
-  color: ${color.textSemibold};
+  color: ${({ theme }) => theme.colors.textSemibold};
 
   & > span {
     padding: 0 8px;

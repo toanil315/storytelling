@@ -1,15 +1,12 @@
 import Image from "next/image";
 import React, { useMemo } from "react";
-import {
-  MenuWrapper,
-  SidebarItemActive,
-  SidebarItemWrapper,
-  SidebarWrapper,
-} from "./style";
+import { MenuWrapper, SidebarItemActive, SidebarItemWrapper } from "./style";
 import { getRoutes } from "../../../../layouts/DefaultLayout/constants";
 import { RouteItem } from "src/utils/constants";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Box from "src/components/commons/Box";
+import Text from "src/components/commons/Typography";
 
 const StyledSidebarItem = ({ title, path, Icon }: RouteItem) => {
   const router = useRouter();
@@ -18,7 +15,9 @@ const StyledSidebarItem = ({ title, path, Icon }: RouteItem) => {
     return (
       <SidebarItemActive>
         <Icon />
-        <span>{title}</span>
+        <Text fontSize="16px" fontWeight="400" lineHeight="24px">
+          {title}
+        </Text>
       </SidebarItemActive>
     );
   }
@@ -27,7 +26,9 @@ const StyledSidebarItem = ({ title, path, Icon }: RouteItem) => {
     <Link href={path}>
       <SidebarItemWrapper>
         <Icon />
-        <span>{title}</span>
+        <Text fontSize="16px" fontWeight="400" lineHeight="24px">
+          {title}
+        </Text>
       </SidebarItemWrapper>
     </Link>
   );
@@ -43,15 +44,17 @@ const StyledSidebar = () => {
   };
 
   return (
-    <SidebarWrapper>
-      <div className="relative w-40 h-6 mb-5">
+    <Box width="15%" height="100vh" bg="white" padding="33px 20px 40px">
+      <div className="relative w-40 h-6 mb-8">
         <Image src={"/assets/Logo.png"} layout={"fill"} objectFit={"cover"} />
       </div>
       <MenuWrapper>
-        <p className="title">Menu</p>
+        <Text fontSize="16px" fontWeight="500" lineHeight="24px" color="text">
+          Menu
+        </Text>
         <ul className="list">{renderRouteList()}</ul>
       </MenuWrapper>
-    </SidebarWrapper>
+    </Box>
   );
 };
 

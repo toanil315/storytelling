@@ -1,10 +1,8 @@
-import { color } from "src/utils/colors";
 import styled, { css } from "styled-components";
+import Box, { BoxProps } from "../Box";
 
-interface Props {
+interface Props extends BoxProps {
   loading?: boolean;
-  width?: string;
-  padding?: string;
 }
 
 export const Loading = styled.span`
@@ -29,43 +27,31 @@ export const Loading = styled.span`
     margin-left: -10px;
     border-radius: 50%;
     border: 2.2px solid transparent;
-    border-top-color: ${color.text};
+    border-top-color: ${({ theme }) => theme.colors.text};
     animation: spinner 0.7s linear infinite;
   }
 `;
 
 export const LoadingSecondary = styled(Loading)`
   &::before {
-    border-top-color: ${color.primary};
+    border-top-color: ${({ theme }) => theme.colors.primary};
   }
 `;
 
-export const ButtonBase = styled.button<Props>`
+export const ButtonBase = styled(Box)<Props>`
   /* css BaseButton */
   border-width: 1.6px;
   border-style: solid;
-  border-radius: 6px;
   outline: none;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 22px;
+  font-weight: ${({ theme }) => theme.fontWeights.medium};
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  line-height: ${({ theme }) => theme.lineHeights.normal};
   letter-spacing: 0.04em;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 10px;
-
-  ${({ padding }) =>
-    padding &&
-    css`
-      padding: ${padding};
-    `}
-  ${({ width }) =>
-    width &&
-    css`
-      width: ${width};
-    `}
 
   ${({ loading }) =>
     loading &&
@@ -94,20 +80,21 @@ export const ButtonBase = styled.button<Props>`
 export const PrimaryButton = styled(ButtonBase)`
   /* css primary button */
   /* example use theme global variables */
-  background: ${color.primary};
-  border-color: ${color.primary};
-  color: ${color.text};
+  background: ${({ theme }) => theme.colors.primary};
+  border-color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 export const SecondaryButton = styled(ButtonBase)`
   /* css secondary button */
   background: white;
-  border-color: ${color.primary};
-  color: ${color.primary};
+  border-color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.primary};
 `;
 
 export const WhiteButton = styled(ButtonBase)`
   /* css gray button */
-  background-color: ${color.white};
-  border-color: ${color.textLight};
+  background-color: ${({ theme }) => theme.colors.white};
+  border-color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.text};
 `;
