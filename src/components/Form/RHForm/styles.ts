@@ -13,17 +13,3 @@ export const Title = styled.h1`
   text-align: center;
   margin-bottom: 20px;
 `;
-
-export const ChangeForm = styled.p`
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 22px;
-  color: ${({ theme }) => theme.colors.text};
-  text-align: center;
-  transition: all 0.2s ease-in;
-  cursor: pointer;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.primary};
-  }
-`;

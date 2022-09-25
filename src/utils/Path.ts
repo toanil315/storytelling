@@ -6,4 +6,5 @@ export const Path = {
   trendy: `${basePath}/trendy`,
   login: `${basePath}/login`,
   signUp: `${basePath}/signup`,
+  forgotPassword: `${basePath}/forgot-password`,
 };

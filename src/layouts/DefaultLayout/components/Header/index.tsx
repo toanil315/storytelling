@@ -4,7 +4,6 @@ import GlobalIcon from "src/components/icons/GlobalIcon";
 import UploadIcon from "src/components/icons/UploadIcon";
 import NotificationIcon from "src/components/icons/NotificationIcon";
 import NotificationIcon2 from "src/components/icons/NotificationIcon2";
-import Button from "src/components/commons/Button";
 import {
   HeaderWrapper,
   LanguageItemActive,
@@ -17,6 +16,8 @@ import { Languages } from "src/utils/constants";
 import { useTranslation } from "react-i18next";
 import Text from "src/components/commons/Typography";
 import Box from "src/components/commons/Box";
+import Center from "src/components/commons/Center";
+import Button from "src/components/commons/Button";
 
 interface LanguageItemProps {
   Icon: React.MemoExoticComponent<

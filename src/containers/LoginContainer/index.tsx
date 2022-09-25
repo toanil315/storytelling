@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React from "react";
 import Form from "src/components/Form";
 import { SubmitHandler } from "react-hook-form";
@@ -8,6 +7,9 @@ import { Path } from "src/utils/Path";
 import { loginSchema } from "src/utils/schemas/AuthSchema";
 import Box from "src/components/commons/Box";
 import { Col, Row } from "antd";
+import Text from "src/components/commons/Typography";
+import Center from "src/components/commons/Center";
+import ImageComponent from "src/components/commons/Image";
 
 interface LoginInputProps {
   email: string;
@@ -27,14 +29,7 @@ const LoginContainer = () => {
     >
       <Box as={Row} width="100%" height="100%">
         <Col span={12}>
-          <Box className="relative" width="100%" height="100%">
-            <Image
-              className="w-full h-full"
-              src="/assets/Welcome.png"
-              layout="fill"
-              objectFit="cover"
-            />
-          </Box>
+          <ImageComponent src="/assets/Welcome.png" />
         </Col>
         <Col span={12}>
           <Form
@@ -63,12 +58,38 @@ const LoginContainer = () => {
                   type="password"
                   control={control}
                 />
-                <Button type="submit">Login</Button>
-                <Link href={`${Path.signUp}`}>
-                  <Form.ChangeForm>
-                    You haven't any account? Sign Up
-                  </Form.ChangeForm>
-                </Link>
+                <Box style={{ cursor: "pointer" }} width="100%">
+                  <Link href={`${Path.forgotPassword}`}>
+                    <Text
+                      fontSize="sm"
+                      fontWeight="medium"
+                      lineHeight="normal"
+                      color="green"
+                      textAlign="right"
+                    >
+                      Forgot Password?
+                    </Text>
+                  </Link>
+                  <Box as={Button} width="100%" type="submit" margin="13px 0">
+                    Login
+                  </Box>
+                  <Link href={`${Path.signUp}`}>
+                    <Center style={{ cursor: "pointer" }}>
+                      <Text
+                        as="span"
+                        fontSize="sm"
+                        fontWeight="medium"
+                        lineHeight="normal"
+                        color="text"
+                      >
+                        You haven't any account?
+                        <Box as="span" color="green" padding="0 4px">
+                          Sign Up
+                        </Box>
+                      </Text>
+                    </Center>
+                  </Link>
+                </Box>
               </>
             )}
           </Form>

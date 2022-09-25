@@ -3,6 +3,7 @@ import Box, { BoxProps } from "../Box";
 
 interface Props extends BoxProps {
   loading?: boolean;
+  borderRadius?: string;
 }
 
 export const Loading = styled.span`
@@ -59,6 +60,12 @@ export const ButtonBase = styled(Box)<Props>`
       pointer-events: none; // user cant click when button is loading
       filter: brightness(110%);
     `}
+
+  ${({ borderRadius }) =>
+    css`
+      border-radius: ${borderRadius ?? "6px"};
+    `}
+
   cursor: pointer;
   transition: all 0.15s ease-out;
 
@@ -78,22 +85,18 @@ export const ButtonBase = styled(Box)<Props>`
 `;
 
 export const PrimaryButton = styled(ButtonBase)`
-  /* css primary button */
-  /* example use theme global variables */
   background: ${({ theme }) => theme.colors.primary};
   border-color: ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.text};
 `;
 
 export const SecondaryButton = styled(ButtonBase)`
-  /* css secondary button */
   background: white;
   border-color: ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.primary};
 `;
 
 export const WhiteButton = styled(ButtonBase)`
-  /* css gray button */
   background-color: ${({ theme }) => theme.colors.white};
   border-color: ${({ theme }) => theme.colors.white};
   color: ${({ theme }) => theme.colors.text};

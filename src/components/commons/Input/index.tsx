@@ -16,7 +16,7 @@ export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   handleChange?: (value: string | number | undefined) => void;
 };
 
-const Input: React.FC<InputProps> = React.forwardRef(
+const Input = React.forwardRef(
   (
     {
       width = "100%",
@@ -28,7 +28,7 @@ const Input: React.FC<InputProps> = React.forwardRef(
       handleChange,
       value,
       ...restProps
-    },
+    }: InputProps,
     ref
   ) => {
     const { name } = restProps;

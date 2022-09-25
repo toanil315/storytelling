@@ -1,11 +1,22 @@
 {
   "validation": {
     "userName": {
-      "required": "Username or Email is required",
-      "invalid": "UserName or Email is invalid"
+      "required": "Email is required",
+      "invalid": "Email is invalid"
     },
     "password": {
-      "required": "Password is required"
+      "required": "Password is required",
+      "notMatch": "Confirm Password must be matched with Password",
+      "min": "Password must contain at least 6 characters"
+    },
+    "firstName": {
+      "required": "First Name is required"
+    },
+    "lastName": {
+      "required": "Last Name is required"
+    },
+    "confirmPassword": {
+      "required": "Password Confirmation is required"
     }
   }
 }
