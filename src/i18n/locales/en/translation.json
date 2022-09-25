@@ -17,6 +17,10 @@
     },
     "confirmPassword": {
       "required": "Password Confirmation is required"
+    },
+    "verifyCode": {
+      "required": "Verify Code is required",
+      "max": "Verify Code must contain {{length}} characters"
     }
   }
 }

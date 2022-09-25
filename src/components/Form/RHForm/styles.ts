@@ -7,9 +7,9 @@ export const FormWrapper = styled.form`
 `;
 
 export const Title = styled.h1`
-  font-weight: 500;
-  font-size: 26px;
-  line-height: 38px;
+  font-weight: ${({ theme }) => theme.fontWeights.medium};
+  font-size: ${({ theme }) => theme.fontSizes.xl};
+  line-height: ${({ theme }) => theme.lineHeights.xl};
   text-align: center;
   margin-bottom: 20px;
 `;

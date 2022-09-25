@@ -20,82 +20,92 @@ const LoginContainer = () => {
   const onSubmit: SubmitHandler<LoginInputProps> = (data) => console.log(data);
 
   return (
-    <Box
+    <Center
       width="100vw"
       height="100vh"
       padding="60px 0"
-      maxWidth="1144px"
       margin="0 auto"
+      bg="lightGray"
     >
-      <Box as={Row} width="100%" height="100%">
+      <Box
+        bg="white"
+        as={Row}
+        width="95%"
+        padding="40px"
+        maxWidth="1144px"
+        borderRadius="10px"
+        minHeight="95%"
+      >
         <Col span={12}>
           <ImageComponent src="/assets/Welcome.png" />
         </Col>
         <Col span={12}>
-          <Form
-            width="80%"
-            margin="50px auto"
-            defaultValues={{
-              email: "",
-              password: "",
-            }}
-            onSubmit={onSubmit}
-            schema={loginSchema}
-          >
-            {({ control }) => (
-              <>
-                <Form.Title>Login</Form.Title>
-                <Form.Input
-                  placeholder="Enter your email here"
-                  name="email"
-                  label="Email"
-                  control={control}
-                />
-                <Form.Input
-                  placeholder="Enter your password here"
-                  name="password"
-                  label="Password"
-                  type="password"
-                  control={control}
-                />
-                <Box style={{ cursor: "pointer" }} width="100%">
-                  <Link href={`${Path.forgotPassword}`}>
-                    <Text
-                      fontSize="sm"
-                      fontWeight="medium"
-                      lineHeight="normal"
-                      color="green"
-                      textAlign="right"
-                    >
-                      Forgot Password?
-                    </Text>
-                  </Link>
-                  <Box as={Button} width="100%" type="submit" margin="13px 0">
-                    Login
-                  </Box>
-                  <Link href={`${Path.signUp}`}>
-                    <Center style={{ cursor: "pointer" }}>
+          <Center width="100%" height="100%">
+            <Form
+              width="80%"
+              defaultValues={{
+                email: "",
+                password: "",
+              }}
+              onSubmit={onSubmit}
+              schema={loginSchema}
+            >
+              {({ control }) => (
+                <>
+                  <Form.Title>Login</Form.Title>
+                  <Form.Input
+                    placeholder="Enter your email here"
+                    name="email"
+                    label="Email"
+                    control={control}
+                  />
+                  <Form.Input
+                    placeholder="Enter your password here"
+                    name="password"
+                    label="Password"
+                    type="password"
+                    control={control}
+                  />
+                  <Box width="100%">
+                    <Link href={`${Path.forgotPassword}`}>
                       <Text
-                        as="span"
+                        style={{ cursor: "pointer" }}
                         fontSize="sm"
                         fontWeight="medium"
                         lineHeight="normal"
-                        color="text"
+                        color="green"
+                        textAlign="right"
                       >
-                        You haven't any account?
-                        <Box as="span" color="green" padding="0 4px">
-                          Sign Up
-                        </Box>
+                        Forgot Password?
                       </Text>
-                    </Center>
-                  </Link>
-                </Box>
-              </>
-            )}
-          </Form>
+                    </Link>
+                    <Box as={Button} width="100%" type="submit" margin="13px 0">
+                      Login
+                    </Box>
+                    <Link href={`${Path.signUp}`}>
+                      <Center style={{ cursor: "pointer" }}>
+                        <Text
+                          as="span"
+                          fontSize="sm"
+                          fontWeight="medium"
+                          lineHeight="normal"
+                          color="text"
+                        >
+                          You haven't any account?
+                          <Box as="span" color="green" padding="0 4px">
+                            Sign Up
+                          </Box>
+                        </Text>
+                      </Center>
+                    </Link>
+                  </Box>
+                </>
+              )}
+            </Form>
+          </Center>
         </Col>
       </Box>
-    </Box>
+    </Center>
   );
 };
 

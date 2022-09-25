@@ -28,6 +28,7 @@ const theme: Theme = {
     lg: "20px",
     xl: "24px",
     xxl: "32px",
+    sxxl: "36px",
     xxxl: "40px",
   },
 
@@ -42,6 +43,7 @@ const theme: Theme = {
     small: "18px",
     normal: "22px",
     large: "24px",
+    xl: "38px",
   },
 
   zIndices: {

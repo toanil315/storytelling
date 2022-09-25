@@ -87,14 +87,15 @@ const SignUpContainer = () => {
     );
 
   return (
-    <Box
-      width="100vw"
-      height="100vh"
-      padding="10px 0"
-      maxWidth="1144px"
-      margin="0 auto"
-    >
-      <Box as={Row} width="100%" height="100%">
+    <Center width="100vw" height="100vh" bg="lightGray">
+      <Box
+        bg="white"
+        as={Row}
+        width="95%"
+        maxWidth="1144px"
+        padding="30px 40px"
+        borderRadius="10px"
+      >
         <Col span={12}>
           <ImageComponent src="/assets/Welcome.png" />
         </Col>
@@ -135,7 +136,7 @@ const SignUpContainer = () => {
           </Form>
         </Col>
       </Box>
-    </Box>
+    </Center>
   );
 };
 
