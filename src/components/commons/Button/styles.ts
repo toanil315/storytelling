@@ -47,12 +47,12 @@ export const ButtonBase = styled(Box)<Props>`
   font-weight: ${({ theme }) => theme.fontWeights.medium};
   font-size: ${({ theme }) => theme.fontSizes.sm};
   line-height: ${({ theme }) => theme.lineHeights.normal};
-  letter-spacing: 0.04em;
-  /* text-transform: uppercase; */
+  letter-spacing: 0.04rem;
+  padding: 10px;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px;
 
   ${({ loading }) =>
     loading &&

@@ -21,6 +21,16 @@
     "verifyCode": {
       "required": "Verify Code is required",
       "max": "Verify Code must contain {{length}} characters"
+    },
+    "name": {
+      "required": "Name is required"
+    },
+    "address": {
+      "required": "Address is required"
+    },
+    "phoneNumber": {
+      "required": "Phone Number is required",
+      "invalid": "Phone Number is invalid"
     }
   }
 }

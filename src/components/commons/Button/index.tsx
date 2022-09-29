@@ -1,6 +1,6 @@
 import type { ComponentType, ReactNode } from "react";
 import { memo } from "react";
-import { BoxProps } from "../Box";
+import Box, { BoxProps } from "../Box";
 import * as S from "./styles";
 
 interface ButtonProps extends BoxProps {
@@ -24,8 +24,8 @@ const Button = ({
         <S.PrimaryButton
           as={as}
           loading={loading}
-          {...rest}
           borderRadius={borderRadius}
+          {...rest}
         >
           {loading && <S.Loading />}
           {children}
@@ -37,8 +37,8 @@ const Button = ({
         <S.SecondaryButton
           as={as}
           loading={loading}
-          {...rest}
           borderRadius={borderRadius}
+          {...rest}
         >
           {loading && <S.LoadingSecondary />}
           {children}
@@ -47,7 +47,7 @@ const Button = ({
 
     case "white":
       return (
-        <S.WhiteButton as={as} {...rest} borderRadius={borderRadius}>
+        <S.WhiteButton as={as} borderRadius={borderRadius} {...rest}>
           {children}
         </S.WhiteButton>
       );

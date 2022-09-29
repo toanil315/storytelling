@@ -87,11 +87,17 @@ const SignUpContainer = () => {
     );
 
   return (
-    <Center width="100vw" height="100vh" bg="lightGray">
+    <Center
+      width="100vw"
+      height="100vh"
+      bg="lightGray"
+      overflow="hidden"
+      padding="20px"
+    >
       <Box
         bg="white"
         as={Row}
-        width="95%"
+        width="90%"
         maxWidth="1144px"
         padding="30px 40px"
         borderRadius="10px"
@@ -102,7 +108,7 @@ const SignUpContainer = () => {
         <Col span={12}>
           <Form
             width="80%"
-            margin="20px auto"
+            margin="0 auto"
             defaultValues={{
               email: "",
               password: "",

@@ -1,58 +1,64 @@
 import i18next from "i18next";
-import * as yup from "yup";
+import yupGlobal from "../yupGlobal";
 
-export const loginSchema = yup.object().shape({
-  email: yup
+export const loginSchema = yupGlobal.object().shape({
+  email: yupGlobal
     .string()
     .email(i18next.t("validation.userName.invalid"))
     .required(i18next.t("validation.userName.required")),
-  password: yup.string().required(i18next.t("validation.password.required")),
+  password: yupGlobal
+    .string()
+    .required(i18next.t("validation.password.required")),
 });
 
-export const signUpSchema = yup.object().shape({
-  firstName: yup.string().required(i18next.t("validation.firstName.required")),
-  lastName: yup.string().required(i18next.t("validation.lastName.required")),
-  email: yup
+export const signUpSchema = yupGlobal.object().shape({
+  firstName: yupGlobal
+    .string()
+    .required(i18next.t("validation.firstName.required")),
+  lastName: yupGlobal
+    .string()
+    .required(i18next.t("validation.lastName.required")),
+  email: yupGlobal
     .string()
     .email(i18next.t("validation.userName.invalid"))
     .required(i18next.t("validation.userName.required")),
-  password: yup
+  password: yupGlobal
     .string()
     .min(6, i18next.t("validation.password.min"))
     .required(i18next.t("validation.password.required")),
-  confirmPassword: yup
+  confirmPassword: yupGlobal
     .string()
     .required(i18next.t("validation.confirmPassword.required"))
     .oneOf(
-      [yup.ref("password"), null],
+      [yupGlobal.ref("password"), null],
       i18next.t("validation.password.notMatch")
     ),
 });
 
 export const forgotPasswordSchemas = {
-  submitEmailSchema: yup.object().shape({
-    email: yup
+  submitEmailSchema: yupGlobal.object().shape({
+    email: yupGlobal
       .string()
       .email(i18next.t("validation.userName.invalid"))
       .required(i18next.t("validation.userName.required")),
   }),
-  verifyEmailSchema: yup.object().shape({
-    verifyCode: yup
+  verifyEmailSchema: yupGlobal.object().shape({
+    verifyCode: yupGlobal
       .string()
       .min(4, i18next.t("validation.verifyCode.max", { length: 4 }))
       .max(4, i18next.t("validation.verifyCode.max", { length: 4 }))
       .required(i18next.t("validation.verifyCode.required")),
   }),
-  changePasswordSchema: yup.object().shape({
-    newPassword: yup
+  changePasswordSchema: yupGlobal.object().shape({
+    newPassword: yupGlobal
       .string()
       .min(6, i18next.t("validation.password.min"))
       .required(i18next.t("validation.password.required")),
-    confirmNewPassword: yup
+    confirmNewPassword: yupGlobal
       .string()
       .required(i18next.t("validation.confirmPassword.required"))
       .oneOf(
-        [yup.ref("newPassword"), null],
+        [yupGlobal.ref("newPassword"), null],
         i18next.t("validation.password.notMatch")
       ),
   }),

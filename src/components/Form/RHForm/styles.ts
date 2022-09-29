@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const FormWrapper = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 25px;
 `;
 
 export const Title = styled.h1`
@@ -11,5 +11,5 @@ export const Title = styled.h1`
   font-size: ${({ theme }) => theme.fontSizes.xl};
   line-height: ${({ theme }) => theme.lineHeights.xl};
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
