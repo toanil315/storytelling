@@ -1,4 +1,5 @@
 import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
+import "react-quill/dist/quill.snow.css";
 import "../styles/globals.css";
 import type { ReactElement, ReactNode } from "react";
 import type { NextPage, NextPageContext } from "next";

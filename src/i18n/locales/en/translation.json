@@ -31,6 +31,10 @@
     "phoneNumber": {
       "required": "Phone Number is required",
       "invalid": "Phone Number is invalid"
+    },
+    "uploadCourse": {
+      "title": "Title is required",
+      "description": "Description is required"
     }
   }
 }

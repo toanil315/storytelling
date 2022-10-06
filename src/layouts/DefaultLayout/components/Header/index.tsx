@@ -18,6 +18,7 @@ import Text from "src/components/commons/Typography";
 import Box from "src/components/commons/Box";
 import Center from "src/components/commons/Center";
 import Button from "src/components/commons/Button";
+import { useRouter } from "next/router";
 
 interface LanguageItemProps {
   Icon: React.MemoExoticComponent<
@@ -75,6 +76,7 @@ const LanguageMenu = () => {
 };
 
 const Header = () => {
+  const router = useRouter();
   return (
     <HeaderWrapper>
       <div>
@@ -91,7 +93,11 @@ const Header = () => {
           <GlobalIcon />
         </StyledDropdown>
         <NotificationIcon />
-        <Button $type="white" borderRadius="25px">
+        <Button
+          onClick={() => router.push("/upload")}
+          $type="white"
+          borderRadius="25px"
+        >
           <UploadIcon />
           <Box as={Text} padding="0 10px">
             Upload

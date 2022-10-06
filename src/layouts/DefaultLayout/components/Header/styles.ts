@@ -31,6 +31,6 @@ export const LanguageItemWrapper = styled.div`
 `;
 
 export const LanguageItemActive = styled(LanguageItemWrapper)`
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.green};
   box-shadow: 0 2px 5px -5px rgba(0, 0, 0, 0.5);
 `;
