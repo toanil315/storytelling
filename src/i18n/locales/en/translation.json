@@ -34,7 +34,16 @@
     },
     "uploadCourse": {
       "title": "Title is required",
-      "description": "Description is required"
+      "description": "Description is required",
+      "videoThumbnail": "Video Thumbnail is required",
+      "imgThumbnail": "Image Thumbnail is required",
+      "price": {
+        "invalid": "Price must be a number",
+        "min": "Price must be greater than 0"
+      },
+      "lecture": {
+        "video": "Lecture Video is required"
+      }
     }
   }
 }

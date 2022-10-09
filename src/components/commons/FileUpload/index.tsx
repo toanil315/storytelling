@@ -6,17 +6,27 @@ import Center from "../Center";
 import Text from "../Typography";
 import Upload from "src/services/UploadServices";
 import CloseIcon from "src/components/icons/CloseIcon";
+import ErrorMessage from "../ErrorMessage";
 
-interface Props extends BoxProps {
-  title?: string;
+export interface FileUploadProps extends BoxProps {
+  label?: string;
+  onChange?: (value: string) => void;
+  error?: { message?: string };
+  isRequired?: boolean;
 }
 
-const FileUpload = ({ title, ...restProps }: Props) => {
+const FileUpload = ({
+  label,
+  error,
+  onChange,
+  isRequired,
+  ...restProps
+}: FileUploadProps) => {
   const { name } = restProps;
   const [showProgress, setShowProgress] = useState<boolean>(false);
   const [percentage, setPercentage] = useState<number>(0);
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     setShowProgress(true);
     const formData = new FormData();
     const files = e.target.files;
@@ -26,25 +36,33 @@ const FileUpload = ({ title, ...restProps }: Props) => {
 
       const config = {
         onUploadProgress: function (progressEvent: ProgressEvent) {
-          const percentCompleted = Math.round(
+          let percentCompleted = Math.round(
             (progressEvent.loaded / progressEvent.total) * 100
           );
+          if (percentCompleted === 100) {
+            percentCompleted -= 1;
+          }
           setPercentage(percentCompleted);
         },
       };
 
-      Upload(formData, config);
+      const dataUpload = await Upload(formData, config);
+      setPercentage(100);
+      console.log(dataUpload);
+      onChange &&
+        onChange("https://aws.s3.com/video-upload-example" + Math.random());
     }
   };
 
   const handleCancel = () => {
     setShowProgress(false);
     setPercentage(0);
+    onChange && onChange("");
   };
 
   return (
-    <>
-      {title && (
+    <Box>
+      {label && (
         <Box
           as={Text}
           fontSize="xs"
@@ -53,7 +71,13 @@ const FileUpload = ({ title, ...restProps }: Props) => {
           color="text"
           margin="0 0 5px"
         >
-          {title}
+          {label}
+          {isRequired && (
+            <Box as="span" color="danger">
+              {" "}
+              *
+            </Box>
+          )}
         </Box>
       )}
 
@@ -64,6 +88,9 @@ const FileUpload = ({ title, ...restProps }: Props) => {
           borderRadius="large"
           margin="0 auto 5px"
           flexDirection="column"
+          borderWidth="2px"
+          borderStyle="solid"
+          borderColor={error ? "danger" : "transparent"}
         >
           <UploadFileIcon />
           <Box
@@ -146,7 +173,8 @@ const FileUpload = ({ title, ...restProps }: Props) => {
           )}
         </ProgressBar>
       ) : null}
-    </>
+      {error?.message && <ErrorMessage text={error.message} />}
+    </Box>
   );
 };
 

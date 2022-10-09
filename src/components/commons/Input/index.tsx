@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { BoxProps } from "../Box";
+import Box, { BoxProps } from "../Box";
 import ErrorMessage from "../ErrorMessage";
 import * as S from "./styles";
 import dynamic from "next/dynamic";
@@ -98,7 +98,12 @@ const Input = React.forwardRef(
       <S.Wrapper width={width}>
         <S.Label as="label" htmlFor={name}>
           {label}
-          {isRequired && <span> *</span>}
+          {isRequired && (
+            <Box as="span" color="danger">
+              {" "}
+              *
+            </Box>
+          )}
         </S.Label>
         <S.InputWrapper disabled={disabled} isError={!!error}>
           {/* put suffix icon here */}

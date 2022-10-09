@@ -4,6 +4,7 @@ import Center from "src/components/commons/Center";
 import Text from "src/components/commons/Typography";
 import StyledSteps from "src/components/Steps/styles";
 import useStep from "src/hooks/useStep";
+import CreateSections from "./components/CreateSections";
 import InformationForm from "./components/InformationForm";
 
 const { Step } = StyledSteps;
@@ -14,7 +15,11 @@ const UploadContainer = () => {
   const renderProperForm = () => {
     switch (currentStep) {
       case 1: {
-        return <InformationForm />;
+        return <InformationForm goToNextStep={goToNextStep} />;
+      }
+
+      case 2: {
+        return <CreateSections />;
       }
 
       default:
