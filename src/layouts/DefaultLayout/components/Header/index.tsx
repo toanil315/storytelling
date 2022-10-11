@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import VoiceIcon from "src/components/icons/VoiceIcon";
 import GlobalIcon from "src/components/icons/GlobalIcon";
 import UploadIcon from "src/components/icons/UploadIcon";
@@ -19,6 +19,8 @@ import Box from "src/components/commons/Box";
 import Center from "src/components/commons/Center";
 import Button from "src/components/commons/Button";
 import { useRouter } from "next/router";
+import SockJS from "sockjs-client";
+import Stomp from "stompjs";
 
 interface LanguageItemProps {
   Icon: React.MemoExoticComponent<
@@ -77,6 +79,49 @@ const LanguageMenu = () => {
 
 const Header = () => {
   const router = useRouter();
+  useEffect(() => {
+    const initRabbitConnection = async () => {
+      const result = await fetch(
+        "http://103.173.255.221:8080/v1/notifications/endpoint/ffb141ea-6a78-4e23-a9b3-073cca3de065"
+      );
+      const { data } = await result.json();
+      return data;
+    };
+
+    const MY_SUB_ID = "sub-0";
+
+    try {
+      var ws = new WebSocket("ws://103.173.255.221:15674/ws");
+      const stompClient = Stomp.over(ws);
+      stompClient.connect(
+        "admin",
+        "huynhngocthuat",
+        async (frame) => {
+          const data = await initRabbitConnection();
+          stompClient.subscribe(
+            `/queue/${data}`,
+            (newContent) => {
+              console.log("newContent: ", JSON.parse(newContent.body));
+            },
+            {
+              id: MY_SUB_ID + "-" + (data || ""),
+              durable: "false",
+              exclusive: "false",
+              ack: "client",
+              "auto-delete": "false",
+            }
+          );
+        },
+        () => {
+          console.log("error");
+        },
+        "/"
+      );
+    } catch (error: any) {
+      console.log({ ...error });
+    }
+  }, []);
+
   return (
     <HeaderWrapper>
       <div>
