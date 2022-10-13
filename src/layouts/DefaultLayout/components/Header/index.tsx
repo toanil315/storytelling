@@ -93,6 +93,7 @@ const Header = () => {
     try {
       var ws = new WebSocket("ws://103.173.255.221:15674/ws");
       const stompClient = Stomp.over(ws);
+      stompClient.debug = function () {};
       stompClient.connect(
         "admin",
         "huynhngocthuat",
@@ -123,7 +124,7 @@ const Header = () => {
   }, []);
 
   return (
-    <HeaderWrapper>
+    <HeaderWrapper height="50px">
       <div>
         <Searchbar />
         <VoiceIcon />

@@ -1,6 +1,7 @@
+import Box from "src/components/commons/Box";
 import styled from "styled-components";
 
-export const HeaderWrapper = styled.div`
+export const HeaderWrapper = styled(Box)`
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -45,5 +45,7 @@
         "video": "Lecture Video is required"
       }
     }
-  }
+  },
+  "courseContent": "Course Content",
+  "comments": "Comments"
 }

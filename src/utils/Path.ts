@@ -7,4 +7,5 @@ export const Path = {
   login: `${basePath}/login`,
   signUp: `${basePath}/signup`,
   forgotPassword: `${basePath}/forgot-password`,
+  courses: `${basePath}/courses`,
 };

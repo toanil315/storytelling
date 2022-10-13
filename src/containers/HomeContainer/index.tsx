@@ -2,6 +2,8 @@ import React from "react";
 import VideoCard from "src/components/VideoCard";
 import { HomeContainerWrapper, Section, Title } from "./style";
 import { useTranslation } from "react-i18next";
+import Link from "next/link";
+import { Path } from "src/utils/Path";
 
 const HomeContainer = () => {
   const { t, i18n } = useTranslation();
