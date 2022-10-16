@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useMemo } from "react";
 import VoiceIcon from "src/components/icons/VoiceIcon";
 import GlobalIcon from "src/components/icons/GlobalIcon";
 import UploadIcon from "src/components/icons/UploadIcon";
@@ -19,8 +19,47 @@ import Box from "src/components/commons/Box";
 import Center from "src/components/commons/Center";
 import Button from "src/components/commons/Button";
 import { useRouter } from "next/router";
-import SockJS from "sockjs-client";
-import Stomp from "stompjs";
+
+const Header = () => {
+  const router = useRouter();
+
+  return (
+    <HeaderWrapper height="50px">
+      <div>
+        <Searchbar />
+        <VoiceIcon />
+      </div>
+      <div>
+        <StyledDropdown
+          overlay={<LanguageMenu />}
+          trigger={["click"]}
+          placement={"bottomRight"}
+          arrow={{ pointAtCenter: true }}
+        >
+          <GlobalIcon />
+        </StyledDropdown>
+        <StyledDropdown
+          overlay={<NotificationsList />}
+          trigger={["click"]}
+          placement={"bottomRight"}
+          arrow={{ pointAtCenter: true }}
+        >
+          <NotificationIcon />
+        </StyledDropdown>
+        <Button
+          onClick={() => router.push("/upload")}
+          $type="white"
+          borderRadius="25px"
+        >
+          <UploadIcon />
+          <Box as={Text} padding="0 10px">
+            Upload
+          </Box>
+        </Button>
+      </div>
+    </HeaderWrapper>
+  );
+};
 
 interface LanguageItemProps {
   Icon: React.MemoExoticComponent<
@@ -77,80 +116,99 @@ const LanguageMenu = () => {
   );
 };
 
-const Header = () => {
-  const router = useRouter();
-  useEffect(() => {
-    const initRabbitConnection = async () => {
-      const result = await fetch(
-        "http://103.173.255.221:8080/v1/notifications/endpoint/ffb141ea-6a78-4e23-a9b3-073cca3de065"
-      );
-      const { data } = await result.json();
-      return data;
-    };
-
-    const MY_SUB_ID = "sub-0";
-
-    try {
-      var ws = new WebSocket("ws://103.173.255.221:15674/ws");
-      const stompClient = Stomp.over(ws);
-      stompClient.debug = function () {};
-      stompClient.connect(
-        "admin",
-        "huynhngocthuat",
-        async (frame) => {
-          const data = await initRabbitConnection();
-          stompClient.subscribe(
-            `/queue/${data}`,
-            (newContent) => {
-              console.log("newContent: ", JSON.parse(newContent.body));
-            },
-            {
-              id: MY_SUB_ID + "-" + (data || ""),
-              durable: "false",
-              exclusive: "false",
-              ack: "client",
-              "auto-delete": "false",
-            }
-          );
+const NotificationsList = () => {
+  const notificationsList = useMemo(() => {
+    return [
+      {
+        id: 1,
+        type: "comment",
+        sender: {
+          id: "123",
+          name: "Ahmed Bukhatir",
         },
-        () => {
-          console.log("error");
+        content: "Comment on your video",
+        time: "6m ago",
+      },
+      {
+        id: 2,
+        type: "comment",
+        sender: {
+          id: "123",
+          name: "Ahmed Bukhatir",
         },
-        "/"
-      );
-    } catch (error: any) {
-      console.log({ ...error });
-    }
+        content: "Comment on your video",
+        time: "6m ago",
+      },
+      {
+        id: 3,
+        type: "comment",
+        sender: {
+          id: "123",
+          name: "Ahmed Bukhatir",
+        },
+        content: "Comment on your video",
+        time: "6m ago",
+      },
+    ];
   }, []);
 
   return (
-    <HeaderWrapper height="50px">
-      <div>
-        <Searchbar />
-        <VoiceIcon />
-      </div>
-      <div>
-        <StyledDropdown
-          overlay={<LanguageMenu />}
-          trigger={["click"]}
-          placement={"bottomRight"}
-          arrow={{ pointAtCenter: true }}
-        >
-          <GlobalIcon />
-        </StyledDropdown>
-        <NotificationIcon />
-        <Button
-          onClick={() => router.push("/upload")}
-          $type="white"
-          borderRadius="25px"
-        >
-          <UploadIcon />
-          <Box as={Text} padding="0 10px">
-            Upload
-          </Box>
-        </Button>
-      </div>
-    </HeaderWrapper>
+    <Box width="400px">
+      <StyledMenu
+        title="Notifications"
+        items={notificationsList.map((notification) => {
+          return {
+            key: notification.id,
+            label: (
+              <Box display="flex" padding="15px 5px">
+                <Box
+                  width="15px"
+                  height="15px"
+                  bg="danger"
+                  borderRadius="rounded"
+                  margin="0 20px 0 0"
+                />
+                <Box>
+                  <Box display="flex" alignItems="center">
+                    <Text
+                      fontSize="base"
+                      fontWeight="bold"
+                      lineHeight="large"
+                      color="text"
+                    >
+                      {notification.sender?.name}
+                    </Text>
+                    <Box
+                      width="5px"
+                      height="5px"
+                      bg="textLight"
+                      borderRadius="rounded"
+                      margin="0 6px"
+                    />
+                    <Text
+                      fontSize="xs"
+                      fontWeight="regular"
+                      lineHeight="normal"
+                      color="textLight"
+                    >
+                      {notification.time}
+                    </Text>
+                  </Box>
+                  <Text
+                    fontSize="sm"
+                    fontWeight="regular"
+                    lineHeight="normal"
+                    color="text"
+                  >
+                    {notification.content}
+                  </Text>
+                </Box>
+              </Box>
+            ),
+          };
+        })}
+      ></StyledMenu>
+    </Box>
   );
 };
 

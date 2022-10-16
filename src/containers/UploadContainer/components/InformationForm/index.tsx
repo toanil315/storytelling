@@ -11,8 +11,8 @@ import { upLoadInformationSchema } from "src/utils/schemas/UploadCourseSchema";
 interface InformationInputProps {
   title: string;
   description: string;
-  videoThumbnail: string;
-  imgThumbnail: string;
+  thumbnail: string;
+  category: string;
   price: number;
   hashTag: string[];
 }
@@ -31,8 +31,8 @@ const InformationForm = ({ goToNextStep }: Props) => {
         defaultValues={{
           title: "",
           description: "",
-          videoThumbnail: "",
-          imgThumbnail: "",
+          thumbnail: "",
+          category: "",
           price: 0,
           hashTag: [],
         }}
@@ -58,17 +58,10 @@ const InformationForm = ({ goToNextStep }: Props) => {
               isRequired
             />
             <Box as={Row} gutter={[30, 30]}>
-              <Col span={12}>
+              <Col span={24}>
                 <Form.FileUpload
-                  label="Video Thumbnail"
-                  name="videoThumbnail"
-                  control={control}
-                />
-              </Col>
-              <Col span={12}>
-                <Form.FileUpload
-                  label="Image Thumbnail"
-                  name="imgThumbnail"
+                  label="Thumbnail"
+                  name="thumbnail"
                   control={control}
                 />
               </Col>
@@ -82,6 +75,27 @@ const InformationForm = ({ goToNextStep }: Props) => {
                 />
               </Col>
               <Col span={12}>
+                <Form.Select
+                  label="Category"
+                  name="category"
+                  allowClear
+                  style={{ width: "100%", height: "100%" }}
+                  placeholder="Please select"
+                  options={[
+                    { label: "abc", value: 1 },
+                    { label: "def", value: 2 },
+                  ]}
+                  control={control}
+                  filterOption={(inputValue, option) => {
+                    return (
+                      option?.props.label
+                        .toLowerCase()
+                        .indexOf(inputValue.toLowerCase()) >= 0
+                    );
+                  }}
+                />
+              </Col>
+              <Col span={24}>
                 <Form.Select
                   label="Hash Tag"
                   name="hashTag"

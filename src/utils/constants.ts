@@ -32,3 +32,10 @@ export const REGEX = {
   HAS_NUMBER: /[0-9]/,
   HAS_SYMBOLS: /["!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"]/,
 };
+
+export const ENV_VARIABLES = {
+  WS_LOGIN: process.env.NEXT_PUBLIC_WS_LOGIN || "",
+  WS_PASS_CODE: process.env.NEXT_PUBLIC_WS_PASS_CODE || "",
+  WS_MY_SUB_ID: process.env.NEXT_PUBLIC_WS_MY_SUB_ID || "",
+  WS_URL: process.env.NEXT_PUBLIC_WS_URL || "",
+};

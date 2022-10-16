@@ -58,21 +58,20 @@ export const SelectWrapper = styled.div<SelectWrapperProps>`
 `;
 
 export const StyledSelect = styled(Select)`
+  padding: 10px 16px;
+
   .ant-select-selector {
     border: unset !important;
     box-shadow: unset !important;
     outline: none;
-  }
-
-  .ant-select-selection-overflow {
-    padding: 12px 16px;
+    height: unset !important;
   }
 
   .ant-select-selection-overflow-item .ant-select-selection-item {
     color: ${({ theme }) => theme.colors.textLight};
     font-weight: ${({ theme }) => theme.fontWeights.regular};
     font-size: ${({ theme }) => theme.fontSizes.sm};
-    line-height: ${({ theme }) => theme.lineHeights.normal};
+    line-height: 1;
   }
 
   .ant-select-selection-item {

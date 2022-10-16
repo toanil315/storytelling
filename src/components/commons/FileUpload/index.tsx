@@ -51,6 +51,7 @@ const FileUpload = ({
       console.log(dataUpload);
       onChange &&
         onChange("https://aws.s3.com/video-upload-example" + Math.random());
+      e.target.value = "";
     }
   };
 
@@ -161,7 +162,7 @@ const FileUpload = ({
               <Progress width={percentage} />
               <Box
                 as={Text}
-                margin="0 0 0 10px"
+                padding="0 0 0 10px"
                 fontSize="sm"
                 fontWeight="medium"
                 lineHeight="large"

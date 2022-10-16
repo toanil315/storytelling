@@ -8,12 +8,12 @@ export const upLoadInformationSchema = yupGlobal.object().shape({
   description: yupGlobal
     .string()
     .required(i18next.t("validation.uploadCourse.description")),
-  videoThumbnail: yupGlobal
+  thumbnail: yupGlobal
     .string()
-    .required(i18next.t("validation.uploadCourse.videoThumbnail")),
-  imgThumbnail: yupGlobal
+    .required(i18next.t("validation.uploadCourse.thumbnail")),
+  category: yupGlobal
     .string()
-    .required(i18next.t("validation.uploadCourse.imgThumbnail")),
+    .required(i18next.t("validation.uploadCourse.category")),
   price: yupGlobal
     .number()
     .typeError(i18next.t("validation.uploadCourse.price.invalid"))
@@ -33,4 +33,7 @@ export const newLectureSchema = yupGlobal.object().shape({
   video: yupGlobal
     .string()
     .required(i18next.t("validation.uploadCourse.lecture.video")),
+  thumbnail: yupGlobal
+    .string()
+    .required(i18next.t("validation.uploadCourse.thumbnail")),
 });

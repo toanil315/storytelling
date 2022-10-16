@@ -10,12 +10,16 @@ const CourseContainer = () => {
   const mainColRef = useRef<any>(null);
 
   useEffect(() => {
-    setHeight(mainColRef.current.clientHeight);
+    window.scrollY = 0;
+  }, []);
+
+  useEffect(() => {
+    setHeight(mainColRef.current.offsetHeight);
   }, [mainColRef.current]);
 
   return (
     <Box margin="30px 0 0">
-      <Box as={Row} width="100%" gutter={[10, 30]}>
+      <Box as={Row} width="100%" gutter={[10, 0]}>
         <Col ref={mainColRef} span={16}>
           <Box as={Row} width="100%" gutter={[0, 30]}>
             <Col span={24}>

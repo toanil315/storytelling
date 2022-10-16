@@ -1,6 +1,7 @@
 import { SelectProps } from "antd";
 import React from "react";
 import Box from "../Box";
+import ErrorMessage from "../ErrorMessage";
 import { Label, SelectWrapper, StyledSelect, Wrapper } from "./styles";
 
 export interface CustomSelectProps extends SelectProps {
@@ -37,6 +38,7 @@ const Select = ({
       <SelectWrapper isError={!!error} disabled={disabled}>
         <StyledSelect<any> onChange={onChange} {...restProps} />
       </SelectWrapper>
+      <ErrorMessage text={error?.message ?? ""} />
     </Wrapper>
   );
 };

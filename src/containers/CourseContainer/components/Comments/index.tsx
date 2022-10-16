@@ -11,7 +11,7 @@ const Comments = () => {
   const { t } = useTranslation();
 
   return (
-    <Box width="100%" bg="white" padding="25px 10px">
+    <Box width="100%" bg="white" padding="25px 10px" borderRadius="md">
       <Text fontSize="base" fontWeight="bold" lineHeight="large" color="text">
         {t("comments")}
       </Text>

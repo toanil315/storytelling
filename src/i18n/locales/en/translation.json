@@ -35,8 +35,8 @@
     "uploadCourse": {
       "title": "Title is required",
       "description": "Description is required",
-      "videoThumbnail": "Video Thumbnail is required",
-      "imgThumbnail": "Image Thumbnail is required",
+      "category": "Category is required",
+      "thumbnail": "Image Thumbnail is required",
       "price": {
         "invalid": "Price must be a number",
         "min": "Price must be greater than 0"
