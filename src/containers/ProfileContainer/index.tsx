@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React from "react";
 import Box from "src/components/commons/Box";
 import Button from "src/components/commons/Button";
@@ -5,11 +6,13 @@ import ImageComponent from "src/components/commons/Image";
 import Text from "src/components/commons/Typography";
 import VideoCard from "src/components/VideoCard";
 import useModal from "src/hooks/useModal";
+import { Path } from "src/utils/Path";
 import InformationModal from "./components/InformationModal";
 import { ProfileHeader, ProfileImage } from "./styles";
 
 const ProfileContainer = () => {
   const modal = useModal();
+  const router = useRouter();
 
   return (
     <Box maxWidth="911px" margin="40px auto 0">
@@ -44,8 +47,20 @@ const ProfileContainer = () => {
             </Box>
           </Box>
         </Box>
-        <Box onClick={modal.toggleModal} as={Button} height="fit-content">
-          Edit Profile
+        <Box>
+          <Box onClick={modal.toggleModal} as={Button} height="fit-content">
+            Edit Profile
+          </Box>
+
+          <Box
+            as={Button}
+            $type="secondary"
+            height="fit-content"
+            margin="10px 0 0 0"
+            onClick={() => router.push(Path.statistic)}
+          >
+            View Statistic
+          </Box>
         </Box>
       </ProfileHeader>
       <Box margin="40px 0">

@@ -8,4 +8,6 @@ export const Path = {
   signUp: `${basePath}/signup`,
   forgotPassword: `${basePath}/forgot-password`,
   courses: `${basePath}/courses`,
+  profile: `${basePath}/profile`,
+  statistic: `${basePath}/profile/statistic`,
 };

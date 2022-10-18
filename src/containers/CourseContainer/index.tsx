@@ -14,7 +14,7 @@ const CourseContainer = () => {
   }, []);
 
   useEffect(() => {
-    setHeight(mainColRef.current.offsetHeight);
+    setHeight(mainColRef.current.clientHeight);
   }, [mainColRef.current]);
 
   return (
