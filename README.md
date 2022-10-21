@@ -4,4 +4,4 @@ This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.0)](
 
 # Use Github action for CI/CD
 
-Enable for PR
+Enable for Pull Request
