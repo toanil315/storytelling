@@ -18,7 +18,7 @@ const ErrorPage: NextPageWithLayout = () => {
       width="100vw"
       height="100vh"
     >
-      <ImageComponent src="/assets/404.png" />
+      <ImageComponent src="/assets/404.png" alt="404 error" />
       <Box as={Button} width="200px" onClick={() => router.push(Path.home)}>
         Go Back
       </Box>

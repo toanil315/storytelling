@@ -20,7 +20,7 @@ const ProfileContainer = () => {
       <ProfileHeader>
         <Box display="flex" alignItems="center">
           <ProfileImage>
-            <ImageComponent src="/assets/ava.png" />
+            <ImageComponent src="/assets/ava.png" alt="avatar" />
           </ProfileImage>
           <Box padding=" 0 0 0 15px">
             <Text

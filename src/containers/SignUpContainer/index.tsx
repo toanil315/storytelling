@@ -103,7 +103,7 @@ const SignUpContainer = () => {
         borderRadius="10px"
       >
         <Col span={12}>
-          <ImageComponent src="/assets/Welcome.png" />
+          <ImageComponent src="/assets/Welcome.png" alt="auth banner" />
         </Col>
         <Col span={12}>
           <Form

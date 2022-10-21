@@ -14,4 +14,4 @@ jobs:
       - name: Install dependencies
         run: yarn install
       - name: Run Linting
-        run: yarn lint
+        run: yarn lint && yarn type-check

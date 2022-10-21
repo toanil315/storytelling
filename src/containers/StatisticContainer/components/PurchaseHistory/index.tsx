@@ -73,7 +73,7 @@ const HistoryItem = ({ history: { user, course } }: HistoryItemProps) => {
   return (
     <Box display="flex" alignItems="center" width="100%" padding="10px 5px">
       <Box width="40px" height="40px" borderRadius="rounded" overflow="hidden">
-        <ImageComponent src="/assets/ava.png" />
+        <ImageComponent src="/assets/ava.png" alt="avatar" />
       </Box>
       <Box margin="0 8px">
         <Text fontSize="sm" fontWeight="bold" lineHeight="large" color="text">
