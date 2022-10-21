@@ -1,5 +1,4 @@
 import React, { ReactElement } from "react";
-import ErrorImg from "public/assets/404.png";
 import { NextPageWithLayout } from "./_app";
 import ImageComponent from "src/components/commons/Image";
 import Center from "src/components/commons/Center";
