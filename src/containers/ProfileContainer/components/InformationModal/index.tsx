@@ -88,7 +88,7 @@ const InformationModal = ({
 
   const renderFields = (control: Control<InformationInputsProps>) => {
     return fields.map((colItem) => (
-      <Col span={12}>
+      <Col key={colItem.key} span={12}>
         <Box height="60px">
           {React.cloneElement(colItem.component, {
             control,
@@ -103,7 +103,7 @@ const InformationModal = ({
       <Box padding="20px" maxWidth="910px">
         <Box display="flex" alignItems="center">
           <AvatarContainer>
-            <ImageComponent src="/assets/ava.png" />
+            <ImageComponent src="/assets/ava.png" alt="ava image" />
           </AvatarContainer>
           <Box padding=" 0 0 0 15px">
             <Text

@@ -17,7 +17,7 @@ interface Props {
 const Section = ({ name, lectures, index }: Props) => {
   const renderLecture = () => {
     return lectures.map((lecture, index) => {
-      return <Lecture lecture={lecture} index={index + 1} />;
+      return <Lecture key={index} lecture={lecture} index={index + 1} />;
     });
   };
 

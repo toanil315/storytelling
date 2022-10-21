@@ -37,7 +37,7 @@ const LoginContainer = () => {
         minHeight="95%"
       >
         <Col span={12}>
-          <ImageComponent src="/assets/Welcome.png" />
+          <ImageComponent src="/assets/Welcome.png" alt="banner image" />
         </Col>
         <Col span={12}>
           <Center width="100%" height="100%">
@@ -91,7 +91,7 @@ const LoginContainer = () => {
                           lineHeight="normal"
                           color="text"
                         >
-                          You haven't any account?
+                          You haven&apos;t any account?
                           <Box as="span" color="green" padding="0 4px">
                             Sign Up
                           </Box>

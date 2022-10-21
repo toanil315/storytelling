@@ -10,12 +10,9 @@ import VerifyEmailForm from "./components/VerifyEmailForm";
 
 const ForgotPasswordContainer = () => {
   const [currentStep, { goToNextStep }] = useStep(3);
-
-  console.log(currentStep);
+  const [email, setEmail] = useState<string>("");
 
   const renderProperForm = () => {
-    const [email, setEmail] = useState<string>("");
-
     switch (currentStep) {
       case StepOfRetrievePassword.SUBMIT_EMAIL: {
         return (

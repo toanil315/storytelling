@@ -28,7 +28,7 @@ function useStep(maxStep: number): [number, HelpersUseStep] {
 
       throw new Error("Step not valid");
     },
-    [maxStep, currentStep]
+    [maxStep]
   );
 
   const goToNextStep = useCallback(() => {

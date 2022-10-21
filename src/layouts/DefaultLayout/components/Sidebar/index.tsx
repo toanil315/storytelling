@@ -46,7 +46,12 @@ const StyledSidebar = () => {
   return (
     <Box width="15%" height="100vh" bg="white" padding="33px 20px 40px">
       <div className="relative w-40 h-6 mb-8">
-        <Image src={"/assets/Logo.png"} layout={"fill"} objectFit={"cover"} />
+        <Image
+          src={"/assets/Logo.png"}
+          layout={"fill"}
+          objectFit={"cover"}
+          alt="logo"
+        />
       </div>
       <MenuWrapper>
         <Text fontSize="16px" fontWeight="500" lineHeight="24px" color="text">
