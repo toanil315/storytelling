@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import HeaderImage from "public/assets/Background.png";
 
 interface ContentWrapperProps {
   width?: string;
