@@ -3,6 +3,7 @@ name: PullRequestPipeline
 on:
   pull_request:
     types: [opened, reopened]
+    branches: [main]
 
 jobs:
   lintTest:
@@ -12,8 +13,6 @@ jobs:
       - name: Clone branch
         uses: actions/checkout@v2
       - name: Install dependencies
-        run: echo "Running installing dependencies..."
-          yarn install
+        run: yarn install
       - name: Run Linting
-        run: echo "Running Linting"
-          yarn lint
+        run: yarn lint
