@@ -27,92 +27,86 @@ export type InputProps = InputHTMLAttributes<HTMLInputElement> &
     as?: "input" | "textarea";
   };
 
-const Input = React.forwardRef(
-  (
-    {
-      width = "100%",
-      suffixIcon,
-      suffixPosition = "left",
-      label,
-      isRequired = false,
-      disabled = false,
-      error,
-      handleChange,
-      value,
-      direction,
-      as = "input",
-      hidden,
-      bg = "transparent",
-      ...restProps
-    }: InputProps,
-    ref
-  ) => {
-    const { name } = restProps;
-    const [inputValue, setInputValue] = useState<string | number | undefined>(
-      value
-    );
+const Input = React.forwardRef(function Input(
+  {
+    width = "100%",
+    suffixIcon,
+    suffixPosition = "left",
+    label,
+    isRequired = false,
+    disabled = false,
+    error,
+    handleChange,
+    value,
+    direction,
+    as = "input",
+    hidden,
+    bg = "transparent",
+    ...restProps
+  }: InputProps,
+  ref
+) {
+  const { name } = restProps;
+  const [inputValue, setInputValue] = useState<string | number | undefined>(
+    value
+  );
 
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-      setInputValue(e.target.value);
-    };
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
 
-    const handleEditorChange = (value: string) => {
-      setInputValue(value);
-    };
+  const handleEditorChange = (value: string) => {
+    setInputValue(value);
+  };
 
-    useEffect(() => {
-      setInputValue(value);
-    }, []);
+  useEffect(() => {
+    handleChange && handleChange(inputValue);
+  }, [inputValue, handleChange]);
 
-    useEffect(() => {
-      handleChange && handleChange(inputValue);
-    }, [inputValue]);
-
-    const renderElementInput = () => {
-      switch (as) {
-        case "input": {
-          return (
-            <input
-              value={inputValue}
-              id={name}
-              {...restProps}
-              onChange={handleInputChange}
-            />
-          );
-        }
-
-        case "textEditor": {
-          return (
-            <TextEditor
-              value={inputValue}
-              id={name}
-              {...restProps}
-              onChange={handleEditorChange}
-            />
-          );
-        }
+  const renderElementInput = () => {
+    switch (as) {
+      case "input": {
+        return (
+          <input
+            value={inputValue}
+            id={name}
+            {...restProps}
+            onChange={handleInputChange}
+          />
+        );
       }
-    };
 
-    return (
-      <S.Wrapper width={width}>
-        <S.Label as="label" htmlFor={name}>
-          {label}
-          {isRequired && (
-            <Box as="span" color="danger">
-              {" "}
-              *
-            </Box>
-          )}
-        </S.Label>
-        <S.InputWrapper disabled={disabled} isError={!!error}>
-          {/* put suffix icon here */}
-          {renderElementInput()}
-        </S.InputWrapper>
-        {error && <ErrorMessage text={error.message ?? ""} />}
-      </S.Wrapper>
-    );
-  }
-);
+      case "textEditor": {
+        return (
+          <TextEditor
+            value={inputValue}
+            id={name}
+            {...restProps}
+            onChange={handleEditorChange}
+          />
+        );
+      }
+    }
+  };
+
+  return (
+    <S.Wrapper width={width}>
+      <S.Label as="label" htmlFor={name}>
+        {label}
+        {isRequired && (
+          <Box as="span" color="danger">
+            {" "}
+            *
+          </Box>
+        )}
+      </S.Label>
+      <S.InputWrapper disabled={disabled} isError={!!error}>
+        {/* put suffix icon here */}
+        {renderElementInput()}
+      </S.InputWrapper>
+      {error && <ErrorMessage text={error.message ?? ""} />}
+    </S.Wrapper>
+  );
+});
 
 export default Input;

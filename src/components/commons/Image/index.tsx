@@ -4,9 +4,10 @@ import Image from "next/image";
 
 interface Props {
   src: string;
+  alt: string;
 }
 
-const ImageComponent = ({ src }: Props) => {
+const ImageComponent = ({ src, alt }: Props) => {
   return (
     <Box style={{ position: "relative" }} width="100%" height="100%">
       <Image
@@ -14,6 +15,7 @@ const ImageComponent = ({ src }: Props) => {
         src={src}
         layout="fill"
         objectFit="contain"
+        alt={alt}
       />
     </Box>
   );

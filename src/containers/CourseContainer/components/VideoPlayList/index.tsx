@@ -62,9 +62,11 @@ const VideoPlayList = ({ height }: Props) => {
 
   const renderCoursePlayList = () => {
     return sections.map((section, index) => {
-      return <Section index={index + 1} {...section} />;
+      return <Section key={index} index={index + 1} {...section} />;
     });
   };
+
+  console.log("height: ", height);
 
   return (
     <Box

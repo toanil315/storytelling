@@ -25,6 +25,7 @@ const VideoCard = () => {
                 layout={"fill"}
                 src="/assets/author-image-example.png"
                 objectFit="cover"
+                alt="author avatar"
               />
             </div>
             <div>
@@ -38,6 +39,7 @@ const VideoCard = () => {
               layout={"fill"}
               src="/assets/thumbnail-example.png"
               objectFit="cover"
+              alt="thumbnail image"
             />
             <button className="play-btn">
               <PlayIcon />

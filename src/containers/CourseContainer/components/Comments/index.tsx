@@ -29,7 +29,7 @@ const Comments = () => {
           overflow="hidden"
           flexShrink="0"
         >
-          <ImageComponent src="/assets/ava.png" />
+          <ImageComponent src="/assets/ava.png" alt="avatar" />
         </Box>
         <Input placeholder="Enter comment here" />
         <Button>

@@ -1,0 +1,17 @@
+name: PullRequestPipeline
+
+on:
+  pull_request:
+    types: [opened, reopened, edited]
+
+jobs:
+  lintTest:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone branch
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: yarn install
+      - name: Run Linting
+        run: yarn lint
