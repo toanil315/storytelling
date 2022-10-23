@@ -47,7 +47,7 @@ const Header = () => {
           <NotificationIcon />
         </StyledDropdown>
         <Button
-          onClick={() => router.push("/upload")}
+          onClick={() => router.push("/courses/upload")}
           $type="white"
           borderRadius="25px"
         >

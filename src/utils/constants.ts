@@ -39,3 +39,10 @@ export const ENV_VARIABLES = {
   WS_MY_SUB_ID: process.env.NEXT_PUBLIC_WS_MY_SUB_ID || "",
   WS_URL: process.env.NEXT_PUBLIC_WS_URL || "",
 };
+
+export enum ERROR_CODE {
+  UNAUTHORIZED = 401,
+}
+
+export const ACCESS_TOKEN = "accessToken";
+export const REFRESH_TOKEN = "refreshToken";

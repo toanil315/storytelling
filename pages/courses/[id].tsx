@@ -1,9 +1,19 @@
+import { GetServerSideProps } from "next";
 import { NextPageWithLayout } from "pages/_app";
 import React from "react";
-import CourseContainer from "src/containers/CourseContainer";
+import { Path } from "src/utils/Path";
 
-const CourseDetailPage: NextPageWithLayout = () => {
-  return <CourseContainer />;
+const CourseViewPage: NextPageWithLayout = () => {
+  return <p>View</p>;
 };
 
-export default CourseDetailPage;
+export const getServerSideProps: GetServerSideProps = async () => {
+  return {
+    redirect: {
+      destination: `${Path.courses}/learn/1`,
+      permanent: false,
+    },
+  };
+};
+
+export default CourseViewPage;

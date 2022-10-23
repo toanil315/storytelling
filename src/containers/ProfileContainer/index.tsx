@@ -47,7 +47,7 @@ const ProfileContainer = () => {
             </Box>
           </Box>
         </Box>
-        <Box>
+        <Box display="flex" alignItems="center">
           <Box onClick={modal.toggleModal} as={Button} height="fit-content">
             Edit Profile
           </Box>
@@ -56,7 +56,7 @@ const ProfileContainer = () => {
             as={Button}
             $type="secondary"
             height="fit-content"
-            margin="10px 0 0 0"
+            margin="0 0 0 10px"
             onClick={() => router.push(Path.statistic)}
           >
             View Statistic
