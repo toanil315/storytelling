@@ -7,9 +7,14 @@ import useStep from "src/hooks/useStep";
 import CreateSections from "./components/CreateSections";
 import InformationForm from "./components/InformationForm";
 
+interface Props {
+  mode: "create" | "edit";
+  courseId?: string;
+}
+
 const { Step } = StyledSteps;
 
-const UploadContainer = () => {
+const UploadContainer = ({ mode, courseId }: Props) => {
   const [currentStep, { goToNextStep, goToPrevStep }] = useStep(2);
 
   const renderProperForm = () => {

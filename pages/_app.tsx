@@ -27,47 +27,47 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout =
     Component.getLayout ?? ((page) => <DefaultLayout>{page}</DefaultLayout>);
 
-  useEffect(() => {
-    const initRabbitConnection = async () => {
-      const result = await fetch(
-        "http://103.173.255.221:8080/v1/notifications/endpoint/ffb141ea-6a78-4e23-a9b3-073cca3de065"
-      );
-      const { data } = await result.json();
-      return data;
-    };
+  // useEffect(() => {
+  //   const initRabbitConnection = async () => {
+  //     const result = await fetch(
+  //       "http://103.173.255.221:8080/v1/notifications/endpoint/ffb141ea-6a78-4e23-a9b3-073cca3de065"
+  //     );
+  //     const { data } = await result.json();
+  //     return data;
+  //   };
 
-    try {
-      const ws = new WebSocket(ENV_VARIABLES.WS_URL);
-      const stompClient = Stomp.over(ws);
-      stompClient.debug = function () {};
-      stompClient.connect(
-        ENV_VARIABLES.WS_LOGIN,
-        ENV_VARIABLES.WS_PASS_CODE,
-        async (frame) => {
-          const data = await initRabbitConnection();
-          stompClient.subscribe(
-            `/queue/${data}`,
-            (newContent) => {
-              console.log("newContent: ", JSON.parse(newContent.body));
-            },
-            {
-              id: ENV_VARIABLES.WS_MY_SUB_ID + "-" + (data || ""),
-              durable: "false",
-              exclusive: "false",
-              ack: "client",
-              "auto-delete": "false",
-            }
-          );
-        },
-        () => {
-          console.log("error");
-        },
-        "/"
-      );
-    } catch (error: any) {
-      console.log({ ...error });
-    }
-  }, []);
+  //   try {
+  //     const ws = new WebSocket(ENV_VARIABLES.WS_URL);
+  //     const stompClient = Stomp.over(ws);
+  //     stompClient.debug = function () {};
+  //     stompClient.connect(
+  //       ENV_VARIABLES.WS_LOGIN,
+  //       ENV_VARIABLES.WS_PASS_CODE,
+  //       async (frame) => {
+  //         const data = await initRabbitConnection();
+  //         stompClient.subscribe(
+  //           `/queue/${data}`,
+  //           (newContent) => {
+  //             console.log("newContent: ", JSON.parse(newContent.body));
+  //           },
+  //           {
+  //             id: ENV_VARIABLES.WS_MY_SUB_ID + "-" + (data || ""),
+  //             durable: "false",
+  //             exclusive: "false",
+  //             ack: "client",
+  //             "auto-delete": "false",
+  //           }
+  //         );
+  //       },
+  //       () => {
+  //         console.log("error");
+  //       },
+  //       "/"
+  //     );
+  //   } catch (error: any) {
+  //     console.log({ ...error });
+  //   }
+  // }, []);
 
   return (
     <I18nextProvider i18n={i18next}>

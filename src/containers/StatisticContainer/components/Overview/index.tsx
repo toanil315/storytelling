@@ -7,7 +7,7 @@ import SolidDropDownIcon from "src/components/icons/SolidDropDownIcon";
 
 const Overview = () => {
   return (
-    <Box as={Row} width="100%" gutter={[30, 0]}>
+    <Box as={Row} width="calc(100% + 30px)" gutter={[30, 0]}>
       <Col span={8}>
         <OverviewItem />
       </Col>

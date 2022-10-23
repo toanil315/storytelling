@@ -2,12 +2,12 @@ import { NextPageWithLayout } from "pages/_app";
 import React from "react";
 import UploadContainer from "src/containers/UploadContainer";
 
-const UpLoadPage: NextPageWithLayout = () => {
+const UpLoadCoursePage: NextPageWithLayout = () => {
   return (
     <>
-      <UploadContainer />
+      <UploadContainer mode="create" />
     </>
   );
 };
 
-export default UpLoadPage;
+export default UpLoadCoursePage;
