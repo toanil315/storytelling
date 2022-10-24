@@ -2,8 +2,7 @@ import { Tag } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import Box from "src/components/commons/Box";
 import ImageComponent from "src/components/commons/Image";
-import EditIcon from "src/components/icons/EditIcon";
-import DeleteIcon from "src/components/icons/DeleteIcon";
+import PublishCourseAction from "../components/PublishCourseActions";
 
 export const publishCoursesColumn: ColumnsType<any> = [
   { title: "Id", dataIndex: "id", key: "id" },
@@ -40,33 +39,8 @@ export const publishCoursesColumn: ColumnsType<any> = [
     title: "Actions",
     dataIndex: "id",
     key: "id",
-    render: (value) => {
-      return (
-        <Box display="flex">
-          <Box
-            padding="5px"
-            borderRadius="md"
-            border="1px solid"
-            borderColor="green"
-            bg="green"
-            margin="0 5px"
-          >
-            <EditIcon fill="white" />
-          </Box>
-          <Box>
-            <Box
-              padding="5px"
-              borderRadius="md"
-              border="1px solid"
-              borderColor="danger"
-              bg="danger"
-              margin="0 5px"
-            >
-              <DeleteIcon fill="white" />
-            </Box>
-          </Box>
-        </Box>
-      );
+    render: (value, record) => {
+      return <PublishCourseAction record={record} />;
     },
   },
 ];

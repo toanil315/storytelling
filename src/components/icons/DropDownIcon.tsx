@@ -13,9 +13,9 @@ function SvgComponent(props: React.SVGProps<SVGSVGElement>) {
       <path
         d="M18 7.5L11 14.5L4 7.5"
         stroke="#686A70"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

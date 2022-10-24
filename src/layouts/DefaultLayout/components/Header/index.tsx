@@ -94,6 +94,7 @@ const LanguageMenu = () => {
 
   const handleClick = (value: any) => {
     i18n.changeLanguage(value.key);
+    console.log("language: ", i18n.language);
   };
 
   return (

@@ -7,6 +7,7 @@ import Text from "../Typography";
 import Upload from "src/services/UploadServices";
 import CloseIcon from "src/components/icons/CloseIcon";
 import ErrorMessage from "../ErrorMessage";
+import Link from "next/link";
 
 export interface FileUploadProps extends BoxProps {
   label?: string;
@@ -20,14 +21,20 @@ const FileUpload = ({
   error,
   onChange,
   isRequired,
+  value,
   ...restProps
 }: FileUploadProps) => {
   const { name } = restProps;
-  const [showProgress, setShowProgress] = useState<boolean>(false);
+  const [showProgress, setShowProgress] = useState<boolean>(!!value);
   const [percentage, setPercentage] = useState<number>(0);
+  const [linkFile, setLinkFile] = useState<string>(value ?? "");
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    // reset file upload component before upload new file to server
     setShowProgress(true);
+    setPercentage(0);
+    setLinkFile("");
+
     const formData = new FormData();
     const files = e.target.files;
     if (files) {
@@ -48,9 +55,9 @@ const FileUpload = ({
 
       const dataUpload = await Upload(formData, config);
       setPercentage(100);
-      console.log(dataUpload);
       onChange &&
         onChange("https://aws.s3.com/video-upload-example" + Math.random());
+      setLinkFile("https://aws.s3.com/video-upload-example" + Math.random());
       e.target.value = "";
     }
   };
@@ -59,6 +66,7 @@ const FileUpload = ({
     setShowProgress(false);
     setPercentage(0);
     onChange && onChange("");
+    setLinkFile("");
   };
 
   return (
@@ -137,22 +145,24 @@ const FileUpload = ({
             lineHeight="large"
             color="text"
           >
-            {percentage === 100 ? "Uploaded" : "Uploading..."}
+            {percentage === 100 || linkFile ? "Uploaded" : "Uploading..."}
           </Box>
-          {percentage === 100 ? (
+          {percentage === 100 || linkFile ? (
             <Box
               display="flex"
               alignItems="center"
               justifyContent="space-between"
             >
-              <Text
-                fontSize="sm"
-                fontWeight="regular"
-                lineHeight="large"
-                color="text"
-              >
-                https://aws.s3.com/video-upload-example
-              </Text>
+              <a href={linkFile}>
+                <Text
+                  fontSize="sm"
+                  fontWeight="regular"
+                  lineHeight="large"
+                  color="text"
+                >
+                  {linkFile}
+                </Text>
+              </a>
               <Box onClick={handleCancel} as="button">
                 <CloseIcon />
               </Box>
