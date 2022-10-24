@@ -4,7 +4,7 @@ import Box from "src/components/commons/Box";
 import Button from "src/components/commons/Button";
 import Center from "src/components/commons/Center";
 import PlusIcon from "src/components/icons/PlusIcon";
-import NewSectionForm from "../NewSectionForm";
+import SectionForm from "../SectionForm";
 import Section from "../Section";
 
 const CreateSections = () => {
@@ -18,6 +18,7 @@ const CreateSections = () => {
         id: string;
         title: string;
         video: string;
+        thumbnail: string;
       }[];
     }[]
   >([
@@ -29,6 +30,7 @@ const CreateSections = () => {
           id: "lecture 1",
           title: "Pasta ingredients",
           video: "abc",
+          thumbnail: "xyz",
         },
       ],
     },
@@ -56,7 +58,7 @@ const CreateSections = () => {
         {renderSection()}
         {!canAddSection && (
           <Col span={24}>
-            <NewSectionForm handleSubmit={handleAddSection} />
+            <SectionForm handleSubmit={handleAddSection} />
           </Col>
         )}
         {canAddSection && (

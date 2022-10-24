@@ -74,5 +74,9 @@ export const InputWrapper = styled.div<InputWrapperProps>`
     &:-webkit-autofill:active {
       transition: background-color 5000000s ease-in-out 0s;
     }
+
+    &::placeholder {
+      letter-spacing: 0.5px;
+    }
   }
 `;

@@ -6,19 +6,16 @@ import Button from "src/components/commons/Button";
 import Text from "src/components/commons/Typography";
 import Form from "src/components/Form";
 import { newLectureSchema } from "src/utils/schemas/UploadCourseSchema";
-
-interface NewSectionInputProps {
-  title: string;
-  video: string;
-  thumbnail: string;
-}
+import { LectureType } from "src/utils/types/CourseTypes";
 
 interface Props {
-  handleSubmit: (value: { title: string; video: string }) => void;
+  handleSubmit: (value: Partial<LectureType>) => void;
+  mode: "create" | "edit";
+  defaultValues?: Partial<LectureType>;
 }
 
-const NewLectureForm = ({ handleSubmit }: Props) => {
-  const onSubmit: SubmitHandler<NewSectionInputProps> = (data) => {
+const LectureForm = ({ handleSubmit, defaultValues, mode }: Props) => {
+  const onSubmit: SubmitHandler<Partial<LectureType>> = (data) => {
     handleSubmit && handleSubmit(data);
   };
 
@@ -33,16 +30,20 @@ const NewLectureForm = ({ handleSubmit }: Props) => {
       bg="white"
     >
       <Text fontSize="sm" fontWeight="medium" lineHeight="normal" color="text">
-        New Lecture:
+        {mode === "create" ? "New" : "Edit"} Lecture:
       </Text>
       <Form
         width="100%"
         margin="30px 0 0 0"
-        defaultValues={{
-          title: "",
-          video: "",
-          thumbnail: "",
-        }}
+        defaultValues={
+          mode === "create"
+            ? {
+                title: "",
+                video: "",
+                thumbnail: "",
+              }
+            : defaultValues
+        }
         onSubmit={onSubmit}
         schema={newLectureSchema}
       >
@@ -50,7 +51,6 @@ const NewLectureForm = ({ handleSubmit }: Props) => {
           <>
             <Box as={Row} width="100%" gutter={[20, 30]}>
               <Col span={24}>
-                {" "}
                 <Form.Input
                   placeholder="Enter lecture title here"
                   name="title"
@@ -66,7 +66,6 @@ const NewLectureForm = ({ handleSubmit }: Props) => {
                 />
               </Col>
               <Col span={12}>
-                {" "}
                 <Form.FileUpload
                   label="Thumbnail"
                   name="thumbnail"
@@ -76,9 +75,15 @@ const NewLectureForm = ({ handleSubmit }: Props) => {
             </Box>
 
             <Box width="100%">
-              <Box as={Button} type="submit" margin="13px 0 0 auto">
-                Add Lecture
-              </Box>
+              {mode === "create" ? (
+                <Box as={Button} type="submit" margin="13px 0 0 auto">
+                  Add Lecture
+                </Box>
+              ) : (
+                <Box as={Button} type="submit" margin="13px 0 0 auto">
+                  Update Lecture
+                </Box>
+              )}
             </Box>
           </>
         )}
@@ -87,4 +92,4 @@ const NewLectureForm = ({ handleSubmit }: Props) => {
   );
 };
 
-export default NewLectureForm;
+export default LectureForm;

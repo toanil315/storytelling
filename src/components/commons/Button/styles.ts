@@ -98,6 +98,6 @@ export const SecondaryButton = styled(ButtonBase)`
 
 export const WhiteButton = styled(ButtonBase)`
   background-color: ${({ theme }) => theme.colors.white};
-  border-color: ${({ theme }) => theme.colors.white};
+  border-color: ${({ theme }) => theme.colors.lightGray};
   color: ${({ theme }) => theme.colors.text};
 `;

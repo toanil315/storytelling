@@ -5,7 +5,6 @@ import * as S from "./styles";
 
 interface ButtonProps extends BoxProps {
   $type?: "primary" | "secondary" | "white";
-  as?: string | ComponentType<any>;
   children: ReactNode;
   loading?: boolean;
 }

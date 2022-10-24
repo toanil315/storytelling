@@ -10,11 +10,13 @@ type Props<T extends FieldValues> = FileUploadProps & UseControllerProps<T>;
 
 const RHFFileUpload = <T extends FieldValues>(props: Props<T>) => {
   const {
-    field,
+    field: { value, onChange },
     fieldState: { error },
   } = useController(props);
 
-  return <FileUpload error={error} onChange={field.onChange} {...props} />;
+  return (
+    <FileUpload error={error} onChange={onChange} value={value} {...props} />
+  );
 };
 
 export default RHFFileUpload;

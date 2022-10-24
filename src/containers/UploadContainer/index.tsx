@@ -20,7 +20,7 @@ const UploadContainer = ({ mode, courseId }: Props) => {
   const renderProperForm = () => {
     switch (currentStep) {
       case 1: {
-        return <InformationForm goToNextStep={goToNextStep} />;
+        return <InformationForm mode={mode} goToNextStep={goToNextStep} />;
       }
 
       case 2: {

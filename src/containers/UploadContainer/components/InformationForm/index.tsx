@@ -7,20 +7,15 @@ import Select from "src/components/commons/Select";
 import Form from "src/components/Form";
 import { HelpersUseStep } from "src/hooks/useStep";
 import { upLoadInformationSchema } from "src/utils/schemas/UploadCourseSchema";
+import { CourseType } from "src/utils/types/CourseTypes";
 
-interface InformationInputProps {
-  title: string;
-  description: string;
-  thumbnail: string;
-  category: string;
-  price: number;
-  hashTag: string[];
+interface Props extends Partial<HelpersUseStep> {
+  mode: "create" | "edit";
+  defaultValues?: Partial<CourseType>;
 }
 
-interface Props extends Partial<HelpersUseStep> {}
-
-const InformationForm = ({ goToNextStep }: Props) => {
-  const onSubmit: SubmitHandler<InformationInputProps> = (data) => {
+const InformationForm = ({ goToNextStep, mode, defaultValues }: Props) => {
+  const onSubmit: SubmitHandler<Partial<CourseType>> = (data) => {
     console.log(data);
     goToNextStep && goToNextStep();
   };
@@ -119,9 +114,25 @@ const InformationForm = ({ goToNextStep }: Props) => {
               </Col>
             </Box>
             <Box width="100%" margin="40px 0">
-              <Box as={Button} width="50%" type="submit" margin="13px auto">
-                Submit
-              </Box>
+              {mode === "create" ? (
+                <Box as={Button} width="50%" type="submit" margin="13px auto">
+                  Submit
+                </Box>
+              ) : (
+                <Box display="flex" justifyContent="center">
+                  <Button $type="white" type="button" width="20%">
+                    <Box padding="0 20px">Next</Box>
+                  </Button>
+                  <Box
+                    as={Button}
+                    width="20%"
+                    type="submit"
+                    margin="0 0 0 15px"
+                  >
+                    Save
+                  </Box>
+                </Box>
+              )}
             </Box>
           </>
         )}
