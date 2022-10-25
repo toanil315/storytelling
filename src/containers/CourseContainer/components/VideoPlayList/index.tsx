@@ -66,8 +66,6 @@ const VideoPlayList = ({ height }: Props) => {
     });
   };
 
-  console.log("height: ", height);
-
   return (
     <Box
       overflow="auto"
