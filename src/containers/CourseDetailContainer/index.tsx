@@ -52,8 +52,8 @@ const CourseDetailContainer = () => {
             <Box margin="0 0 0 5px" as="ul" display="flex">
               {new Array(Number(String(course.rating).split(".")[0]))
                 .fill(1)
-                .map((star) => (
-                  <StarIcon width={15} height={15} />
+                .map((star, index) => (
+                  <StarIcon key={index} width={15} height={15} />
                 ))}
               {Number(String(course.rating).split(".")[1]) >= 5 ? (
                 <HalfStarIcon width={15} height={15} />

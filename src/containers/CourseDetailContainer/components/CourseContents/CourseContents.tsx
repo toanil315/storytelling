@@ -121,7 +121,13 @@ const CourseContents = () => {
   ) => {
     return lectures.map((lecture) => {
       return (
-        <Box as={Row} width="100%" gutter={[10, 0]} padding="15px">
+        <Box
+          key={lecture.name}
+          as={Row}
+          width="100%"
+          gutter={[10, 0]}
+          padding="15px"
+        >
           <Col span={1}>
             <PlayIcon />
           </Col>
