@@ -10,4 +10,5 @@ export const Path = {
   courses: `${basePath}/courses`,
   profile: `${basePath}/profile`,
   statistic: `${basePath}/profile/statistic`,
+  user: `${basePath}/user`,
 };

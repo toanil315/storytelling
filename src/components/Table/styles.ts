@@ -18,7 +18,7 @@ export const StyledTable = styled(Table)`
       border-bottom-left-radius: 15px;
     }
     &:last-of-type {
-      border-bottom-left-radius: 15px;
+      border-bottom-right-radius: 15px;
     }
   }
 
