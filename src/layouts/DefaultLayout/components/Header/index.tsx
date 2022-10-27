@@ -19,9 +19,13 @@ import Box from "src/components/commons/Box";
 import Center from "src/components/commons/Center";
 import Button from "src/components/commons/Button";
 import { useRouter } from "next/router";
+import useUser from "src/hooks/apis/useUser";
+import ImageComponent from "src/components/commons/Image";
+import { Path } from "src/utils/Path";
 
 const Header = () => {
   const router = useRouter();
+  const { user } = useUser();
 
   return (
     <HeaderWrapper height="50px">
@@ -38,24 +42,44 @@ const Header = () => {
         >
           <GlobalIcon />
         </StyledDropdown>
-        <StyledDropdown
-          overlay={<NotificationsList />}
-          trigger={["click"]}
-          placement={"bottomRight"}
-          arrow={{ pointAtCenter: true }}
-        >
-          <NotificationIcon />
-        </StyledDropdown>
-        <Button
-          onClick={() => router.push("/courses/upload")}
-          $type="white"
-          borderRadius="25px"
-        >
-          <UploadIcon />
-          <Box as={Text} padding="0 10px">
-            Upload
-          </Box>
-        </Button>
+        {user ? (
+          <>
+            <StyledDropdown
+              overlay={<NotificationsList />}
+              trigger={["click"]}
+              placement={"bottomRight"}
+              arrow={{ pointAtCenter: true }}
+            >
+              <NotificationIcon />
+            </StyledDropdown>
+            <Button
+              onClick={() => router.push("/courses/upload")}
+              $type="white"
+              borderRadius="25px"
+            >
+              <UploadIcon />
+              <Box as={Text} padding="0 10px">
+                Upload
+              </Box>
+            </Button>
+            <Box>
+              <Box
+                width="50px"
+                height="50px"
+                borderRadius="rounded"
+                style={{ overflow: "hidden", cursor: "pointer" }}
+              >
+                {" "}
+                <ImageComponent
+                  src="/assets/avatar-fallback.png"
+                  alt="avatar fallback"
+                />
+              </Box>
+            </Box>
+          </>
+        ) : (
+          <Button onClick={() => router.push(Path.login)}>Sign In</Button>
+        )}
       </div>
     </HeaderWrapper>
   );

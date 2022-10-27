@@ -12,12 +12,9 @@ export const loginSchema = yupGlobal.object().shape({
 });
 
 export const signUpSchema = yupGlobal.object().shape({
-  firstName: yupGlobal
+  fullName: yupGlobal
     .string()
-    .required(i18next.t("validation.firstName.required")),
-  lastName: yupGlobal
-    .string()
-    .required(i18next.t("validation.lastName.required")),
+    .required(i18next.t("validation.fullName.required")),
   email: yupGlobal
     .string()
     .email(i18next.t("validation.userName.invalid"))

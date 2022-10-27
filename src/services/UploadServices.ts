@@ -1,4 +1,4 @@
-import { axiosClient } from "src/utils/axios/index";
+import { axiosClient } from "src/utils/axios";
 
 export default async function Upload(formData: FormData, config: any) {
   try {

@@ -4,7 +4,7 @@ import { ACCESS_TOKEN, ERROR_CODE } from "../constants";
 import { localStorageClient } from "../localStorageClient";
 import { getNewAccessToken, setAccessToken } from "./helper";
 
-const BASE_URL = process.env.BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const axiosServer = axios.create({
   baseURL: `${BASE_URL}`,
