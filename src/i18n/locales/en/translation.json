@@ -9,6 +9,9 @@
       "notMatch": "Confirm Password must be matched with Password",
       "min": "Password must contain at least 6 characters"
     },
+    "fullName": {
+      "required": "Full Name is required"
+    },
     "firstName": {
       "required": "First Name is required"
     },
@@ -44,6 +47,32 @@
       "lecture": {
         "video": "Lecture Video is required"
       }
+    }
+  },
+  "placeholder": {
+    "register": {
+      "fullName": "Enter your full name here",
+      "email": "Enter your email here",
+      "password": "Enter your password here",
+      "confirmPassword": "Enter your password again"
+    }
+  },
+  "label": {
+    "register": {
+      "fullName": "Full Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Password Confirmation"
+    }
+  },
+  "toast": {
+    "success": {
+      "register": "Register successfully. Please check mail to active account.",
+      "login": "Welcome Back!"
+    },
+    "error": {
+      "register": "Register failed. Please try again.",
+      "login": "Login Failed. Please try again."
     }
   },
   "courseContent": "Course Content",

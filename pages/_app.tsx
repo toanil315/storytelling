@@ -1,7 +1,7 @@
 import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
 import "react-quill/dist/quill.snow.css";
 import "../styles/globals.css";
-import { ReactElement, ReactNode, useEffect } from "react";
+import { ReactElement, ReactNode, useEffect, useState } from "react";
 import type { NextPage, NextPageContext } from "next";
 import type { AppProps } from "next/app";
 import { I18nextProvider } from "react-i18next";
@@ -12,6 +12,10 @@ import theme from "styles/theme";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { ENV_VARIABLES } from "src/utils/constants";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -23,6 +27,18 @@ type AppPropsWithLayout = AppProps & {
 };
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 300000, // 5 minutes
+            cacheTime: 600000, // 10 minutes
+          },
+        },
+      })
+  );
+
   // Use the layout defined at the page level, if available
   const getLayout =
     Component.getLayout ?? ((page) => <DefaultLayout>{page}</DefaultLayout>);
@@ -70,11 +86,26 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   // }, []);
 
   return (
-    <I18nextProvider i18n={i18next}>
-      <ThemeProvider theme={theme}>
-        {getLayout(<Component {...pageProps} />)}
-      </ThemeProvider>
-    </I18nextProvider>
+    <QueryClientProvider client={queryClient}>
+      <I18nextProvider i18n={i18next}>
+        <ThemeProvider theme={theme}>
+          {getLayout(<Component {...pageProps} />)}
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+        </ThemeProvider>
+      </I18nextProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 

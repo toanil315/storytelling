@@ -1,7 +1,15 @@
 import React from "react";
-import { ResponsiveContainer, AreaChart, Tooltip, Area, XAxis } from "recharts";
+import {
+  ResponsiveContainer,
+  AreaChart,
+  Tooltip,
+  Area,
+  XAxis,
+  YAxis,
+} from "recharts";
 import Box from "src/components/commons/Box";
 import Text from "src/components/commons/Typography";
+import { backgroundColor } from "styled-system";
 
 const data = [
   {
@@ -59,7 +67,7 @@ const IncomeChart = () => {
     <Box
       width="100%"
       height={450}
-      padding="20px 20px 30px"
+      padding="20px 20px 30px 0"
       bg="white"
       border="1px solid"
       borderColor="lightGray"
@@ -82,16 +90,26 @@ const IncomeChart = () => {
           margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
         >
           <Tooltip cursor={false} />
+          <defs>
+            <linearGradient id="fillColor" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#efd06b" stopOpacity={0.5} />
+              <stop offset="95%" stopColor="#f4cf69" stopOpacity={0} />
+            </linearGradient>
+          </defs>
           <Area
             animationBegin={800}
             animationDuration={2000}
             type="monotone"
             dataKey="income"
             stroke="#ffc107"
-            fill="#faf3de"
+            fillOpacity={1}
+            fill="url(#fillColor)"
             strokeWidth={3}
           />
-          <XAxis dataKey="month" />
+
+          <XAxis tickLine={false} dataKey="month" />
+          <YAxis tickLine={false} dataKey="income" />
+          <Tooltip />
         </AreaChart>
       </ResponsiveContainer>
     </Box>

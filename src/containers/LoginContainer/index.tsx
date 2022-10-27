@@ -10,14 +10,15 @@ import { Col, Row } from "antd";
 import Text from "src/components/commons/Typography";
 import Center from "src/components/commons/Center";
 import ImageComponent from "src/components/commons/Image";
-
-interface LoginInputProps {
-  email: string;
-  password: string;
-}
+import { UserLogin } from "src/utils/types/UserTypes";
+import useSignIn from "src/hooks/apis/useSignIn";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const LoginContainer = () => {
-  const onSubmit: SubmitHandler<LoginInputProps> = (data) => console.log(data);
+  const { t } = useTranslation();
+  const { login, isLoading, isError, isSuccess } = useSignIn();
+  const onSubmit: SubmitHandler<UserLogin> = (data) => login(data);
 
   return (
     <Center
@@ -54,15 +55,15 @@ const LoginContainer = () => {
                 <>
                   <Form.Title>Login</Form.Title>
                   <Form.Input
-                    placeholder="Enter your email here"
+                    placeholder={t("placeholder.register.email")}
                     name="email"
-                    label="Email"
+                    label={t("label.register.email")}
                     control={control}
                   />
                   <Form.Input
-                    placeholder="Enter your password here"
+                    placeholder={t("placeholder.register.password")}
                     name="password"
-                    label="Password"
+                    label={t("label.register.password")}
                     type="password"
                     control={control}
                   />
@@ -79,7 +80,13 @@ const LoginContainer = () => {
                         Forgot Password?
                       </Text>
                     </Link>
-                    <Box as={Button} width="100%" type="submit" margin="13px 0">
+                    <Box
+                      as={Button}
+                      loading={isLoading}
+                      width="100%"
+                      type="submit"
+                      margin="13px 0"
+                    >
                       Login
                     </Box>
                     <Link href={`${Path.signUp}`}>

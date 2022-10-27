@@ -22,12 +22,11 @@ export const setAccessToken = (
 ) => {
   if (mode === "client") {
     localStorageClient.setValue(ACCESS_TOKEN, accessToken);
-  } else {
-    const date = new Date();
-    // simulate accessToken will expire after 1 minute
-    let accessTokenExpireDate = new Date(date.getTime() + 60 * 1000);
-    Cookies.set(ACCESS_TOKEN, accessToken, {
-      expires: accessTokenExpireDate,
-    });
   }
+  const date = new Date();
+  // simulate accessToken will expire after 1 minute
+  let accessTokenExpireDate = new Date(date.getTime() + 60 * 1000);
+  Cookies.set(ACCESS_TOKEN, accessToken, {
+    expires: accessTokenExpireDate,
+  });
 };

@@ -11,34 +11,37 @@ import Text from "src/components/commons/Typography";
 import Center from "src/components/commons/Center";
 import ImageComponent from "src/components/commons/Image";
 import { Control } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import useSignUp from "src/hooks/apis/useSignUp";
+import { UserRegister } from "src/utils/types/UserTypes";
+import { toast } from "react-toastify";
 
-interface SignUpInputProps {
-  email: string;
-  password: string;
+interface SignUpInputProps extends UserRegister {
+  confirmPassword?: string;
 }
 
 const SignUpContainer = () => {
-  const onSubmit: SubmitHandler<SignUpInputProps> = (data) => console.log(data);
+  const { t } = useTranslation();
+  const { register, isLoading, isError, isSuccess } = useSignUp();
+  const onSubmit: SubmitHandler<SignUpInputProps> = async (data) => {
+    delete data.confirmPassword;
+    try {
+      await register(data);
+      toast.success(t("toast.success.register"));
+    } catch (error) {
+      toast.error(t("toast.error.register"));
+    }
+  };
 
   const fieldsSignUp = useMemo(
     () => [
       {
-        key: "First Name",
+        key: "Full Name",
         component: (
           <Form.Input
-            placeholder="Enter your first name here"
-            name="firstName"
-            label="Email"
-          />
-        ),
-      },
-      {
-        key: "Last Name",
-        component: (
-          <Form.Input
-            placeholder="Enter your last name here"
-            name="lastName"
-            label="Last Name"
+            placeholder={t("placeholder.register.fullName")}
+            name="fullName"
+            label={t("label.register.fullName")}
           />
         ),
       },
@@ -46,9 +49,9 @@ const SignUpContainer = () => {
         key: "Email",
         component: (
           <Form.Input
-            placeholder="Enter your email here"
+            placeholder={t("placeholder.register.email")}
             name="email"
-            label="Email"
+            label={t("label.register.email")}
           />
         ),
       },
@@ -56,9 +59,9 @@ const SignUpContainer = () => {
         key: "Password",
         component: (
           <Form.Input
-            placeholder="Enter your password here"
+            placeholder={t("placeholder.register.password")}
             name="password"
-            label="Password"
+            label={t("label.register.password")}
             type="password"
           />
         ),
@@ -67,9 +70,9 @@ const SignUpContainer = () => {
         key: "Confirm Password",
         component: (
           <Form.Input
-            placeholder="Enter your password again"
+            placeholder={t("placeholder.register.confirmPassword")}
             name="confirmPassword"
-            label="Password Confirmation"
+            label={t("label.register.confirmPassword")}
             type="password"
           />
         ),
@@ -110,6 +113,7 @@ const SignUpContainer = () => {
             width="80%"
             margin="0 auto"
             defaultValues={{
+              fullName: "",
               email: "",
               password: "",
             }}
@@ -120,7 +124,9 @@ const SignUpContainer = () => {
               <>
                 <Form.Title>Sign Up</Form.Title>
                 {renderRegisterForm(control)}
-                <Button type="submit">Sign Up</Button>
+                <Button loading={isLoading} type="submit">
+                  Sign Up
+                </Button>
                 <Link href={`${Path.login}`}>
                   <Center style={{ cursor: "pointer" }}>
                     <Text
