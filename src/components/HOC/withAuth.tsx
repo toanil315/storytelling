@@ -1,23 +1,30 @@
+import axios from "axios";
 import { NextPageContext } from "next";
 import { NextPageWithLayout } from "pages/_app";
 import React from "react";
+import { BASE_HOST, USER_ROLES } from "src/utils/constants";
+import { redirect } from "src/utils/helpers/redirect";
+import { Path } from "src/utils/Path";
 
 type WithAuthComponent = (
   Component: NextPageWithLayout,
-  role: string
+  role?: string
 ) => NextPageWithLayout;
 
-const withAuth: WithAuthComponent = (Component, role = "") => {
+const withAuth: WithAuthComponent = (Component, role = USER_ROLES.USER) => {
   const AuthComponent: NextPageWithLayout = ({ ...restProps }) => {
     return <Component {...restProps} />;
   };
 
-  AuthComponent.getInitialProps = async (context: NextPageContext) => {
-    const res = await fetch("http://localhost:3000/api/simulateGetUser");
-    const data = await res.json();
+  AuthComponent.getInitialProps = async (context: any) => {
+    const { data } = await axios.get(`${BASE_HOST}/api/private/getMe`, {
+      headers: {
+        cookie: context.req?.headers.cookie,
+      },
+    });
+
     if (data.role !== role) {
-      context.res?.writeHead(302, { location: "/login" });
-      context.res?.end();
+      redirect(context, Path.login);
       return {};
     }
 
