@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Form from "src/components/Form";
 import { SubmitHandler } from "react-hook-form";
 import Button from "src/components/commons/Button";
@@ -12,13 +12,17 @@ import Center from "src/components/commons/Center";
 import ImageComponent from "src/components/commons/Image";
 import { UserLogin } from "src/utils/types/UserTypes";
 import useSignIn from "src/hooks/apis/useSignIn";
-import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import { clearTokens } from "src/utils/axios/helper";
 
 const LoginContainer = () => {
   const { t } = useTranslation();
   const { login, isLoading, isError, isSuccess } = useSignIn();
   const onSubmit: SubmitHandler<UserLogin> = (data) => login(data);
+
+  useEffect(() => {
+    clearTokens();
+  }, []);
 
   return (
     <Center
