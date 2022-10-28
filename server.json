@@ -1,0 +1,7 @@
+{
+    "apps": [
+      {
+        "name": "server_fe",
+        "script": "yarn dev" 
+      }
+]}
