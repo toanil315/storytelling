@@ -102,7 +102,7 @@ const CourseContents = () => {
   const renderSections = () => {
     return sections.map(({ name, lectures }, index) => (
       <Collapse
-        key={name}
+        key={index}
         header={<SectionHeader name={name} index={index + 1} />}
       >
         <Box border="2px solid" borderColor="lightGray">
@@ -119,15 +119,9 @@ const CourseContents = () => {
       thumbnail: string;
     }[]
   ) => {
-    return lectures.map((lecture) => {
+    return lectures.map((lecture, index) => {
       return (
-        <Box
-          key={lecture.name}
-          as={Row}
-          width="100%"
-          gutter={[10, 0]}
-          padding="15px"
-        >
+        <Box key={index} as={Row} width="100%" gutter={[10, 0]} padding="15px">
           <Col span={1}>
             <PlayIcon />
           </Col>

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import Box, { BoxProps } from "../Box";
 import { Progress, ProgressBar } from "./styles";
 import UploadFileIcon from "src/components/icons/UploadFileIcon";
@@ -7,7 +7,6 @@ import Text from "../Typography";
 import Upload from "src/services/UploadServices";
 import CloseIcon from "src/components/icons/CloseIcon";
 import ErrorMessage from "../ErrorMessage";
-import Link from "next/link";
 
 export interface FileUploadProps extends BoxProps {
   label?: string;
@@ -25,9 +24,16 @@ const FileUpload = ({
   ...restProps
 }: FileUploadProps) => {
   const { name } = restProps;
-  const [showProgress, setShowProgress] = useState<boolean>(!!value);
+  const [showProgress, setShowProgress] = useState<boolean>(false);
   const [percentage, setPercentage] = useState<number>(0);
-  const [linkFile, setLinkFile] = useState<string>(value ?? "");
+  const [linkFile, setLinkFile] = useState<string>("");
+
+  useEffect(() => {
+    if (value && value !== linkFile) {
+      setLinkFile(value);
+      setShowProgress(!!value);
+    }
+  }, [value, linkFile]);
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     // reset file upload component before upload new file to server
@@ -38,8 +44,9 @@ const FileUpload = ({
     const formData = new FormData();
     const files = e.target.files;
     if (files) {
-      const video = files[0];
-      formData.append("video", video);
+      const fileData = files[0];
+      const fileType = files[0].type.split("/")[0];
+      formData.append("file", fileData);
 
       const config = {
         onUploadProgress: function (progressEvent: ProgressEvent) {
@@ -53,11 +60,10 @@ const FileUpload = ({
         },
       };
 
-      const dataUpload = await Upload(formData, config);
+      const dataUpload = await Upload(formData, config, fileType);
       setPercentage(100);
-      onChange &&
-        onChange("https://aws.s3.com/video-upload-example" + Math.random());
-      setLinkFile("https://aws.s3.com/video-upload-example" + Math.random());
+      onChange && onChange(dataUpload);
+      setLinkFile(dataUpload);
       e.target.value = "";
     }
   };
@@ -153,7 +159,7 @@ const FileUpload = ({
               alignItems="center"
               justifyContent="space-between"
             >
-              <a href={linkFile}>
+              <a target="_blank" rel="noreferrer" href={linkFile}>
                 <Text
                   fontSize="sm"
                   fontWeight="regular"

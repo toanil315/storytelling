@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useMemo } from "react";
+import React, { Fragment, useCallback, useEffect, useMemo } from "react";
 import VoiceIcon from "src/components/icons/VoiceIcon";
 import GlobalIcon from "src/components/icons/GlobalIcon";
 import UploadIcon from "src/components/icons/UploadIcon";
@@ -12,20 +12,25 @@ import {
 import Searchbar from "../Searchbar";
 import { StyledDropdown } from "src/components/commons/Dropdown/styles";
 import { StyledMenu } from "src/components/commons/Menu/styles";
-import { Languages } from "src/utils/constants";
+import { Languages, QUERY_KEYS, USER_ROLES } from "src/utils/constants";
 import { useTranslation } from "react-i18next";
 import Text from "src/components/commons/Typography";
 import Box from "src/components/commons/Box";
 import Center from "src/components/commons/Center";
 import Button from "src/components/commons/Button";
 import { useRouter } from "next/router";
-import useUser from "src/hooks/apis/useUser";
+import useUser from "src/hooks/apis/Auth/useUser";
 import ImageComponent from "src/components/commons/Image";
 import { Path } from "src/utils/Path";
+import Link from "next/link";
+import { authService } from "src/services/AuthServices";
+import { localStorageClient } from "src/utils/localStorageClient";
+import { clearTokens } from "src/utils/axios/helper";
+import { useQueryClient } from "react-query";
 
 const Header = () => {
   const router = useRouter();
-  const { user } = useUser();
+  const { user, isError } = useUser();
 
   return (
     <HeaderWrapper height="50px">
@@ -52,17 +57,24 @@ const Header = () => {
             >
               <NotificationIcon />
             </StyledDropdown>
-            <Button
-              onClick={() => router.push("/courses/upload")}
-              $type="white"
-              borderRadius="25px"
+            {user.role === USER_ROLES.AUTHOR && (
+              <Button
+                onClick={() => router.push("/courses/upload")}
+                $type="white"
+                borderRadius="25px"
+              >
+                <UploadIcon />
+                <Box as={Text} padding="0 10px">
+                  Upload
+                </Box>
+              </Button>
+            )}
+            <StyledDropdown
+              overlay={<UserDropdown />}
+              trigger={["click"]}
+              placement={"bottomRight"}
+              arrow={{ pointAtCenter: true }}
             >
-              <UploadIcon />
-              <Box as={Text} padding="0 10px">
-                Upload
-              </Box>
-            </Button>
-            <Box>
               <Box
                 width="50px"
                 height="50px"
@@ -75,7 +87,7 @@ const Header = () => {
                   alt="avatar fallback"
                 />
               </Box>
-            </Box>
+            </StyledDropdown>
           </>
         ) : (
           <Button onClick={() => router.push(Path.login)}>Sign In</Button>
@@ -230,6 +242,51 @@ const NotificationsList = () => {
                 </Box>
               </Box>
             ),
+          };
+        })}
+      ></StyledMenu>
+    </Box>
+  );
+};
+
+const UserDropdown = () => {
+  const client = useQueryClient();
+  const handleLogOut = useCallback(async () => {
+    await authService.logout();
+    clearTokens();
+    client.setQueriesData(QUERY_KEYS.GET_ME, null);
+    client.refetchQueries(QUERY_KEYS.GET_ME);
+  }, [client]);
+
+  const userDropdownOptions = useMemo(
+    () => [
+      {
+        id: 1,
+        label: (
+          <Link href={Path.profile}>
+            <Text>Profile</Text>
+          </Link>
+        ),
+      },
+      {
+        id: 2,
+        label: (
+          <Box onClick={handleLogOut}>
+            <Text>Log Out</Text>
+          </Box>
+        ),
+      },
+    ],
+    [handleLogOut]
+  );
+
+  return (
+    <Box width="100px">
+      <StyledMenu
+        items={userDropdownOptions.map((option) => {
+          return {
+            key: option.id,
+            label: option.label,
           };
         })}
       ></StyledMenu>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Control,
   DeepPartial,
@@ -24,6 +24,7 @@ interface Props<T> extends BoxProps {
   schema: yup.ObjectSchema<ObjectShape>;
   children: ChildrenOfRHForm<T>;
   onSubmit: SubmitHandler<T & FieldValues>;
+  enableResetForm?: boolean;
 }
 
 const RHForm = <T extends FieldValues>({
@@ -31,12 +32,19 @@ const RHForm = <T extends FieldValues>({
   schema,
   onSubmit,
   children,
+  enableResetForm,
   ...restProps
 }: Props<T>) => {
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, getValues, reset } = useForm({
     resolver: yupResolver(schema),
     defaultValues,
   });
+
+  useEffect(() => {
+    if (enableResetForm && defaultValues) {
+      reset(defaultValues);
+    }
+  }, [enableResetForm, defaultValues, reset]);
 
   return (
     <Box as={FormWrapper} {...restProps} onSubmit={handleSubmit(onSubmit)}>

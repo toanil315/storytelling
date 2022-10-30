@@ -10,8 +10,8 @@ import { Col, Row } from "antd";
 import Text from "src/components/commons/Typography";
 import Center from "src/components/commons/Center";
 import ImageComponent from "src/components/commons/Image";
-import { UserLogin } from "src/utils/types/UserTypes";
-import useSignIn from "src/hooks/apis/useSignIn";
+import { UserLogin } from "src/data-model/UserTypes";
+import useSignIn from "src/hooks/apis/Auth/useSignIn";
 import { useTranslation } from "react-i18next";
 import { clearTokens } from "src/utils/axios/helper";
 

@@ -17,7 +17,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+export type NextPageWithLayout<P = any, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
   getInitialProps?(context: NextPageContext): IP | Promise<IP>;
 };
@@ -35,7 +35,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
             staleTime: 300000, // 5 minutes
             cacheTime: 600000, // 10 minutes
             retryDelay: 1000,
-            retry: 2,
+            retry: 3,
           },
         },
       })

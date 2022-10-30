@@ -1,5 +1,5 @@
-import { UserLogin } from "src/utils/types/UserTypes";
-import { useMutation } from "react-query";
+import { UserLogin } from "src/data-model/UserTypes";
+import { useMutation, useQueryClient } from "react-query";
 import { authService } from "src/services/AuthServices";
 import { useRouter } from "next/router";
 import { Path } from "src/utils/Path";
@@ -7,11 +7,17 @@ import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import Cookies from "js-cookie";
 import { localStorageClient } from "src/utils/localStorageClient";
-import { ACCESS_TOKEN, EXPIRE_TIME, REFRESH_TOKEN } from "src/utils/constants";
+import {
+  ACCESS_TOKEN,
+  EXPIRE_TIME,
+  QUERY_KEYS,
+  REFRESH_TOKEN,
+} from "src/utils/constants";
 
 const useSignIn = () => {
   const { t } = useTranslation();
   const router = useRouter();
+  const client = useQueryClient();
 
   const { mutate, isLoading, isError, isSuccess } = useMutation(
     authService.login,
@@ -29,6 +35,9 @@ const useSignIn = () => {
         Cookies.set(REFRESH_TOKEN, refreshToken, {
           expires: new Date(date.getTime() + EXPIRE_TIME.REFRESH_TOKEN),
         });
+
+        // Get user data
+        client.refetchQueries(QUERY_KEYS.GET_ME);
 
         // Show Toast
         toast.success(t("toast.success.login"));

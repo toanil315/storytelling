@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Box from "src/components/commons/Box";
 import Center from "src/components/commons/Center";
 import Text from "src/components/commons/Typography";
 import StyledSteps from "src/components/Steps/styles";
+import useGetCourseById from "src/hooks/apis/Course/useGetCourseById";
 import useStep from "src/hooks/useStep";
 import CreateSections from "./components/CreateSections";
 import InformationForm from "./components/InformationForm";
@@ -15,20 +16,35 @@ interface Props {
 const { Step } = StyledSteps;
 
 const UploadContainer = ({ mode, courseId }: Props) => {
-  const [currentStep, { goToNextStep, goToPrevStep }] = useStep(2);
+  const [currentStep, { goToNextStep, goToSpecificStep }] = useStep(2);
+  const [id, setCourseId] = useState<string>("");
+  const { data: courseData } = useGetCourseById(courseId);
+
+  useEffect(() => {
+    if (courseId) {
+      setCourseId(courseId);
+    }
+  }, [courseId]);
 
   const renderProperForm = () => {
     switch (currentStep) {
       case 1: {
-        return <InformationForm mode={mode} goToNextStep={goToNextStep} />;
+        return (
+          <InformationForm
+            setCourseId={setCourseId}
+            mode={mode}
+            goToNextStep={goToNextStep}
+            defaultValues={courseData}
+          />
+        );
       }
 
       case 2: {
-        return <CreateSections />;
+        return <CreateSections id={id} />;
       }
 
       default:
-        throw Error(`Step ${currentStep} is invalid in create course progress`);
+        goToSpecificStep(0);
     }
   };
 

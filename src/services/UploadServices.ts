@@ -1,14 +1,20 @@
+import i18next from "i18next";
+import { toast } from "react-toastify";
 import { axiosClient } from "src/utils/axios";
 
-export default async function Upload(formData: FormData, config: any) {
+export default async function Upload(
+  formData: FormData,
+  config: any,
+  type: string
+) {
   try {
-    const data = await axiosClient.post(
-      "https://httpbin.org/post",
+    const { data } = await axiosClient.post(
+      `/upload/${type}`,
       formData,
       config
     );
-    return data;
+    return data.data.url;
   } catch (error) {
-    console.log(error);
+    toast.error(i18next.t("toast.error.uploadFile") as string);
   }
 }

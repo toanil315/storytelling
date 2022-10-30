@@ -7,7 +7,11 @@ import PlusIcon from "src/components/icons/PlusIcon";
 import SectionForm from "../SectionForm";
 import Section from "../Section";
 
-const CreateSections = () => {
+interface Props {
+  id: string;
+}
+
+const CreateSections = ({ id }: Props) => {
   const [canAddSection, setCanAddSection] = useState<boolean>(true);
 
   const [sections, setSections] = useState<
