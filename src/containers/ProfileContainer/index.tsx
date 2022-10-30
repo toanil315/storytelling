@@ -4,7 +4,7 @@ import Box from "src/components/commons/Box";
 import Button from "src/components/commons/Button";
 import ImageComponent from "src/components/commons/Image";
 import Text from "src/components/commons/Typography";
-import VideoCard from "src/components/CourseCard";
+import CourseCard from "src/components/CourseCard";
 import useModal from "src/hooks/useModal";
 import { Path } from "src/utils/Path";
 import InformationModal from "./components/InformationModal";
@@ -68,12 +68,12 @@ const ProfileContainer = () => {
           My Courses:
         </Text>
         <div className="grid grid-cols-3 gap-x-4 gap-y-8 mt-4">
+          {/* <VideoCard />
           <VideoCard />
           <VideoCard />
           <VideoCard />
           <VideoCard />
-          <VideoCard />
-          <VideoCard />
+          <VideoCard /> */}
         </div>
       </Box>
       <InformationModal modal={modal} />

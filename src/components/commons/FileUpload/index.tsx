@@ -153,7 +153,7 @@ const FileUpload = ({
               alignItems="center"
               justifyContent="space-between"
             >
-              <a target="_blank" href={linkFile}>
+              <a target="_blank" rel="noreferrer" href={linkFile}>
                 <Text
                   fontSize="sm"
                   fontWeight="regular"
