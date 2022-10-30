@@ -22,7 +22,7 @@ const UploadContainer = ({ mode, courseId }: Props) => {
     if (courseId) {
       setCourseId(courseId);
     }
-  }, []);
+  }, [courseId]);
 
   const renderProperForm = () => {
     switch (currentStep) {

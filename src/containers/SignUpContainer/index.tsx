@@ -78,7 +78,7 @@ const SignUpContainer = () => {
         ),
       },
     ],
-    []
+    [t]
   );
 
   const renderRegisterForm = (control: Control<SignUpInputProps>) =>

@@ -55,7 +55,7 @@ const InformationForm = ({
       setCourseId(courseData.id);
       goToNextStep && goToNextStep();
     }
-  }, [isLoading, courseData]);
+  }, [isLoading, courseData, setCourseId, goToNextStep]);
 
   return (
     <Box>

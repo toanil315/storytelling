@@ -29,7 +29,7 @@ const CourseDetailContainer = ({ course }: Props) => {
 
   useEffect(() => {
     setDescription(HTMLReactParser(JSON.parse(course.description)));
-  }, []);
+  }, [setDescription, course.description]);
   return (
     <Box as={Row} width="100%" gutter={[10, 0]}>
       <Col span={17}>
