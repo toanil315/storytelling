@@ -1,7 +1,10 @@
 export const localStorageClient = {
   readValue: (key: string) => {
-    const item = window.localStorage.getItem(key);
-    return item ? parseJSON(item) : undefined;
+    if (typeof window !== "undefined") {
+      const item = window.localStorage.getItem(key);
+      return item ? parseJSON(item) : undefined;
+    }
+    return undefined;
   },
 
   setValue: (key: string, value: any) => {

@@ -38,8 +38,9 @@ const FileUpload = ({
     const formData = new FormData();
     const files = e.target.files;
     if (files) {
-      const video = files[0];
-      formData.append("video", video);
+      const fileData = files[0];
+      const fileType = files[0].type.split("/")[0];
+      formData.append("file", fileData);
 
       const config = {
         onUploadProgress: function (progressEvent: ProgressEvent) {
@@ -53,11 +54,10 @@ const FileUpload = ({
         },
       };
 
-      const dataUpload = await Upload(formData, config);
+      const dataUpload = await Upload(formData, config, fileType);
       setPercentage(100);
-      onChange &&
-        onChange("https://aws.s3.com/video-upload-example" + Math.random());
-      setLinkFile("https://aws.s3.com/video-upload-example" + Math.random());
+      onChange && onChange(dataUpload);
+      setLinkFile(dataUpload);
       e.target.value = "";
     }
   };
@@ -153,7 +153,7 @@ const FileUpload = ({
               alignItems="center"
               justifyContent="space-between"
             >
-              <a href={linkFile}>
+              <a target="_blank" href={linkFile}>
                 <Text
                   fontSize="sm"
                   fontWeight="regular"

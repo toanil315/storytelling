@@ -1,15 +1,23 @@
 import React from "react";
-import VideoCard from "src/components/VideoCard";
+import CourseCard from "src/components/CourseCard";
 import { HomeContainerWrapper, Section, Title } from "./style";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import { Path } from "src/utils/Path";
+import { CourseType } from "src/data-model/CourseTypes";
 
-const HomeContainer = () => {
+interface Props {
+  courses: CourseType[];
+}
+
+const HomeContainer = ({ courses }: Props) => {
   const { t, i18n } = useTranslation();
+  console.log(courses);
 
-  const renderPopularSection = () => {
-    return <VideoCard />;
+  const renderCourseList = () => {
+    return courses.map((courseItem) => (
+      <CourseCard key={courseItem.id} course={courseItem} />
+    ));
   };
 
   return (
@@ -17,12 +25,7 @@ const HomeContainer = () => {
       <Section>
         <Title>Popular</Title>
         <div className="grid grid-cols-4 gap-x-4 gap-y-8">
-          {renderPopularSection()}
-          {renderPopularSection()}
-          {renderPopularSection()}
-          {renderPopularSection()}
-          {renderPopularSection()}
-          {renderPopularSection()}
+          {renderCourseList()}
         </div>
       </Section>
     </HomeContainerWrapper>

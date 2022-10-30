@@ -55,6 +55,8 @@ export const EXPIRE_TIME = {
 
 export const QUERY_KEYS = {
   GET_ME: "GET_ME",
+  GET_CATEGORY: "GET_CATEGORY",
+  GET_COURSES: "GET_COURSES",
 };
 
 export const USER_ROLES = {

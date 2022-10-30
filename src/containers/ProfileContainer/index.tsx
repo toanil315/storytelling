@@ -4,7 +4,7 @@ import Box from "src/components/commons/Box";
 import Button from "src/components/commons/Button";
 import ImageComponent from "src/components/commons/Image";
 import Text from "src/components/commons/Typography";
-import VideoCard from "src/components/VideoCard";
+import VideoCard from "src/components/CourseCard";
 import useModal from "src/hooks/useModal";
 import { Path } from "src/utils/Path";
 import InformationModal from "./components/InformationModal";

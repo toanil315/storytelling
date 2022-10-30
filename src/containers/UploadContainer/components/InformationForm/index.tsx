@@ -1,5 +1,5 @@
 import { Col, Row } from "antd";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { SubmitHandler } from "react-hook-form";
 import Box from "src/components/commons/Box";
 import Button from "src/components/commons/Button";
@@ -7,30 +7,60 @@ import Select from "src/components/commons/Select";
 import Form from "src/components/Form";
 import { HelpersUseStep } from "src/hooks/useStep";
 import { upLoadInformationSchema } from "src/utils/schemas/UploadCourseSchema";
-import { CourseType } from "src/utils/types/CourseTypes";
+import { CourseBase } from "src/data-model/CourseTypes";
+import useGetCategory from "src/hooks/apis/useGetCategory";
+import useCreateCourse from "src/hooks/apis/useCreateCourse";
+import useUser from "src/hooks/apis/useUser";
 
 interface Props extends Partial<HelpersUseStep> {
   mode: "create" | "edit";
-  defaultValues?: Partial<CourseType>;
+  defaultValues?: CourseBase;
+  setCourseId: Dispatch<SetStateAction<string>>;
 }
 
-const InformationForm = ({ goToNextStep, mode, defaultValues }: Props) => {
-  const onSubmit: SubmitHandler<Partial<CourseType>> = (data) => {
-    console.log(data);
-    goToNextStep && goToNextStep();
+const emptyDefaultValues = {
+  name: "",
+  price: "",
+  description: "",
+  thumbnailUrl: "",
+  categoryTopicId: "",
+  hashTag: [],
+  userId: "",
+};
+
+const InformationForm = ({
+  goToNextStep,
+  mode,
+  defaultValues = emptyDefaultValues,
+  setCourseId,
+}: Props) => {
+  const { data: categoryData } = useGetCategory();
+  const { createCourse, isLoading, data: courseData } = useCreateCourse();
+  const { user } = useUser();
+  const onSubmit: SubmitHandler<CourseBase> = async (data) => {
+    delete data.hashTag;
+    const validValues = {
+      ...data,
+      price: String(data.price),
+      description: JSON.stringify(data.description),
+      // userId: user.id,
+      userId: "80959a61-7245-438e-ba26-d2232cce3fb1",
+    };
+    createCourse(validValues);
   };
+
+  useEffect(() => {
+    if (!isLoading && courseData) {
+      console.log(courseData);
+      setCourseId(courseData.id);
+      goToNextStep && goToNextStep();
+    }
+  }, [isLoading, courseData]);
 
   return (
     <Box>
       <Form
-        defaultValues={{
-          title: "",
-          description: "",
-          thumbnail: "",
-          category: "",
-          price: 0,
-          hashTag: [],
-        }}
+        defaultValues={defaultValues}
         onSubmit={onSubmit}
         schema={upLoadInformationSchema}
         margin="0 auto"
@@ -39,7 +69,7 @@ const InformationForm = ({ goToNextStep, mode, defaultValues }: Props) => {
           <>
             <Form.Input
               placeholder="Enter title here"
-              name="title"
+              name="name"
               label="Title"
               control={control}
               isRequired
@@ -56,7 +86,7 @@ const InformationForm = ({ goToNextStep, mode, defaultValues }: Props) => {
               <Col span={24}>
                 <Form.FileUpload
                   label="Thumbnail"
-                  name="thumbnail"
+                  name="thumbnailUrl"
                   control={control}
                 />
               </Col>
@@ -72,14 +102,14 @@ const InformationForm = ({ goToNextStep, mode, defaultValues }: Props) => {
               <Col span={12}>
                 <Form.Select
                   label="Category"
-                  name="category"
+                  name="categoryTopicId"
                   allowClear
                   style={{ width: "100%", height: "100%" }}
                   placeholder="Please select"
-                  options={[
-                    { label: "abc", value: 1 },
-                    { label: "def", value: 2 },
-                  ]}
+                  options={categoryData?.map(({ id, name }) => ({
+                    label: name,
+                    value: id,
+                  }))}
                   control={control}
                   filterOption={(inputValue, option) => {
                     return (
@@ -115,7 +145,13 @@ const InformationForm = ({ goToNextStep, mode, defaultValues }: Props) => {
             </Box>
             <Box width="100%" margin="40px 0">
               {mode === "create" ? (
-                <Box as={Button} width="50%" type="submit" margin="13px auto">
+                <Box
+                  loading={isLoading}
+                  as={Button}
+                  width="50%"
+                  type="submit"
+                  margin="13px auto"
+                >
                   Submit
                 </Box>
               ) : (

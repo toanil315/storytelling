@@ -68,12 +68,15 @@
   "toast": {
     "success": {
       "register": "Register successfully. Please check mail to active account.",
-      "login": "Welcome Back!"
+      "login": "Welcome Back!",
+      "createCourse": "Create course successfully. Please create your course content."
     },
     "error": {
       "register": "Register failed. Please try again.",
       "login": "Login Failed. Please try again.",
-      "refreshTokenFailed": "Something went wrong! Please login again."
+      "refreshTokenFailed": "Something went wrong! Please login again.",
+      "uploadFile": "Upload failed. Please try again.",
+      "createCourse": "Create course failed. Please try again."
     }
   },
   "courseContent": "Course Content",

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Box from "src/components/commons/Box";
 import Center from "src/components/commons/Center";
 import Text from "src/components/commons/Typography";
@@ -16,15 +16,28 @@ const { Step } = StyledSteps;
 
 const UploadContainer = ({ mode, courseId }: Props) => {
   const [currentStep, { goToNextStep, goToPrevStep }] = useStep(2);
+  const [id, setCourseId] = useState<string>("");
+
+  useEffect(() => {
+    if (courseId) {
+      setCourseId(courseId);
+    }
+  }, []);
 
   const renderProperForm = () => {
     switch (currentStep) {
       case 1: {
-        return <InformationForm mode={mode} goToNextStep={goToNextStep} />;
+        return (
+          <InformationForm
+            setCourseId={setCourseId}
+            mode={mode}
+            goToNextStep={goToNextStep}
+          />
+        );
       }
 
       case 2: {
-        return <CreateSections />;
+        return <CreateSections id={id} />;
       }
 
       default:

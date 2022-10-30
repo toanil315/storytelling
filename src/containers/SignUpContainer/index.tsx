@@ -13,7 +13,7 @@ import ImageComponent from "src/components/commons/Image";
 import { Control } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import useSignUp from "src/hooks/apis/useSignUp";
-import { UserRegister } from "src/utils/types/UserTypes";
+import { UserRegister } from "src/data-model/UserTypes";
 import { toast } from "react-toastify";
 
 interface SignUpInputProps extends UserRegister {

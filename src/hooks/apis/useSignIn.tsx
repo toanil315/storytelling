@@ -1,4 +1,4 @@
-import { UserLogin } from "src/utils/types/UserTypes";
+import { UserLogin } from "src/data-model/UserTypes";
 import { useMutation } from "react-query";
 import { authService } from "src/services/AuthServices";
 import { useRouter } from "next/router";

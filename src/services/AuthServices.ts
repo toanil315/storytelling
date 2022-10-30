@@ -1,5 +1,5 @@
 import { axiosClient } from "src/utils/axios";
-import { UserLogin, UserRegister } from "src/utils/types/UserTypes";
+import { UserLogin, UserRegister } from "src/data-model/UserTypes";
 
 export const authService = {
   login: (loginData: UserLogin) => {

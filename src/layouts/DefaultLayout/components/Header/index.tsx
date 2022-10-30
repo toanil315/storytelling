@@ -12,7 +12,7 @@ import {
 import Searchbar from "../Searchbar";
 import { StyledDropdown } from "src/components/commons/Dropdown/styles";
 import { StyledMenu } from "src/components/commons/Menu/styles";
-import { Languages } from "src/utils/constants";
+import { Languages, USER_ROLES } from "src/utils/constants";
 import { useTranslation } from "react-i18next";
 import Text from "src/components/commons/Typography";
 import Box from "src/components/commons/Box";
@@ -52,16 +52,18 @@ const Header = () => {
             >
               <NotificationIcon />
             </StyledDropdown>
-            <Button
-              onClick={() => router.push("/courses/upload")}
-              $type="white"
-              borderRadius="25px"
-            >
-              <UploadIcon />
-              <Box as={Text} padding="0 10px">
-                Upload
-              </Box>
-            </Button>
+            {user.role === USER_ROLES.AUTHOR && (
+              <Button
+                onClick={() => router.push("/courses/upload")}
+                $type="white"
+                borderRadius="25px"
+              >
+                <UploadIcon />
+                <Box as={Text} padding="0 10px">
+                  Upload
+                </Box>
+              </Button>
+            )}
             <Box>
               <Box
                 width="50px"
