@@ -63,6 +63,12 @@ const Input = React.forwardRef(function Input(
     handleChange && handleChange(inputValue);
   }, [inputValue, handleChange]);
 
+  /* eslint-disable */
+  useEffect(() => {
+    if (!value || value !== inputValue) setInputValue(value);
+  }, [value]);
+  /* eslint-enable */
+
   const renderElementInput = () => {
     switch (as) {
       case "input": {

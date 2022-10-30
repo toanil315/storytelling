@@ -14,7 +14,7 @@ import PlayIcon from "src/components/icons/PlayIcon";
 import PaperIcon from "src/components/icons/PaperIcon";
 import Center from "src/components/commons/Center";
 import { CourseType } from "src/data-model/CourseTypes";
-import useGetCategory from "src/hooks/apis/useGetCategory";
+import useGetCategory from "src/hooks/apis/Course/useGetCategory";
 import HTMLReactParser from "html-react-parser";
 
 interface Props {

@@ -1,11 +1,11 @@
 import { useMutation } from "react-query";
 import { courseService } from "src/services/CourseServices";
-import { CourseBase, CourseType } from "src/data-model/CourseTypes";
+import { CourseType } from "src/data-model/CourseTypes";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 
 const useCreateCourse = (): {
-  createCourse: (courseData: CourseBase) => void;
+  createCourse: (courseData: Partial<CourseType>) => void;
   data?: CourseType;
   isLoading: boolean;
   isError: boolean;
@@ -26,7 +26,7 @@ const useCreateCourse = (): {
   );
 
   return {
-    createCourse: (courseData: CourseBase) => {
+    createCourse: (courseData: Partial<CourseType>) => {
       return mutate(courseData);
     },
     data: data?.data.data,

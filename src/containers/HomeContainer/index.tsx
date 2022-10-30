@@ -2,8 +2,6 @@ import React from "react";
 import CourseCard from "src/components/CourseCard";
 import { HomeContainerWrapper, Section, Title } from "./style";
 import { useTranslation } from "react-i18next";
-import Link from "next/link";
-import { Path } from "src/utils/Path";
 import { CourseType } from "src/data-model/CourseTypes";
 
 interface Props {
@@ -12,8 +10,6 @@ interface Props {
 
 const HomeContainer = ({ courses }: Props) => {
   const { t, i18n } = useTranslation();
-  console.log(courses);
-
   const renderCourseList = () => {
     return courses.map((courseItem) => (
       <CourseCard key={courseItem.id} course={courseItem} />

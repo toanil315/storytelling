@@ -31,7 +31,7 @@ axiosClient.interceptors.response.use(
     const originalConfig = error.config;
     if (error.response) {
       if (
-        error.response?.data.error.message === "Token invalid" &&
+        error.response?.data?.error?.message === "Token invalid" &&
         !originalConfig._retry
       ) {
         await handleRefreshToken(originalConfig, axiosClient, "client");

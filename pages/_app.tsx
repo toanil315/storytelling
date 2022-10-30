@@ -35,7 +35,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
             staleTime: 300000, // 5 minutes
             cacheTime: 600000, // 10 minutes
             retryDelay: 1000,
-            retry: 2,
+            retry: 3,
           },
         },
       })

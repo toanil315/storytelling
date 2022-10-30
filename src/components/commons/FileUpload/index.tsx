@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import Box, { BoxProps } from "../Box";
 import { Progress, ProgressBar } from "./styles";
 import UploadFileIcon from "src/components/icons/UploadFileIcon";
@@ -7,7 +7,6 @@ import Text from "../Typography";
 import Upload from "src/services/UploadServices";
 import CloseIcon from "src/components/icons/CloseIcon";
 import ErrorMessage from "../ErrorMessage";
-import Link from "next/link";
 
 export interface FileUploadProps extends BoxProps {
   label?: string;
@@ -25,9 +24,16 @@ const FileUpload = ({
   ...restProps
 }: FileUploadProps) => {
   const { name } = restProps;
-  const [showProgress, setShowProgress] = useState<boolean>(!!value);
+  const [showProgress, setShowProgress] = useState<boolean>(false);
   const [percentage, setPercentage] = useState<number>(0);
-  const [linkFile, setLinkFile] = useState<string>(value ?? "");
+  const [linkFile, setLinkFile] = useState<string>("");
+
+  useEffect(() => {
+    if (value && value !== linkFile) {
+      setLinkFile(value);
+      setShowProgress(!!value);
+    }
+  }, [value, linkFile]);
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     // reset file upload component before upload new file to server

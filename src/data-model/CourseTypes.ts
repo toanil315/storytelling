@@ -26,6 +26,7 @@ export interface LectureType {
 
 export interface CourseType extends CourseBase {
   id: string;
+  isActived: boolean;
 }
 
 export interface SectionType extends SectionBase {

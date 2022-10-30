@@ -14,8 +14,7 @@ import PlayIcon from "src/components/icons/PlayIcon";
 import Link from "next/link";
 import { Path } from "src/utils/Path";
 import { CourseType } from "src/data-model/CourseTypes";
-import useGetCategory from "src/hooks/apis/useGetCategory";
-import parser from "html-react-parser";
+import useGetCategory from "src/hooks/apis/Course/useGetCategory";
 import Box from "../commons/Box";
 
 interface Props {
@@ -61,7 +60,6 @@ const CourseCard = ({ course }: Props) => {
         <Link href={`${Path.courses}/${course.id}`}>
           <Title style={{ cursor: "pointer" }}>{course.name}</Title>
         </Link>
-        {/* <Description>{description}</Description> */}
         <Box margin="auto 0 0">
           <VideoFigures>
             428,304 views

@@ -13,4 +13,8 @@ export const authService = {
   getMe: () => {
     return axiosClient.get("/me");
   },
+
+  logout: () => {
+    return axiosClient.get("/logout");
+  },
 };

@@ -13,7 +13,14 @@ const RHFSelect = <T extends FieldValues>(props: Props<T>) => {
     field,
     fieldState: { error },
   } = useController(props);
-  return <Select error={error} onChange={field.onChange} {...props} />;
+  return (
+    <Select
+      error={error}
+      value={field.value}
+      onChange={field.onChange}
+      {...props}
+    />
+  );
 };
 
 export default RHFSelect;

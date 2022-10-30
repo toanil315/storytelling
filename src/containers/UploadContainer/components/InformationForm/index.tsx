@@ -7,14 +7,15 @@ import Select from "src/components/commons/Select";
 import Form from "src/components/Form";
 import { HelpersUseStep } from "src/hooks/useStep";
 import { upLoadInformationSchema } from "src/utils/schemas/UploadCourseSchema";
-import { CourseBase } from "src/data-model/CourseTypes";
-import useGetCategory from "src/hooks/apis/useGetCategory";
-import useCreateCourse from "src/hooks/apis/useCreateCourse";
-import useUser from "src/hooks/apis/useUser";
+import { CourseBase, CourseType } from "src/data-model/CourseTypes";
+import useGetCategory from "src/hooks/apis/Course/useGetCategory";
+import useCreateCourse from "src/hooks/apis/Course/useCreateCourse";
+import useUser from "src/hooks/apis/Auth/useUser";
+import useUpdateCourse from "src/hooks/apis/Course/useUpdateCourse";
 
 interface Props extends Partial<HelpersUseStep> {
   mode: "create" | "edit";
-  defaultValues?: CourseBase;
+  defaultValues?: Partial<CourseType>;
   setCourseId: Dispatch<SetStateAction<string>>;
 }
 
@@ -35,35 +36,71 @@ const InformationForm = ({
   setCourseId,
 }: Props) => {
   const { data: categoryData } = useGetCategory();
-  const { createCourse, isLoading, data: courseData } = useCreateCourse();
+  const {
+    createCourse,
+    isLoading: createCourseLoading,
+    data: courseData,
+    isSuccess: createCourseSuccess,
+  } = useCreateCourse();
+  const {
+    updateCourse,
+    isLoading: updateCourseLoading,
+    isSuccess: updateCourseSuccess,
+  } = useUpdateCourse();
+
   const { user } = useUser();
-  const onSubmit: SubmitHandler<CourseBase> = async (data) => {
-    delete data.hashTag;
+  const onSubmit: SubmitHandler<Partial<CourseType>> = async (data) => {
     const validValues = {
-      ...data,
+      name: data.name,
       price: String(data.price),
       description: JSON.stringify(data.description),
+      thumbnailUrl: data.thumbnailUrl,
+      categoryTopicId: data.categoryTopicId,
       // userId: user.id,
       userId: "80959a61-7245-438e-ba26-d2232cce3fb1",
     };
-    createCourse(validValues);
+
+    if (mode === "create") {
+      createCourse(validValues);
+    } else {
+      defaultValues.id && updateCourse(validValues, defaultValues.id);
+    }
   };
 
   useEffect(() => {
-    if (!isLoading && courseData) {
-      console.log(courseData);
-      setCourseId(courseData.id);
+    if (
+      (createCourseSuccess || updateCourseSuccess) &&
+      (courseData || defaultValues.id)
+    ) {
+      const id = mode === "create" ? courseData?.id : defaultValues.id;
+      setCourseId(id ?? "");
       goToNextStep && goToNextStep();
     }
-  }, [isLoading, courseData, setCourseId, goToNextStep]);
+  }, [
+    createCourseSuccess,
+    updateCourseSuccess,
+    courseData,
+    defaultValues,
+    mode,
+    setCourseId,
+    goToNextStep,
+  ]);
+
+  console.log(createCourseSuccess, createCourseSuccess);
 
   return (
     <Box>
       <Form
-        defaultValues={defaultValues}
+        defaultValues={{
+          ...defaultValues,
+          description: defaultValues.description
+            ? JSON.parse(defaultValues.description)
+            : "",
+        }}
         onSubmit={onSubmit}
         schema={upLoadInformationSchema}
         margin="0 auto"
+        enableResetForm={mode === "edit"}
       >
         {({ control }) => (
           <>
@@ -146,7 +183,7 @@ const InformationForm = ({
             <Box width="100%" margin="40px 0">
               {mode === "create" ? (
                 <Box
-                  loading={isLoading}
+                  loading={createCourseLoading || updateCourseLoading}
                   as={Button}
                   width="50%"
                   type="submit"
