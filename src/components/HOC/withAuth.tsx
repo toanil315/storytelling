@@ -5,6 +5,7 @@ import React from "react";
 import { BASE_HOST, USER_ROLES } from "src/utils/constants";
 import { redirect } from "src/utils/helpers/redirect";
 import { Path } from "src/utils/Path";
+import * as Sentry from "@sentry/nextjs";
 
 type WithAuthComponent = (
   Component: NextPageWithLayout,
@@ -17,18 +18,22 @@ const withAuth: WithAuthComponent = (Component, role = USER_ROLES.USER) => {
   };
 
   AuthComponent.getInitialProps = async (context: any) => {
-    const { data } = await axios.get(`${BASE_HOST}/api/private/getMe`, {
-      headers: {
-        cookie: context.req?.headers.cookie,
-      },
-    });
+    try {
+      const { data } = await axios.get(`${BASE_HOST}/api/private/getMe`, {
+        headers: {
+          cookie: context.req?.headers.cookie,
+        },
+      });
 
-    if (data.role !== role) {
-      redirect(context, Path.login);
+      if (data.role !== role) {
+        redirect(context, Path.login);
+        return {};
+      }
+
       return {};
+    } catch (error) {
+      Sentry.captureException(error);
     }
-
-    return {};
   };
 
   AuthComponent.getLayout = Component.getLayout;

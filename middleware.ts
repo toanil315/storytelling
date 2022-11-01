@@ -6,6 +6,7 @@ import {
   REFRESH_TOKEN,
 } from "src/utils/constants";
 import { Path } from "src/utils/Path";
+import * as Sentry from "@sentry/nextjs";
 
 export async function middleware(req: NextRequest) {
   try {
@@ -29,6 +30,7 @@ export async function middleware(req: NextRequest) {
     response.headers.set(ACCESS_TOKEN, data.data.token);
     return response;
   } catch (error) {
+    Sentry.captureException(error);
     return NextResponse.redirect(`${BASE_HOST}${Path.login}`);
   }
 }
