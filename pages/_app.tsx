@@ -16,6 +16,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import * as Sentry from "@sentry/nextjs";
 
 export type NextPageWithLayout<P = any, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -36,6 +37,14 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
             cacheTime: 600000, // 10 minutes
             retryDelay: 1000,
             retry: 3,
+            onError: (error) => {
+              Sentry.captureException(error);
+            },
+          },
+          mutations: {
+            onError: (error) => {
+              Sentry.captureException(error);
+            },
           },
         },
       })

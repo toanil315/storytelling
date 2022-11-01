@@ -66,7 +66,5 @@ export const USER_ROLES = {
 };
 
 const dev = process.env.NODE_ENV !== "production";
-export const BASE_HOST = dev
-  ? "http://localhost:3000"
-  : process.env.NEXT_PUBLIC_MY_HOST;
+export const BASE_HOST = process.env.NEXT_PUBLIC_MY_HOST;
 export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
