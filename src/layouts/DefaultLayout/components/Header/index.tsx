@@ -19,7 +19,6 @@ import Box from "src/components/commons/Box";
 import Center from "src/components/commons/Center";
 import Button from "src/components/commons/Button";
 import { useRouter } from "next/router";
-import useUser from "src/hooks/apis/Auth/useUser";
 import ImageComponent from "src/components/commons/Image";
 import { Path } from "src/utils/Path";
 import Link from "next/link";
@@ -27,6 +26,7 @@ import { authService } from "src/services/AuthServices";
 import { localStorageClient } from "src/utils/localStorageClient";
 import { clearTokens } from "src/utils/axios/helper";
 import { useQueryClient } from "react-query";
+import { useUser } from "src/hooks/apis";
 
 const Header = () => {
   const router = useRouter();

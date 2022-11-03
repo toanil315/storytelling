@@ -16,6 +16,7 @@ import Center from "src/components/commons/Center";
 import { CourseType } from "src/data-model/CourseTypes";
 import useGetCategory from "src/hooks/apis/Course/useGetCategory";
 import HTMLReactParser from "html-react-parser";
+import { Description } from "./styles";
 
 interface Props {
   course: CourseType;
@@ -106,7 +107,9 @@ const CourseDetailContainer = ({ course }: Props) => {
             <Text fontSize="xl" lineHeight="xl" fontWeight="bold" color="text">
               Description:
             </Text>
-            <Box>{HTMLReactParser(JSON.parse(course.description))}</Box>
+            <Description>
+              {HTMLReactParser(JSON.parse(course.description))}
+            </Description>
           </Box>
           <Box margin="25px 0">
             <Text fontSize="xl" lineHeight="xl" fontWeight="bold" color="text">

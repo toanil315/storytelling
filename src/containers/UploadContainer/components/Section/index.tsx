@@ -7,7 +7,7 @@ import Text from "src/components/commons/Typography";
 import CheckMarkIcon from "src/components/icons/CheckMarkIcon";
 import PlayIcon from "src/components/icons/PlayIcon";
 import PlusIcon from "src/components/icons/PlusIcon";
-import { LectureType, SectionType } from "src/utils/types/CourseTypes";
+import { LectureType, SectionType } from "src/data-model/CourseTypes";
 import LectureForm from "../LectureForm";
 import EditIcon from "src/components/icons/EditIcon";
 
@@ -20,7 +20,7 @@ const Section = ({ section, sectionIndex }: Props) => {
   const [canAddLecture, setCanAddLecture] = useState<boolean>(true);
 
   const renderLectures = () => {
-    return section.lectures.map((lecture, index) => (
+    return section.lectures?.map((lecture, index) => (
       <Lecture key={lecture.id} lectureIndex={index} lecture={lecture} />
     ));
   };
@@ -57,7 +57,7 @@ const Section = ({ section, sectionIndex }: Props) => {
           lineHeight="normal"
           color="text"
         >
-          {section.title}
+          {section.name}
         </Box>
       </Box>
       <Center flexDirection="column">{renderLectures()}</Center>

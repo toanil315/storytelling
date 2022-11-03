@@ -58,6 +58,7 @@ export const QUERY_KEYS = {
   GET_CATEGORY: "GET_CATEGORY",
   GET_COURSES: "GET_COURSES",
   GET_COURSE_DETAIL: "GET_COURSE_DETAIL",
+  GET_SECTIONS: "sections",
 };
 
 export const USER_ROLES = {

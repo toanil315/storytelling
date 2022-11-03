@@ -17,11 +17,21 @@ const CourseViewPage: NextPageWithLayout = ({ course }: Props) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const result = await fetch(`${BASE_URL}/courses?page=1&limit=10`);
   const data = await result.json();
+
+  if (data) {
+    return {
+      props: {
+        course: data.data.find(
+          (item: CourseType) => item.id === context.params?.id
+        ),
+      },
+    };
+  }
+
   return {
-    props: {
-      course: data.data.find(
-        (item: CourseType) => item.id === context.params?.id
-      ),
+    redirect: {
+      destination: Path.error,
+      permanent: false,
     },
   };
 

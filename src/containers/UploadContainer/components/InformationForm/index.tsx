@@ -8,10 +8,12 @@ import Form from "src/components/Form";
 import { HelpersUseStep } from "src/hooks/useStep";
 import { upLoadInformationSchema } from "src/utils/schemas/UploadCourseSchema";
 import { CourseBase, CourseType } from "src/data-model/CourseTypes";
-import useGetCategory from "src/hooks/apis/Course/useGetCategory";
-import useCreateCourse from "src/hooks/apis/Course/useCreateCourse";
-import useUser from "src/hooks/apis/Auth/useUser";
-import useUpdateCourse from "src/hooks/apis/Course/useUpdateCourse";
+import {
+  useCreateCourse,
+  useGetCategory,
+  useUpdateCourse,
+  useUser,
+} from "src/hooks/apis";
 
 interface Props extends Partial<HelpersUseStep> {
   mode: "create" | "edit";
@@ -24,7 +26,7 @@ const emptyDefaultValues = {
   price: "",
   description: "",
   thumbnailUrl: "",
-  categoryTopicId: "",
+  categoryTopicId: undefined,
   hashTag: [],
   userId: "",
 };
@@ -56,8 +58,7 @@ const InformationForm = ({
       description: JSON.stringify(data.description),
       thumbnailUrl: data.thumbnailUrl,
       categoryTopicId: data.categoryTopicId,
-      // userId: user.id,
-      userId: "80959a61-7245-438e-ba26-d2232cce3fb1",
+      userId: user.userId,
     };
 
     if (mode === "create") {
@@ -193,7 +194,12 @@ const InformationForm = ({
                 </Box>
               ) : (
                 <Box display="flex" justifyContent="center">
-                  <Button $type="white" type="button" width="20%">
+                  <Button
+                    onClick={goToNextStep}
+                    $type="white"
+                    type="button"
+                    width="20%"
+                  >
                     <Box padding="0 20px">Next</Box>
                   </Button>
                   <Box

@@ -10,6 +10,8 @@ export const courseService = {
 
   getCategories: () => axiosClient.get("/category-topics"),
 
+  getSections: (courseId: string) => axiosClient.get("/sections"),
+
   createCourse: (courseData: Partial<CourseType>) => {
     return axiosClient.post("/courses", courseData);
   },

@@ -19,7 +19,7 @@ export const upLoadInformationSchema = yupGlobal.object().shape({
 });
 
 export const newSectionSchema = yupGlobal.object().shape({
-  title: yupGlobal
+  sectionName: yupGlobal
     .string()
     .required(i18next.t("validation.uploadCourse.title")),
 });

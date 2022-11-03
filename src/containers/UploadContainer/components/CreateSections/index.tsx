@@ -1,44 +1,21 @@
 import { Col, Row } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "src/components/commons/Box";
 import Button from "src/components/commons/Button";
 import Center from "src/components/commons/Center";
-import PlusIcon from "src/components/icons/PlusIcon";
+import PlusWithNoBorderIcon from "src/components/icons/PlusWithNoBorderIcon";
 import SectionForm from "../SectionForm";
 import Section from "../Section";
+import { useGetSection, useCreateSection } from "src/hooks/apis";
 
 interface Props {
-  id: string;
+  courseId: string;
 }
 
-const CreateSections = ({ id }: Props) => {
+const CreateSections = ({ courseId }: Props) => {
   const [canAddSection, setCanAddSection] = useState<boolean>(true);
-
-  const [sections, setSections] = useState<
-    {
-      id: string;
-      title: string;
-      lectures: {
-        id: string;
-        title: string;
-        video: string;
-        thumbnail: string;
-      }[];
-    }[]
-  >([
-    {
-      id: "1",
-      title: "Introduction",
-      lectures: [
-        {
-          id: "lecture 1",
-          title: "Pasta ingredients",
-          video: "abc",
-          thumbnail: "xyz",
-        },
-      ],
-    },
-  ]);
+  const { data: sections = [], isLoading, isError } = useGetSection(courseId);
+  const { createSection, isLoading: createSectionLoading } = useCreateSection();
 
   const renderSection = () => {
     return sections.map((section, index) => (
@@ -48,13 +25,26 @@ const CreateSections = ({ id }: Props) => {
     ));
   };
 
-  const handleAddSection = (section: { title: string }) => {
-    setSections((sections) => [
-      ...sections,
-      { ...section, id: String(Date.now()), lectures: [] },
-    ]);
+  console.log(isLoading, sections);
+
+  useEffect(() => {
+    if (!isLoading && !Boolean(sections.length)) {
+      setCanAddSection(false);
+    }
+  }, [isLoading, sections]);
+
+  const handleAddSection = (sectionName: string) => {
+    console.log("add");
+    createSection({
+      name: sectionName,
+      courseId,
+    });
     setCanAddSection(true);
   };
+
+  if (isLoading) {
+    return <Box>Loading</Box>;
+  }
 
   return (
     <Box>
@@ -62,19 +52,25 @@ const CreateSections = ({ id }: Props) => {
         {renderSection()}
         {!canAddSection && (
           <Col span={24}>
-            <SectionForm handleSubmit={handleAddSection} />
+            <SectionForm
+              loading={createSectionLoading}
+              handleSubmit={handleAddSection}
+            />
           </Col>
         )}
         {canAddSection && (
           <Col span={24}>
-            <Box
+            <Button
+              $type="white"
               onClick={() => setCanAddSection(false)}
-              as={PlusIcon}
               style={{ cursor: "pointer" }}
-              width={40}
-              height={40}
               margin="20px auto 0"
-            />
+            >
+              <Box display="flex" alignItems="center" justifyContent="center">
+                Add Section
+                {/* <PlusWithNoBorderIcon width={40} height={40} /> */}
+              </Box>
+            </Button>
           </Col>
         )}
         <Col span={24}>
