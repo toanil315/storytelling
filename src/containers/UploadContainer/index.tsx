@@ -40,7 +40,7 @@ const UploadContainer = ({ mode, courseId }: Props) => {
       }
 
       case 2: {
-        return <CreateSections id={id} />;
+        return <CreateSections courseId={id} />;
       }
 
       default:

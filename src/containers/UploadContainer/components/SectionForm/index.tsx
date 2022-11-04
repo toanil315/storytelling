@@ -7,16 +7,17 @@ import Form from "src/components/Form";
 import { newSectionSchema } from "src/utils/schemas/UploadCourseSchema";
 
 interface NewSectionInputProps {
-  title: string;
+  sectionName: string;
 }
 
 interface Props {
-  handleSubmit: (value: { title: string }) => void;
+  loading: boolean;
+  handleSubmit: (sectionName: string) => void;
 }
 
-const NewSectionForm = ({ handleSubmit }: Props) => {
+const NewSectionForm = ({ handleSubmit, loading }: Props) => {
   const onSubmit: SubmitHandler<NewSectionInputProps> = (data) => {
-    handleSubmit && handleSubmit(data);
+    handleSubmit(data.sectionName);
   };
 
   return (
@@ -34,7 +35,7 @@ const NewSectionForm = ({ handleSubmit }: Props) => {
         width="100%"
         margin="30px 0 0 0"
         defaultValues={{
-          title: "",
+          sectionName: "",
         }}
         onSubmit={onSubmit}
         schema={newSectionSchema}
@@ -43,12 +44,17 @@ const NewSectionForm = ({ handleSubmit }: Props) => {
           <>
             <Form.Input
               placeholder="Enter section title here"
-              name="title"
+              name="sectionName"
               label="Section Title"
               control={control}
             />
             <Box width="100%">
-              <Box as={Button} type="submit" margin="13px 0 0 auto">
+              <Box
+                loading={loading}
+                as={Button}
+                type="submit"
+                margin="13px 0 0 auto"
+              >
                 Add Section
               </Box>
             </Box>

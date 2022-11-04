@@ -10,5 +10,6 @@ export interface UserRegister extends UserBase {
 }
 
 export interface UserType extends UserBase {
+  userId: string;
   role: string;
 }
