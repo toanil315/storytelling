@@ -6,10 +6,10 @@ import Center from "src/components/commons/Center";
 import Text from "src/components/commons/Typography";
 import CheckMarkIcon from "src/components/icons/CheckMarkIcon";
 import PlayIcon from "src/components/icons/PlayIcon";
-import PlusIcon from "src/components/icons/PlusIcon";
 import { LectureType, SectionType } from "src/data-model/CourseTypes";
 import LectureForm from "../LectureForm";
 import EditIcon from "src/components/icons/EditIcon";
+import PlusIcon from "src/components/icons/PlusIcon";
 
 interface Props {
   section: SectionType;
@@ -40,43 +40,47 @@ const Section = ({ section, sectionIndex }: Props) => {
       borderColor="textLight"
       borderRadius="md"
     >
-      <Box display="flex" margin="0 0 20px">
-        <Text
-          fontWeight="extraBold"
-          fontSize="sm"
-          lineHeight="normal"
-          color="text"
-        >
-          Section {sectionIndex + 1}:
-        </Text>
-        <Box
-          as={Text}
-          padding="0 0 0 10px"
-          fontWeight="regular"
-          fontSize="sm"
-          lineHeight="normal"
-          color="text"
-        >
-          {section.name}
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+        margin="0 0 20px"
+      >
+        <Box display="flex" alignItems="center">
+          <Text
+            fontWeight="extraBold"
+            fontSize="sm"
+            lineHeight="normal"
+            color="text"
+          >
+            Section {sectionIndex + 1}:
+          </Text>
+          <Box
+            as={Text}
+            padding="0 0 0 10px"
+            fontWeight="regular"
+            fontSize="sm"
+            lineHeight="normal"
+            color="text"
+          >
+            {section.name}
+          </Box>
         </Box>
+        {canAddLecture && (
+          <Box
+            style={{ cursor: "pointer" }}
+            onClick={() => setCanAddLecture(false)}
+            title="Add Lecture"
+          >
+            <Box width={40} height={40} as={PlusIcon} />
+          </Box>
+        )}
       </Box>
       <Center flexDirection="column">{renderLectures()}</Center>
       {!canAddLecture && (
         <Box margin="20px 0 0">
           <LectureForm mode="create" handleSubmit={handleAddLecture} />
         </Box>
-      )}
-      {canAddLecture && (
-        <Center>
-          <Box
-            onClick={() => setCanAddLecture(false)}
-            as={PlusIcon}
-            style={{ cursor: "pointer" }}
-            width={40}
-            height={40}
-            margin="20px 0 0"
-          />
-        </Center>
       )}
     </Box>
   );
