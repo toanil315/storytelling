@@ -7,6 +7,7 @@ import PlusWithNoBorderIcon from "src/components/icons/PlusWithNoBorderIcon";
 import SectionForm from "../SectionForm";
 import Section from "../Section";
 import { useGetSection, useCreateSection } from "src/hooks/apis";
+import Text from "src/components/commons/Typography";
 
 interface Props {
   courseId: string;
@@ -14,21 +15,19 @@ interface Props {
 
 const CreateSections = ({ courseId }: Props) => {
   const [canAddSection, setCanAddSection] = useState<boolean>(true);
-  const { data: sections = [], isLoading, isError } = useGetSection(courseId);
+  const { data: sections, isLoading, isError } = useGetSection(courseId);
   const { createSection, isLoading: createSectionLoading } = useCreateSection();
 
   const renderSection = () => {
-    return sections.map((section, index) => (
+    return sections?.map((section, index) => (
       <Col key={section.id} span={24}>
         <Section section={section} sectionIndex={index} />
       </Col>
     ));
   };
 
-  console.log(isLoading, sections);
-
   useEffect(() => {
-    if (!isLoading && !Boolean(sections.length)) {
+    if (!isLoading && !Boolean(sections?.length)) {
       setCanAddSection(false);
     }
   }, [isLoading, sections]);
@@ -67,8 +66,10 @@ const CreateSections = ({ courseId }: Props) => {
               margin="20px auto 0"
             >
               <Box display="flex" alignItems="center" justifyContent="center">
-                Add Section
-                {/* <PlusWithNoBorderIcon width={40} height={40} /> */}
+                <Box padding="0px 10px 0 0">
+                  <Text>Add Section</Text>
+                </Box>
+                <PlusWithNoBorderIcon width={20} height={20} />
               </Box>
             </Button>
           </Col>
