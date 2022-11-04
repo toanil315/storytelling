@@ -62,8 +62,8 @@ export const QUERY_KEYS = {
 };
 
 export const USER_ROLES = {
-  USER: "user",
-  AUTHOR: "author",
+  USER: "USER",
+  AUTHOR: "INSTRUCTOR",
 };
 
 const dev = process.env.NODE_ENV !== "production";
