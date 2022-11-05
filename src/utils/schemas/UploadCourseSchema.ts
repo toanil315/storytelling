@@ -24,14 +24,17 @@ export const newSectionSchema = yupGlobal.object().shape({
     .required(i18next.t("validation.uploadCourse.title")),
 });
 
-export const newLectureSchema = yupGlobal.object().shape({
+export const lectureSchema = yupGlobal.object().shape({
   title: yupGlobal
     .string()
     .required(i18next.t("validation.uploadCourse.title")),
-  video: yupGlobal
+  url: yupGlobal
     .string()
     .required(i18next.t("validation.uploadCourse.lecture.video")),
-  thumbnail: yupGlobal
+  thumbnailUrl: yupGlobal
     .string()
     .required(i18next.t("validation.uploadCourse.thumbnail")),
+  description: yupGlobal
+    .string()
+    .required(i18next.t("validation.uploadCourse.description")),
 });

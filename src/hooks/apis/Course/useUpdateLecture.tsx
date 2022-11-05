@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from "react-query";
 import { courseService } from "src/services/CourseServices";
-import { SectionBase, SectionType } from "src/data-model/CourseTypes";
+import { LectureBase, LectureType } from "src/data-model/CourseTypes";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { QUERY_KEYS } from "src/utils/constants";
 
-const useCreateSection = (): {
-  createSection: (sectionData: SectionBase) => void;
-  data?: SectionType;
+const useUpdateLecture = (): {
+  updateLecture: (lectureData: LectureType) => void;
+  data?: LectureType;
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
@@ -16,56 +16,59 @@ const useCreateSection = (): {
   const queryClient = useQueryClient();
 
   const { mutate, isLoading, isError, isSuccess, data } = useMutation(
-    courseService.createSection,
+    courseService.updateLecture,
     {
       onSuccess: () => {
-        toast.success(t("toast.success.createSection"));
+        toast.success(t("toast.success.updateLecture"));
       },
-      onMutate: async (newSection: SectionBase) => {
+      onMutate: async (updatedLecture: LectureType) => {
         // Cancel any outgoing refetches
         // (so they don't overwrite our optimistic update)
         await queryClient.cancelQueries({
-          queryKey: [QUERY_KEYS.GET_SECTIONS, newSection.courseId],
+          queryKey: [
+            QUERY_KEYS.GET_LECTURES_IN_SECTION,
+            updatedLecture.sectionId,
+          ],
         });
 
         // Snapshot the previous value
         const previousSections = queryClient.getQueryData([
-          QUERY_KEYS.GET_SECTIONS,
-          newSection.courseId,
+          QUERY_KEYS.GET_LECTURES_IN_SECTION,
+          updatedLecture.sectionId,
         ]);
 
         // Optimistically update to the new value
         queryClient.setQueryData(
-          [QUERY_KEYS.GET_SECTIONS, newSection.courseId],
+          [QUERY_KEYS.GET_LECTURES_IN_SECTION, updatedLecture.sectionId],
           (old: any) => {
-            return [...old, { ...newSection, id: String(Date.now()) }];
+            return [...old, updatedLecture];
           }
         );
 
         // Return a context object with the snapshotted value
         return { previousSections };
       },
-      // If the mutation fails,
-      // use the context returned from onMutate to roll back
-      onError: (err, newSection, context) => {
+      onError: (err, updatedLecture, context) => {
         queryClient.setQueryData(
-          [QUERY_KEYS.GET_SECTIONS, newSection.courseId],
+          [QUERY_KEYS.GET_LECTURES_IN_SECTION, updatedLecture.sectionId],
           context?.previousSections
         );
-        toast.error(t("toast.error.createSection"));
+        toast.error(t("toast.error.updateLecture"));
       },
-      // Always refetch after error or success:
-      onSettled: (newSection) => {
+      onSettled: (updatedLecture) => {
         queryClient.invalidateQueries({
-          queryKey: [QUERY_KEYS.GET_SECTIONS, newSection?.courseId],
+          queryKey: [
+            QUERY_KEYS.GET_LECTURES_IN_SECTION,
+            updatedLecture?.sectionId,
+          ],
         });
       },
     }
   );
 
   return {
-    createSection: (sectionData: SectionBase) => {
-      return mutate(sectionData);
+    updateLecture: (lectureData: LectureType) => {
+      return mutate(lectureData);
     },
     data,
     isLoading,
@@ -74,4 +77,4 @@ const useCreateSection = (): {
   };
 };
 
-export default useCreateSection;
+export default useUpdateLecture;

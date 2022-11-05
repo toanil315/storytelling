@@ -1,5 +1,5 @@
 import { axiosClient } from "src/utils/axios";
-import { UserLogin, UserRegister } from "src/data-model/UserTypes";
+import { UserLogin, UserRegister, UserType } from "src/data-model/UserTypes";
 
 export const authService = {
   login: (loginData: UserLogin) => {
@@ -10,7 +10,7 @@ export const authService = {
     return axiosClient.post("/register", registerData);
   },
 
-  getMe: () => {
+  getMe: (): Promise<UserType> => {
     return axiosClient.get("/me");
   },
 

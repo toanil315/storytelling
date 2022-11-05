@@ -71,7 +71,9 @@
       "login": "Welcome Back!",
       "createCourse": "Create course successfully. Please create your course content.",
       "updateCourse": "Update course successfully.",
-      "createSection": "Create section successfully. Please create your lectures."
+      "createSection": "Create section successfully. Please create your lectures.",
+      "createLecture": "Create lecture successfully.",
+      "updateLecture": "Update lecture successfully."
     },
     "error": {
       "register": "Register failed. Please try again.",
@@ -80,7 +82,10 @@
       "uploadFile": "Upload failed. Please try again.",
       "createCourse": "Create course failed. Please try again.",
       "updateCourse": "Update course failed. Please try again.",
-      "createSection": "Create section failed. Please try again."
+      "createSection": "Create section failed. Please try again.",
+      "wrongFileType": "File for this field should be {{fileType}}.",
+      "createLecture": "Create lecture failed. Please try again.",
+      "updateLecture": "Update lecture failed. Please try again."
     }
   },
   "courseContent": "Course Content",

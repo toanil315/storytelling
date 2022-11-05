@@ -1,15 +1,23 @@
 import { Col, Row } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "src/components/commons/Box";
 import Button from "src/components/commons/Button";
 import Center from "src/components/commons/Center";
 import Text from "src/components/commons/Typography";
 import CheckMarkIcon from "src/components/icons/CheckMarkIcon";
 import PlayIcon from "src/components/icons/PlayIcon";
-import { LectureType, SectionType } from "src/data-model/CourseTypes";
+import {
+  LectureBase,
+  LectureType,
+  SectionType,
+} from "src/data-model/CourseTypes";
 import LectureForm from "../LectureForm";
 import EditIcon from "src/components/icons/EditIcon";
 import PlusIcon from "src/components/icons/PlusIcon";
+import { useUser } from "src/hooks/apis";
+import useGetLecturesBySection from "src/hooks/apis/Course/useGetLecturesBySection";
+import useCreateLecture from "src/hooks/apis/Course/useCreateLecture";
+import useUpdateLecture from "src/hooks/apis/Course/useUpdateLecture";
 
 interface Props {
   section: SectionType;
@@ -17,16 +25,27 @@ interface Props {
 }
 
 const Section = ({ section, sectionIndex }: Props) => {
+  const { user } = useUser();
+  const { data: lecturesInSection, isLoading } = useGetLecturesBySection(
+    section.id
+  );
+  const { createLecture, isLoading: createLectureLoading } = useCreateLecture();
   const [canAddLecture, setCanAddLecture] = useState<boolean>(true);
 
   const renderLectures = () => {
-    return section.lectures?.map((lecture, index) => (
+    return lecturesInSection?.map((lecture, index) => (
       <Lecture key={lecture.id} lectureIndex={index} lecture={lecture} />
     ));
   };
 
-  const handleAddLecture = (lecture: Partial<LectureType>) => {
+  const handleAddLecture = async (lecture: Partial<LectureType>) => {
     console.log("add: ", lecture);
+    lecture = {
+      ...lecture,
+      userId: user?.userId,
+      sectionId: section.id,
+    };
+    await createLecture(lecture as LectureBase);
     setCanAddLecture(true);
   };
 
@@ -76,10 +95,16 @@ const Section = ({ section, sectionIndex }: Props) => {
           </Box>
         )}
       </Box>
-      <Center flexDirection="column">{renderLectures()}</Center>
+      <Center className="gap-y-4" flexDirection="column">
+        {renderLectures()}
+      </Center>
       {!canAddLecture && (
         <Box margin="20px 0 0">
-          <LectureForm mode="create" handleSubmit={handleAddLecture} />
+          <LectureForm
+            loading={createLectureLoading}
+            mode="create"
+            handleSubmit={handleAddLecture}
+          />
         </Box>
       )}
     </Box>
@@ -92,10 +117,14 @@ interface LectureProps {
 }
 
 const Lecture = ({ lectureIndex, lecture }: LectureProps) => {
+  const { user } = useUser();
+  const { updateLecture, isLoading: updateLectureLoading } = useUpdateLecture();
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
-  const handleEditLecture = (data: Partial<LectureType>) => {
-    console.log("edit: ", data);
+  const handleEditLecture = async (data: Partial<LectureType>) => {
+    const { thumnailUrl, createdAt, deletedAt, updatedAt, ...restLectureData } =
+      data;
+    await updateLecture(restLectureData as LectureType);
     setIsEdit(false);
   };
 
@@ -135,7 +164,7 @@ const Lecture = ({ lectureIndex, lecture }: LectureProps) => {
         </Box>
         <Box margin="10px 0 0" display="flex">
           <PlayIcon />
-          <Box as="a" href={lecture.video} padding="0 0 0 10px" color="green">
+          <Box as="a" href={lecture.url} padding="0 0 0 10px" color="green">
             Lecture Video
           </Box>
         </Box>
@@ -155,9 +184,11 @@ const Lecture = ({ lectureIndex, lecture }: LectureProps) => {
     </Box>
   ) : (
     <LectureForm
+      loading={updateLectureLoading}
       defaultValues={lecture}
       mode="edit"
       handleSubmit={handleEditLecture}
+      onCancel={() => setIsEdit(false)}
     />
   );
 };

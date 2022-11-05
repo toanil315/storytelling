@@ -1,13 +1,15 @@
 import { useQuery } from "react-query";
-import { CourseType } from "src/data-model/CourseTypes";
+import { LectureType } from "src/data-model/CourseTypes";
 import { courseService } from "src/services/CourseServices";
 import { QUERY_KEYS } from "src/utils/constants";
 import { UseQueryResponse } from "src/utils/types/UseQueryHookResponse";
 
-const useGetCourses = (): UseQueryResponse<CourseType[]> => {
+const useGetLecturesBySection = (
+  sectionId: string
+): UseQueryResponse<LectureType[]> => {
   const { data, isLoading, isError, isSuccess } = useQuery(
-    QUERY_KEYS.GET_COURSES,
-    courseService.getCourses
+    [QUERY_KEYS.GET_LECTURES_IN_SECTION, sectionId],
+    () => courseService.getLecturesOfSection(sectionId)
   );
 
   return {
@@ -18,4 +20,4 @@ const useGetCourses = (): UseQueryResponse<CourseType[]> => {
   };
 };
 
-export default useGetCourses;
+export default useGetLecturesBySection;

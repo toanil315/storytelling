@@ -1,21 +1,48 @@
 import { Col, Row } from "antd";
-import React, { Dispatch, SetStateAction } from "react";
+import { link } from "fs";
+import React, { Dispatch, SetStateAction, useRef } from "react";
 import { SubmitHandler } from "react-hook-form";
 import Box from "src/components/commons/Box";
 import Button from "src/components/commons/Button";
 import Text from "src/components/commons/Typography";
 import Form from "src/components/Form";
-import { newLectureSchema } from "src/utils/schemas/UploadCourseSchema";
-import { LectureType } from "src/utils/types/CourseTypes";
+import { LectureType } from "src/data-model/CourseTypes";
+import { formatDuration } from "src/utils/helpers/formatDuration";
+import { getDurationFromALink } from "src/utils/helpers/getDurationFromLink";
+import { lectureSchema } from "src/utils/schemas/UploadCourseSchema";
 
 interface Props {
   handleSubmit: (value: Partial<LectureType>) => void;
   mode: "create" | "edit";
   defaultValues?: Partial<LectureType>;
+  loading: boolean;
+  onCancel?: () => void;
 }
 
-const LectureForm = ({ handleSubmit, defaultValues, mode }: Props) => {
-  const onSubmit: SubmitHandler<Partial<LectureType>> = (data) => {
+const emptyDefaultValues = {
+  description: "",
+  duration: "",
+  thumbnailUrl: "",
+  title: "",
+  url: "",
+  isLock: true,
+};
+
+const LectureForm = ({
+  handleSubmit,
+  defaultValues = emptyDefaultValues,
+  mode,
+  loading,
+  onCancel,
+}: Props) => {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  const onSubmit: SubmitHandler<Partial<LectureType>> = async (data) => {
+    const durationOfVideo = await getDurationFromALink(
+      videoRef,
+      data.url as string
+    );
+    data.duration = String(Math.trunc(durationOfVideo) / 60);
     handleSubmit && handleSubmit(data);
   };
 
@@ -29,27 +56,30 @@ const LectureForm = ({ handleSubmit, defaultValues, mode }: Props) => {
       margin="0 auto"
       bg="white"
     >
-      <Text fontSize="sm" fontWeight="medium" lineHeight="normal" color="text">
-        {mode === "create" ? "New" : "Edit"} Lecture:
-      </Text>
       <Form
         width="100%"
-        margin="30px 0 0 0"
-        defaultValues={
-          mode === "create"
-            ? {
-                title: "",
-                video: "",
-                thumbnail: "",
-              }
-            : defaultValues
-        }
+        defaultValues={defaultValues}
         onSubmit={onSubmit}
-        schema={newLectureSchema}
+        schema={lectureSchema}
       >
         {({ control }) => (
           <>
-            <Box as={Row} width="100%" gutter={[20, 30]}>
+            <Box className="flex items-center justify-between">
+              <Box
+                as={Text}
+                fontSize="sm"
+                fontWeight="medium"
+                lineHeight="normal"
+                color="text"
+                padding="10px 0"
+              >
+                {mode === "create" ? "New" : "Edit"} Lecture:
+              </Box>
+              <Box>
+                <Form.Switch label="Private" name="isLock" control={control} />
+              </Box>
+            </Box>
+            <Box as={Row} width="calc(100% + 20px)" gutter={[20, 30]}>
               <Col span={24}>
                 <Form.Input
                   placeholder="Enter lecture title here"
@@ -61,33 +91,64 @@ const LectureForm = ({ handleSubmit, defaultValues, mode }: Props) => {
               <Col span={12}>
                 <Form.FileUpload
                   label="Lecture Video"
-                  name="video"
+                  name="url"
                   control={control}
+                  accept="video"
                 />
               </Col>
               <Col span={12}>
                 <Form.FileUpload
                   label="Thumbnail"
-                  name="thumbnail"
+                  name="thumbnailUrl"
                   control={control}
+                />
+              </Col>
+              <Col span={24}>
+                <Form.Input
+                  as="textEditor"
+                  label="Description"
+                  name="description"
+                  control={control}
+                  placeholder="Enter description of lecture here..."
                 />
               </Col>
             </Box>
 
             <Box width="100%">
               {mode === "create" ? (
-                <Box as={Button} type="submit" margin="13px 0 0 auto">
+                <Box
+                  loading={loading}
+                  as={Button}
+                  type="submit"
+                  margin="13px 0 0 auto"
+                >
                   Add Lecture
                 </Box>
               ) : (
-                <Box as={Button} type="submit" margin="13px 0 0 auto">
-                  Update Lecture
+                <Box className="flex justify-end" margin="13px 0 0 0px">
+                  <Button
+                    onClick={onCancel && onCancel}
+                    $type="white"
+                    type="button"
+                    width="20%"
+                  >
+                    <Box padding="0 20px">Cancel</Box>
+                  </Button>
+                  <Box
+                    loading={loading}
+                    as={Button}
+                    type="submit"
+                    margin="0 0 0 15px"
+                  >
+                    Update Lecture
+                  </Box>
                 </Box>
               )}
             </Box>
           </>
         )}
       </Form>
+      <video ref={videoRef} style={{ display: "none" }} src="" />
     </Box>
   );
 };

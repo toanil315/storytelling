@@ -8,12 +8,12 @@ export default async function Upload(
   type: string
 ) {
   try {
-    const { data } = await axiosClient.post(
+    const data: { url: string } = await axiosClient.post(
       `/upload/${type}`,
       formData,
       config
     );
-    return data.data.url;
+    return data.url;
   } catch (error) {
     toast.error(i18next.t("toast.error.uploadFile") as string);
   }

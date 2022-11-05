@@ -17,11 +17,15 @@ export interface CategoryBase {
   name: string;
 }
 
-export interface LectureType {
-  id: string;
+export interface LectureBase {
+  description: string;
+  duration: string;
+  thumbnailUrl: string;
   title: string;
-  video: string;
-  thumbnail: string;
+  url: string;
+  isLock: boolean;
+  userId: string;
+  sectionId: string;
 }
 
 export interface CourseType extends CourseBase {
@@ -29,9 +33,12 @@ export interface CourseType extends CourseBase {
   isActived: boolean;
 }
 
+export interface LectureType extends LectureBase {
+  id: string;
+}
+
 export interface SectionType extends SectionBase {
   id: string;
-  lectures: LectureType[];
 }
 
 export interface CategoryType extends CategoryBase {

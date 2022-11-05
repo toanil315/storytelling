@@ -58,7 +58,7 @@ const InformationForm = ({
       description: JSON.stringify(data.description),
       thumbnailUrl: data.thumbnailUrl,
       categoryTopicId: data.categoryTopicId,
-      userId: user.userId,
+      userId: user?.userId,
     };
 
     if (mode === "create") {

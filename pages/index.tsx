@@ -1,4 +1,3 @@
-import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import { CourseType } from "src/data-model/CourseTypes";
 import { BASE_URL } from "src/utils/constants";
@@ -21,7 +20,7 @@ const Home: NextPageWithLayout = ({ courses }: Props) => {
 };
 
 export const getServerSideProps = async () => {
-  const result = await fetch(`${BASE_URL}/courses?page=1&limit=10`);
+  const result = await fetch(`${BASE_URL}/courses?page=1&limit=100`);
   const data = await result.json();
   return {
     props: {
