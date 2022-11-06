@@ -31,6 +31,7 @@ const CourseDetailContainer = ({ course }: Props) => {
   useEffect(() => {
     setDescription(HTMLReactParser(JSON.parse(course.description)));
   }, [setDescription, course.description]);
+
   return (
     <Box as={Row} width="100%" gutter={[10, 0]}>
       <Col span={17}>
@@ -116,7 +117,7 @@ const CourseDetailContainer = ({ course }: Props) => {
               Course Content:
             </Text>
             <Box margin="10px 0 0">
-              <CourseContents />
+              <CourseContents courseId={course.id} />
             </Box>
           </Box>
         </Box>
@@ -151,7 +152,7 @@ const CourseDetailContainer = ({ course }: Props) => {
             as={Text}
             padding="10px 0"
           >
-            19.99$
+            {formatNumber(course.price)}$
           </Box>
           <Box as={Button} width="100%" margin="15px 0">
             Enroll Now

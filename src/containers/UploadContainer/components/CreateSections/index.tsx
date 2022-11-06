@@ -33,7 +33,6 @@ const CreateSections = ({ courseId }: Props) => {
   }, [isLoading, sections]);
 
   const handleAddSection = (sectionName: string) => {
-    console.log("add");
     createSection({
       name: sectionName,
       courseId,

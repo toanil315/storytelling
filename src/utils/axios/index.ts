@@ -24,8 +24,8 @@ axiosClient.interceptors.request.use(
 );
 
 axiosClient.interceptors.response.use(
-  function (response) {
-    return response;
+  function ({ data }) {
+    return data;
   },
   async function (error) {
     const originalConfig = error.config;

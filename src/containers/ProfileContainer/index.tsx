@@ -67,14 +67,6 @@ const ProfileContainer = () => {
         <Text fontSize="base" fontWeight="medium" lineHeight="large">
           My Courses:
         </Text>
-        <div className="grid grid-cols-3 gap-x-4 gap-y-8 mt-4">
-          {/* <VideoCard />
-          <VideoCard />
-          <VideoCard />
-          <VideoCard />
-          <VideoCard />
-          <VideoCard /> */}
-        </div>
       </Box>
       <InformationModal modal={modal} />
     </Box>

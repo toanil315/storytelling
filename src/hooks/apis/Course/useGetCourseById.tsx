@@ -15,7 +15,7 @@ const useGetCourseById = (courseId?: string): UseQueryResponse<CourseType> => {
 
   return {
     // simulate api get course by id
-    data: data?.data.data.find((item: CourseType) => item.id === courseId),
+    data: data?.data?.find((item: CourseType) => item.id === courseId),
     isLoading,
     isError,
     isSuccess,

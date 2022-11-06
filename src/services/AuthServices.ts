@@ -1,16 +1,17 @@
 import { axiosClient } from "src/utils/axios";
-import { UserLogin, UserRegister } from "src/data-model/UserTypes";
+import { UserLogin, UserRegister, UserType } from "src/data-model/UserTypes";
+import { CustomAxiosResponse } from "src/utils/types/CustomAxiosReponse";
 
 export const authService = {
-  login: (loginData: UserLogin) => {
+  login: (loginData: UserLogin): Promise<CustomAxiosResponse<any>> => {
     return axiosClient.post("/login", loginData);
   },
 
-  register: (registerData: UserRegister) => {
+  register: (registerData: UserRegister): Promise<CustomAxiosResponse<any>> => {
     return axiosClient.post("/register", registerData);
   },
 
-  getMe: () => {
+  getMe: (): Promise<CustomAxiosResponse<UserType>> => {
     return axiosClient.get("/me");
   },
 

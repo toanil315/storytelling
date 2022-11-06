@@ -58,7 +58,8 @@ export const QUERY_KEYS = {
   GET_CATEGORY: "GET_CATEGORY",
   GET_COURSES: "GET_COURSES",
   GET_COURSE_DETAIL: "GET_COURSE_DETAIL",
-  GET_SECTIONS: "sections",
+  GET_SECTIONS: "GET_SECTIONS",
+  GET_LECTURES_IN_SECTION: "GET_LECTURES_IN_SECTION",
 };
 
 export const USER_ROLES = {
@@ -69,3 +70,5 @@ export const USER_ROLES = {
 const dev = process.env.NODE_ENV !== "production";
 export const BASE_HOST = process.env.NEXT_PUBLIC_MY_HOST;
 export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
+export const DEFAULT_PAGINATION_SIZE_IN_PAGES = 16;

@@ -7,12 +7,15 @@ import Text from "../Typography";
 import Upload from "src/services/UploadServices";
 import CloseIcon from "src/components/icons/CloseIcon";
 import ErrorMessage from "../ErrorMessage";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 export interface FileUploadProps extends BoxProps {
   label?: string;
   onChange?: (value: string) => void;
   error?: { message?: string };
   isRequired?: boolean;
+  accept?: "video" | "image";
 }
 
 const FileUpload = ({
@@ -21,8 +24,10 @@ const FileUpload = ({
   onChange,
   isRequired,
   value,
+  accept = "image",
   ...restProps
 }: FileUploadProps) => {
+  const { t } = useTranslation();
   const { name } = restProps;
   const [showProgress, setShowProgress] = useState<boolean>(false);
   const [percentage, setPercentage] = useState<number>(0);
@@ -36,34 +41,43 @@ const FileUpload = ({
   }, [value, linkFile]);
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    // reset file upload component before upload new file to server
-    setShowProgress(true);
-    setPercentage(0);
-    setLinkFile("");
-
-    const formData = new FormData();
     const files = e.target.files;
     if (files) {
       const fileData = files[0];
       const fileType = files[0].type.split("/")[0];
-      formData.append("file", fileData);
 
-      const config = {
-        onUploadProgress: function (progressEvent: ProgressEvent) {
-          let percentCompleted = Math.round(
-            (progressEvent.loaded / progressEvent.total) * 100
-          );
-          if (percentCompleted === 100) {
-            percentCompleted -= 1;
-          }
-          setPercentage(percentCompleted);
-        },
-      };
+      if (fileType === accept) {
+        // reset file upload component before upload new file to server
+        setShowProgress(true);
+        setPercentage(0);
+        setLinkFile("");
 
-      const dataUpload = await Upload(formData, config, fileType);
-      setPercentage(100);
-      onChange && onChange(dataUpload);
-      setLinkFile(dataUpload);
+        const formData = new FormData();
+        formData.append("file", fileData);
+
+        const config = {
+          onUploadProgress: function (progressEvent: ProgressEvent) {
+            let percentCompleted = Math.round(
+              (progressEvent.loaded / progressEvent.total) * 100
+            );
+            if (percentCompleted === 100) {
+              percentCompleted -= 1;
+            }
+            setPercentage(percentCompleted);
+          },
+        };
+
+        const dataUpload = await Upload(formData, config, fileType);
+        setPercentage(100);
+        onChange && onChange(dataUpload ?? "");
+        setLinkFile(dataUpload ?? "");
+      } else {
+        toast.error(
+          t("toast.error.wrongFileType", {
+            fileType: accept === "image" ? "an image" : "a video",
+          }) as string
+        );
+      }
       e.target.value = "";
     }
   };
@@ -154,13 +168,15 @@ const FileUpload = ({
             {percentage === 100 || linkFile ? "Uploaded" : "Uploading..."}
           </Box>
           {percentage === 100 || linkFile ? (
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <a target="_blank" rel="noreferrer" href={linkFile}>
+            <Box className="flex items-center justify-center">
+              <a
+                className="flex-grow truncate"
+                target="_blank"
+                rel="noreferrer"
+                href={linkFile}
+              >
                 <Text
+                  className="truncate"
                   fontSize="sm"
                   fontWeight="regular"
                   lineHeight="large"
@@ -169,7 +185,7 @@ const FileUpload = ({
                   {linkFile}
                 </Text>
               </a>
-              <Box onClick={handleCancel} as="button">
+              <Box margin="0 0 0 10px" onClick={handleCancel} as="button">
                 <CloseIcon />
               </Box>
             </Box>

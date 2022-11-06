@@ -4,7 +4,7 @@ import { authService } from "src/services/AuthServices";
 import { QUERY_KEYS } from "src/utils/constants";
 
 const useUser = (): {
-  user: UserType;
+  user?: UserType;
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
@@ -15,7 +15,7 @@ const useUser = (): {
   );
 
   return {
-    user: data?.data.data,
+    user: data?.data,
     isLoading,
     isError,
     isSuccess,

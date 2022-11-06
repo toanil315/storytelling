@@ -7,11 +7,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Box from "src/components/commons/Box";
 import Text from "src/components/commons/Typography";
+import { Path } from "src/utils/Path";
 
 const StyledSidebarItem = ({ title, path, Icon }: RouteItem) => {
   const router = useRouter();
 
-  if (router.asPath === path) {
+  if (router.pathname === path) {
     return (
       <SidebarItemActive>
         <Icon />
@@ -45,14 +46,16 @@ const StyledSidebar = () => {
 
   return (
     <Box width="15%" height="100vh" bg="white" padding="33px 20px 40px">
-      <div className="relative w-40 h-6 mb-8">
-        <Image
-          src={"/assets/Logo.png"}
-          layout={"fill"}
-          objectFit={"cover"}
-          alt="logo"
-        />
-      </div>
+      <Link href={Path.home}>
+        <div className="relative w-40 h-6 mb-8">
+          <Image
+            src={"/assets/Logo.png"}
+            layout={"fill"}
+            objectFit={"cover"}
+            alt="logo"
+          />
+        </div>
+      </Link>
       <MenuWrapper>
         <Text fontSize="16px" fontWeight="500" lineHeight="24px" color="text">
           Menu

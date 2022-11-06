@@ -15,7 +15,7 @@ const CourseViewPage: NextPageWithLayout = ({ course }: Props) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const result = await fetch(`${BASE_URL}/courses?page=1&limit=10`);
+  const result = await fetch(`${BASE_URL}/courses?page=1&limit=100`);
   const data = await result.json();
 
   if (data) {
