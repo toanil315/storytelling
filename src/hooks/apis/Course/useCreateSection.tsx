@@ -38,7 +38,16 @@ const useCreateSection = (): {
         queryClient.setQueryData(
           [QUERY_KEYS.GET_SECTIONS, newSection.courseId],
           (old: any) => {
-            return [...old, { ...newSection, id: String(Date.now()) }];
+            console.log(old);
+            return {
+              ...old,
+              data: {
+                sections: [
+                  ...old.data.sections,
+                  { ...newSection, id: String(Date.now()) },
+                ],
+              },
+            };
           }
         );
 
@@ -57,7 +66,7 @@ const useCreateSection = (): {
       // Always refetch after error or success:
       onSettled: (newSection) => {
         queryClient.invalidateQueries({
-          queryKey: [QUERY_KEYS.GET_SECTIONS, newSection?.courseId],
+          queryKey: [QUERY_KEYS.GET_SECTIONS, newSection?.data.courseId],
         });
       },
     }
@@ -67,7 +76,7 @@ const useCreateSection = (): {
     createSection: (sectionData: SectionBase) => {
       return mutate(sectionData);
     },
-    data,
+    data: data?.data,
     isLoading,
     isError,
     isSuccess,

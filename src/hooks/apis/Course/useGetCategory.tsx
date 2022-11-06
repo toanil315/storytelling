@@ -15,7 +15,7 @@ const useGetCategory = (): UseQueryResponse<CategoryType[]> => {
   );
 
   return {
-    data,
+    data: data?.data,
     isLoading,
     isError,
     isSuccess,

@@ -15,7 +15,7 @@ const useUser = (): {
   );
 
   return {
-    user: data,
+    user: data?.data,
     isLoading,
     isError,
     isSuccess,

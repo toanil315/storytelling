@@ -38,7 +38,10 @@ const useCreateLecture = (): {
         queryClient.setQueryData(
           [QUERY_KEYS.GET_LECTURES_IN_SECTION, newLecture.sectionId],
           (old: any) => {
-            return [...old, { ...newLecture, id: String(Date.now()) }];
+            return {
+              ...old,
+              data: [...old.data, { ...newLecture, id: String(Date.now()) }],
+            };
           }
         );
 
@@ -55,7 +58,10 @@ const useCreateLecture = (): {
       // Always refetch after error or success:
       onSettled: (newLecture) => {
         queryClient.invalidateQueries({
-          queryKey: [QUERY_KEYS.GET_LECTURES_IN_SECTION, newLecture?.sectionId],
+          queryKey: [
+            QUERY_KEYS.GET_LECTURES_IN_SECTION,
+            newLecture?.data.sectionId,
+          ],
         });
       },
     }
@@ -65,7 +71,7 @@ const useCreateLecture = (): {
     createLecture: (lectureData: LectureBase) => {
       return mutate(lectureData);
     },
-    data,
+    data: data?.data,
     isLoading,
     isError,
     isSuccess,

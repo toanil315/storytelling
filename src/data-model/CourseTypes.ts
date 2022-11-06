@@ -35,6 +35,9 @@ export interface CourseType extends CourseBase {
 
 export interface LectureType extends LectureBase {
   id: string;
+  createdAt: string;
+  deletedAt: string;
+  updatedAt: string;
 }
 
 export interface SectionType extends SectionBase {

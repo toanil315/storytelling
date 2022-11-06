@@ -29,7 +29,7 @@ const useCreateCourse = (): {
     createCourse: (courseData: Partial<CourseType>) => {
       return mutate(courseData);
     },
-    data,
+    data: data?.data,
     isLoading,
     isError,
     isSuccess,

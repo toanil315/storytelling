@@ -70,3 +70,5 @@ export const USER_ROLES = {
 const dev = process.env.NODE_ENV !== "production";
 export const BASE_HOST = process.env.NEXT_PUBLIC_MY_HOST;
 export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
+export const DEFAULT_PAGINATION_SIZE_IN_PAGES = 16;

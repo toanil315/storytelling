@@ -41,7 +41,12 @@ const useUpdateLecture = (): {
         queryClient.setQueryData(
           [QUERY_KEYS.GET_LECTURES_IN_SECTION, updatedLecture.sectionId],
           (old: any) => {
-            return [...old, updatedLecture];
+            const newLectures = [...old.data];
+            const updatedIndex = newLectures.findIndex(
+              (item) => item.id === updatedLecture.id
+            );
+            newLectures[updatedIndex] = updatedLecture;
+            return { ...old, data: [...newLectures] };
           }
         );
 
@@ -59,7 +64,7 @@ const useUpdateLecture = (): {
         queryClient.invalidateQueries({
           queryKey: [
             QUERY_KEYS.GET_LECTURES_IN_SECTION,
-            updatedLecture?.sectionId,
+            updatedLecture?.data.sectionId,
           ],
         });
       },
@@ -70,7 +75,7 @@ const useUpdateLecture = (): {
     updateLecture: (lectureData: LectureType) => {
       return mutate(lectureData);
     },
-    data,
+    data: data?.data,
     isLoading,
     isError,
     isSuccess,

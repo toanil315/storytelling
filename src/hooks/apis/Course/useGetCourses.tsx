@@ -11,7 +11,7 @@ const useGetCourses = (): UseQueryResponse<CourseType[]> => {
   );
 
   return {
-    data,
+    data: data?.data,
     isLoading,
     isError,
     isSuccess,

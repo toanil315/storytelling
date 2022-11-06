@@ -11,7 +11,7 @@ const useGetSection = (courseId: string): UseQueryResponse<SectionType[]> => {
   );
 
   return {
-    data,
+    data: data?.data.sections,
     isLoading,
     isError,
     isSuccess,

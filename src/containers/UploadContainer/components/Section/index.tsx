@@ -14,10 +14,12 @@ import {
 import LectureForm from "../LectureForm";
 import EditIcon from "src/components/icons/EditIcon";
 import PlusIcon from "src/components/icons/PlusIcon";
-import { useUser } from "src/hooks/apis";
-import useGetLecturesBySection from "src/hooks/apis/Course/useGetLecturesBySection";
-import useCreateLecture from "src/hooks/apis/Course/useCreateLecture";
-import useUpdateLecture from "src/hooks/apis/Course/useUpdateLecture";
+import {
+  useCreateLecture,
+  useGetLecturesBySection,
+  useUpdateLecture,
+  useUser,
+} from "src/hooks/apis";
 
 interface Props {
   section: SectionType;
@@ -122,8 +124,7 @@ const Lecture = ({ lectureIndex, lecture }: LectureProps) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const handleEditLecture = async (data: Partial<LectureType>) => {
-    const { thumnailUrl, createdAt, deletedAt, updatedAt, ...restLectureData } =
-      data;
+    const { createdAt, deletedAt, updatedAt, ...restLectureData } = data;
     await updateLecture(restLectureData as LectureType);
     setIsEdit(false);
   };

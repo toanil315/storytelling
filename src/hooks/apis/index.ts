@@ -9,3 +9,6 @@ export { default as useGetCourseById } from "./Course/useGetCourseById";
 export { default as useGetCourses } from "./Course/useGetCourses";
 export { default as useGetSection } from "./Course/useGetSection";
 export { default as useUpdateCourse } from "./Course/useUpdateCourse";
+export { default as useCreateLecture } from "./Course/useCreateLecture";
+export { default as useUpdateLecture } from "./Course/useUpdateLecture";
+export * from "./Course/useGetLecturesBySection";

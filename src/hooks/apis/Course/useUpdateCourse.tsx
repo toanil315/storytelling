@@ -23,7 +23,7 @@ const useUpdateCourse = (): {
       },
       onSuccess: (data) => {
         toast.success(t("toast.success.updateCourse"));
-        client.refetchQueries([QUERY_KEYS.GET_COURSE_DETAIL, data.id]);
+        client.refetchQueries([QUERY_KEYS.GET_COURSE_DETAIL, data.data.id]);
       },
     }
   );
@@ -32,7 +32,7 @@ const useUpdateCourse = (): {
     updateCourse: (courseData, courseId) => {
       return mutate({ courseData, courseId });
     },
-    data,
+    data: data?.data,
     isLoading,
     isError,
     isSuccess,

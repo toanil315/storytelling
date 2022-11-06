@@ -22,7 +22,7 @@ const useSignIn = () => {
   const { mutate, isLoading, isError, isSuccess } = useMutation(
     authService.login,
     {
-      onSuccess: ({ data }) => {
+      onSuccess: (data) => {
         // Set tokens
         const date = new Date();
         const { token, refreshToken } = data.data;
