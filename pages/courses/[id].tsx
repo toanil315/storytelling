@@ -1,4 +1,4 @@
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { NextPageWithLayout } from "pages/_app";
 import React from "react";
 import CourseDetailContainer from "src/containers/CourseDetailContainer";
@@ -14,24 +14,23 @@ const CourseViewPage: NextPageWithLayout = ({ course }: Props) => {
   return <CourseDetailContainer course={course} />;
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const result = await fetch(`${BASE_URL}/courses?page=1&limit=100`);
-  const data = await result.json();
-
-  if (data) {
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const result = await fetch(`${BASE_URL}/courses/${context.params?.id}`);
+  if (!result.ok) {
     return {
-      props: {
-        course: data.data.find(
-          (item: CourseType) => item.id === context.params?.id
-        ),
+      redirect: {
+        destination: `/${Path.error}`,
+        permanent: false,
       },
     };
   }
 
+  const data = await result.json();
   return {
-    redirect: {
-      destination: Path.error,
-      permanent: false,
+    props: {
+      course: data.data,
     },
   };
 

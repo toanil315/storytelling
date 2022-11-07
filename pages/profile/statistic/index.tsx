@@ -1,6 +1,13 @@
 import Head from "next/head";
-import StatisticContainer from "src/containers/StatisticContainer";
 import { NextPageWithLayout } from "../../_app";
+import dynamic from "next/dynamic";
+
+const StatisticContainer = dynamic(
+  () => import("src/containers/StatisticContainer"),
+  {
+    ssr: false,
+  }
+);
 
 const Statistic: NextPageWithLayout = () => {
   return (

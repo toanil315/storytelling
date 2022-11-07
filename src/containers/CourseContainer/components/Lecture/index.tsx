@@ -5,13 +5,11 @@ import Text from "src/components/commons/Typography";
 import PlayIcon from "src/components/icons/PlayIcon";
 import CheckMarkIcon from "src/components/icons/CheckMarkIcon";
 import { LectureWrapper } from "./styles";
+import { LectureType } from "src/data-model/CourseTypes";
+import { formatDuration } from "src/utils/helpers/formatDuration";
 
 interface Props {
-  lecture: {
-    name: string;
-    link: string;
-    thumbnail: string;
-  };
+  lecture: LectureType;
   index: number;
 }
 
@@ -34,13 +32,13 @@ const Lecture = ({ lecture, index }: Props) => {
           lineHeight="large"
           color="text"
         >
-          {index}. {lecture.name}
+          {index}. {lecture.title}
         </Text>
         <Box display="flex" alignItems="center" margin="5px 0 0">
           <Box margin="0 5px 0 0">
             <PlayIcon width={14} height={14} />
           </Box>{" "}
-          6min
+          {formatDuration(Number(lecture.duration) * 60)}
         </Box>
       </Box>
     </LectureWrapper>

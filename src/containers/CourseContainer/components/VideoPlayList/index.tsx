@@ -1,68 +1,20 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import Box from "src/components/commons/Box";
-import Collapse from "src/components/commons/Collapse";
 import Text from "src/components/commons/Typography";
+import { SectionType } from "src/data-model/CourseTypes";
 import Section from "../Section";
 
-const sections = [
-  {
-    name: "Basic of Micro Front-End",
-    lectures: [
-      {
-        name: "Joint Our Comunity",
-        link: "https://res.cloudinary.com/toanil315/video/upload/v1665667912/pbl-6/file_example_MP4_480_1_5MG_fpvphz.mp4",
-        thumbnail: "",
-      },
-      {
-        name: "Course Resources",
-        link: "https://res.cloudinary.com/toanil315/video/upload/v1665667912/pbl-6/file_example_MP4_480_1_5MG_fpvphz.mp4",
-        thumbnail: "",
-      },
-      {
-        name: "abc",
-        link: "https://res.cloudinary.com/toanil315/video/upload/v1665667912/pbl-6/file_example_MP4_480_1_5MG_fpvphz.mp4",
-        thumbnail: "",
-      },
-      {
-        name: "abc",
-        link: "https://res.cloudinary.com/toanil315/video/upload/v1665667912/pbl-6/file_example_MP4_480_1_5MG_fpvphz.mp4",
-        thumbnail: "",
-      },
-      {
-        name: "abc",
-        link: "https://res.cloudinary.com/toanil315/video/upload/v1665667912/pbl-6/file_example_MP4_480_1_5MG_fpvphz.mp4",
-        thumbnail: "",
-      },
-      {
-        name: "abc",
-        link: "https://res.cloudinary.com/toanil315/video/upload/v1665667912/pbl-6/file_example_MP4_480_1_5MG_fpvphz.mp4",
-        thumbnail: "",
-      },
-      {
-        name: "abc",
-        link: "https://res.cloudinary.com/toanil315/video/upload/v1665667912/pbl-6/file_example_MP4_480_1_5MG_fpvphz.mp4",
-        thumbnail: "",
-      },
-      {
-        name: "abc",
-        link: "https://res.cloudinary.com/toanil315/video/upload/v1665667912/pbl-6/file_example_MP4_480_1_5MG_fpvphz.mp4",
-        thumbnail: "",
-      },
-    ],
-  },
-];
-
 interface Props {
-  height: number;
+  sections: SectionType[];
 }
 
-const VideoPlayList = ({ height }: Props) => {
+const VideoPlayList = ({ sections }: Props) => {
   const { t } = useTranslation();
 
   const renderCoursePlayList = () => {
-    return sections.map((section, index) => {
-      return <Section key={index} index={index + 1} {...section} />;
+    return sections?.map((section, index) => {
+      return <Section key={section.id} index={index + 1} section={section} />;
     });
   };
 
@@ -71,9 +23,11 @@ const VideoPlayList = ({ height }: Props) => {
       overflow="auto"
       borderRadius="md"
       width="100%"
-      height={`${height}px`}
+      height="100%"
       bg="white"
       style={{ overflowY: "auto" }}
+      border="1px solid"
+      borderColor="#d0d0cc"
     >
       <Box
         as={Text}

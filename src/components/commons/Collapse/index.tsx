@@ -3,6 +3,7 @@ import Box, { BoxProps } from "../Box";
 import { CollapseArrow, CollapseHeader } from "./styles";
 import DropDownIcon from "src/components/icons/DropDownIcon";
 import RightIcon from "src/components/icons/RightIcon";
+import Text from "../Typography";
 
 interface Props extends BoxProps {
   header: JSX.Element | JSX.Element[] | string | number | undefined;
@@ -16,7 +17,7 @@ const Collapse = ({ header, children, ...restProps }: Props) => {
   return (
     <Box>
       <CollapseHeader onClick={toggleChildList}>
-        {header}{" "}
+        {header}
         <CollapseArrow>
           {isExpand ? <DropDownIcon /> : <RightIcon />}
         </CollapseArrow>

@@ -43,6 +43,7 @@ const LectureForm = ({
       data.url as string
     );
     data.duration = String(Math.trunc(durationOfVideo) / 60);
+    data.description = JSON.stringify(data.description);
     handleSubmit && handleSubmit(data);
   };
 

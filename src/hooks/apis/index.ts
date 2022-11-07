@@ -11,4 +11,7 @@ export { default as useGetSection } from "./Course/useGetSection";
 export { default as useUpdateCourse } from "./Course/useUpdateCourse";
 export { default as useCreateLecture } from "./Course/useCreateLecture";
 export { default as useUpdateLecture } from "./Course/useUpdateLecture";
+export { default as useGetCoursesByInstructor } from "./Course/useGetCoursesByInstructor";
+export { default as useGetLectureById } from "./Course/useGetLectureById";
+
 export * from "./Course/useGetLecturesBySection";

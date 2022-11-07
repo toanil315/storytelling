@@ -32,6 +32,10 @@ const CourseDetailContainer = ({ course }: Props) => {
     setDescription(HTMLReactParser(JSON.parse(course.description)));
   }, [setDescription, course.description]);
 
+  useEffect(() => {
+    window.scrollY = 0;
+  }, []);
+
   return (
     <Box as={Row} width="100%" gutter={[10, 0]}>
       <Col span={17}>
