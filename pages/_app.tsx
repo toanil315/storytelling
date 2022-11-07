@@ -17,6 +17,11 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Sentry from "@sentry/nextjs";
+import { Router } from "next/router";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
+
+NProgress.settings.showSpinner = false;
 
 export type NextPageWithLayout<P = any, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -95,6 +100,20 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   //     console.log({ ...error });
   //   }
   // }, []);
+
+  useEffect(() => {
+    Router.events.on("routeChangeStart", (url) => {
+      NProgress.start();
+    });
+
+    Router.events.on("routeChangeComplete", (url) => {
+      NProgress.done();
+    });
+
+    Router.events.on("routeChangeError", (url) => {
+      NProgress.done();
+    });
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

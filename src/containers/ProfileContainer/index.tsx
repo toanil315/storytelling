@@ -5,6 +5,7 @@ import Button from "src/components/commons/Button";
 import ImageComponent from "src/components/commons/Image";
 import Text from "src/components/commons/Typography";
 import CourseCard from "src/components/CourseCard";
+import { useGetCoursesByInstructor, useUser } from "src/hooks/apis";
 import useModal from "src/hooks/useModal";
 import { Path } from "src/utils/Path";
 import InformationModal from "./components/InformationModal";
@@ -13,6 +14,14 @@ import { ProfileHeader, ProfileImage } from "./styles";
 const ProfileContainer = () => {
   const modal = useModal();
   const router = useRouter();
+  const { user } = useUser();
+  const { data: courses, isLoading } = useGetCoursesByInstructor(user?.userId);
+
+  const renderCourseList = () => {
+    return courses?.map((courseItem) => (
+      <CourseCard key={courseItem.id} course={courseItem} />
+    ));
+  };
 
   return (
     <Box maxWidth="911px" margin="40px auto 0">
@@ -59,7 +68,7 @@ const ProfileContainer = () => {
             margin="0 0 0 10px"
             onClick={() => router.push(Path.statistic)}
           >
-            View Statistic
+            Statistic
           </Box>
         </Box>
       </ProfileHeader>
@@ -67,6 +76,9 @@ const ProfileContainer = () => {
         <Text fontSize="base" fontWeight="medium" lineHeight="large">
           My Courses:
         </Text>
+        <Box margin="20px 0 0" className="grid grid-cols-3 gap-x-4 gap-y-8">
+          {renderCourseList()}
+        </Box>
       </Box>
       <InformationModal modal={modal} />
     </Box>

@@ -17,6 +17,14 @@ export const courseService = {
   getCourses: (): Promise<CustomAxiosResponseWithPagination<CourseType[]>> =>
     axiosClient.get("/courses"),
 
+  getCourseById: (courseId: string): Promise<CustomAxiosResponse<CourseType>> =>
+    axiosClient.get(`/courses/${courseId}`),
+
+  getCourseByInstructor: (
+    instructorId: string
+  ): Promise<CustomAxiosResponse<CourseType[]>> =>
+    axiosClient.get(`/users/courses/${instructorId}`),
+
   getCategories: (): Promise<CustomAxiosResponse<CategoryType[]>> =>
     axiosClient.get("/category-topics"),
 
@@ -28,7 +36,12 @@ export const courseService = {
   getLecturesOfSection: (
     sectionId: string
   ): Promise<CustomAxiosResponse<LectureType[]>> =>
-    axiosClient.get(`sections/${sectionId}/videos`),
+    axiosClient.get(`/sections/${sectionId}/videos`),
+
+  getLectureById: (
+    lectureId: string
+  ): Promise<CustomAxiosResponse<LectureType>> =>
+    axiosClient.get(`/videos/${lectureId}`),
 
   createCourse: (
     courseData: Partial<CourseType>

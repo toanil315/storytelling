@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface PaginationInitialParams {
   pageSize: number;
@@ -17,10 +17,6 @@ const usePagination = (
   const router = useRouter();
   const { page } = router.query;
 
-  useEffect(() => {
-    setPagination(Number(page));
-  }, [router.query.page]);
-
   const setPagination = (page: number) => {
     router.replace({
       query: {
@@ -29,6 +25,12 @@ const usePagination = (
       },
     });
   };
+
+  /* eslint-disable */
+  useEffect(() => {
+    setPagination(Number(page));
+  }, [page]);
+  /* eslint-enable */
 
   return {
     page: Number(page),

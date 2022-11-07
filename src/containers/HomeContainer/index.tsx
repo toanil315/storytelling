@@ -38,6 +38,7 @@ const HomeContainer = ({ courses, pagination }: Props) => {
         <Pagination
           pagination={paginationHelper}
           current={paginationHelper.page}
+          pageSize={paginationHelper.pageSize}
           total={pagination.total_count}
         />
       </Box>
