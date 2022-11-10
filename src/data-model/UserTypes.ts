@@ -10,6 +10,7 @@ export interface UserRegister extends UserBase {
 }
 
 export interface UserType extends UserBase {
+  fullName: string;
   userId: string;
   role: string;
 }
