@@ -263,7 +263,7 @@ const UserDropdown = () => {
       {
         id: 1,
         label: (
-          <Link href={Path.profile}>
+          <Link href={`${Path.profile}/me`}>
             <Text>Profile</Text>
           </Link>
         ),
@@ -281,7 +281,7 @@ const UserDropdown = () => {
   );
 
   return (
-    <Box width="100px">
+    <Box width="140px">
       <StyledMenu
         items={userDropdownOptions.map((option) => {
           return {

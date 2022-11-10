@@ -11,11 +11,18 @@ import { Path } from "src/utils/Path";
 import InformationModal from "./components/InformationModal";
 import { ProfileHeader, ProfileImage } from "./styles";
 
-const ProfileContainer = () => {
+interface Props {
+  mode: "me" | "instructor";
+  instructorId: string;
+}
+
+const ProfileContainer = ({ mode, instructorId }: Props) => {
   const modal = useModal();
   const router = useRouter();
   const { user } = useUser();
-  const { data: courses, isLoading } = useGetCoursesByInstructor(user?.userId);
+  const { data: courses, isLoading } = useGetCoursesByInstructor(
+    mode === "me" ? user?.userId : instructorId
+  );
 
   const renderCourseList = () => {
     return courses?.map((courseItem) => (
@@ -38,7 +45,7 @@ const ProfileContainer = () => {
               lineHeight="xl"
               color="text"
             >
-              Maher Zain
+              {user?.fullName}
             </Text>
             <Box display="flex">
               <Box
@@ -48,10 +55,10 @@ const ProfileContainer = () => {
                 lineHeight="large"
                 padding="0 10px 0 0"
               >
-                56 Course
+                {courses?.length} Course{Number(courses?.length) > 1 ? "s" : ""}
               </Box>
               <Text fontSize="sm" fontWeight="regular" lineHeight="large">
-                94 Students
+                0 Students
               </Text>
             </Box>
           </Box>

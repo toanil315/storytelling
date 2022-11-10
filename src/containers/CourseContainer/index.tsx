@@ -21,7 +21,7 @@ const CourseContainer = ({ courseId }: Props) => {
   const { data: sections, isLoading: getSectionsLoading } =
     useGetSection(courseId);
   const { data: lectures, isLoading: getLecturesLoading } =
-    useGetLecturesBySection(sections?.[0].id ?? "");
+    useGetLecturesBySection(sections?.[0]?.id ?? "");
 
   useEffect(() => {
     if (!router.query.lectureId) {
