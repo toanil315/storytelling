@@ -10,8 +10,6 @@ import DefaultLayout from "src/layouts/DefaultLayout";
 import { ThemeProvider } from "styled-components";
 import theme from "styles/theme";
 import SockJS from "sockjs-client";
-import Stomp from "stompjs";
-import { ENV_VARIABLES } from "src/utils/constants";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { ToastContainer } from "react-toastify";
@@ -58,48 +56,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   // Use the layout defined at the page level, if available
   const getLayout =
     Component.getLayout ?? ((page) => <DefaultLayout>{page}</DefaultLayout>);
-
-  // useEffect(() => {
-  //   const initRabbitConnection = async () => {
-  //     const result = await fetch(
-  //       "http://103.173.255.221:8080/v1/notifications/endpoint/ffb141ea-6a78-4e23-a9b3-073cca3de065"
-  //     );
-  //     const { data } = await result.json();
-  //     return data;
-  //   };
-
-  //   try {
-  //     const ws = new WebSocket(ENV_VARIABLES.WS_URL);
-  //     const stompClient = Stomp.over(ws);
-  //     stompClient.debug = function () {};
-  //     stompClient.connect(
-  //       ENV_VARIABLES.WS_LOGIN,
-  //       ENV_VARIABLES.WS_PASS_CODE,
-  //       async (frame) => {
-  //         const data = await initRabbitConnection();
-  //         stompClient.subscribe(
-  //           `/queue/${data}`,
-  //           (newContent) => {
-  //             console.log("newContent: ", JSON.parse(newContent.body));
-  //           },
-  //           {
-  //             id: ENV_VARIABLES.WS_MY_SUB_ID + "-" + (data || ""),
-  //             durable: "false",
-  //             exclusive: "false",
-  //             ack: "client",
-  //             "auto-delete": "false",
-  //           }
-  //         );
-  //       },
-  //       () => {
-  //         console.log("error");
-  //       },
-  //       "/"
-  //     );
-  //   } catch (error: any) {
-  //     console.log({ ...error });
-  //   }
-  // }, []);
 
   useEffect(() => {
     Router.events.on("routeChangeStart", (url) => {

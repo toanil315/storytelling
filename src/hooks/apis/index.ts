@@ -14,4 +14,6 @@ export { default as useUpdateLecture } from "./Course/useUpdateLecture";
 export { default as useGetCoursesByInstructor } from "./Course/useGetCoursesByInstructor";
 export { default as useGetLectureById } from "./Course/useGetLectureById";
 
+export { default as useGetCommentsOfVideo } from "./Course/useGetCommentsOfVideo";
+
 export * from "./Course/useGetLecturesBySection";

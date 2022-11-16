@@ -27,10 +27,18 @@ import { localStorageClient } from "src/utils/localStorageClient";
 import { clearTokens } from "src/utils/axios/helper";
 import { useQueryClient } from "react-query";
 import { useUser } from "src/hooks/apis";
+import RealTimeServices from "src/services/RealTimeServices";
 
 const Header = () => {
   const router = useRouter();
   const { user, isError } = useUser();
+
+  useEffect(() => {
+    if (user && user.userId) {
+      const realTimeServices = new RealTimeServices();
+      realTimeServices.init(user.userId);
+    }
+  }, [user]);
 
   return (
     <HeaderWrapper height="50px">

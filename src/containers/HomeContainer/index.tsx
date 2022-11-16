@@ -4,7 +4,7 @@ import { HomeContainerWrapper, Section, Title } from "./style";
 import { useTranslation } from "react-i18next";
 import { CourseType } from "src/data-model/CourseTypes";
 import Pagination from "src/components/Pagination";
-import { PaginationType } from "src/utils/types/CustomAxiosReponse";
+import { PaginationType } from "src/utils/types/CustomAxiosResponse";
 import { usePagination } from "src/hooks";
 import { DEFAULT_PAGINATION_SIZE_IN_PAGES } from "src/utils/constants";
 import Box from "src/components/commons/Box";

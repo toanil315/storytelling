@@ -51,7 +51,7 @@ const CourseContainer = ({ courseId }: Props) => {
               <VideoPlay />
             </Col>
             <Box as={Col} span={24}>
-              <Comments />
+              <Comments videoId={router.query.lectureId as string} />
             </Box>
           </Box>
         </Col>

@@ -11,7 +11,7 @@ import { axiosClient } from "src/utils/axios";
 import {
   CustomAxiosResponse,
   CustomAxiosResponseWithPagination,
-} from "src/utils/types/CustomAxiosReponse";
+} from "src/utils/types/CustomAxiosResponse";
 
 export const courseService = {
   getCourses: (): Promise<CustomAxiosResponseWithPagination<CourseType[]>> =>

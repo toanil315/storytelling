@@ -1,11 +1,14 @@
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
+import { useEffect } from "react";
 import { CourseType } from "src/data-model/CourseTypes";
+import { useUser } from "src/hooks/apis";
+import RealTimeServices from "src/services/RealTimeServices";
 import {
   BASE_URL,
   DEFAULT_PAGINATION_SIZE_IN_PAGES,
 } from "src/utils/constants";
-import { PaginationType } from "src/utils/types/CustomAxiosReponse";
+import { PaginationType } from "src/utils/types/CustomAxiosResponse";
 import HomeContainer from "../src/containers/HomeContainer";
 import { NextPageWithLayout } from "./_app";
 
@@ -15,6 +18,8 @@ interface Props {
 }
 
 const Home: NextPageWithLayout = ({ courses, pagination }: Props) => {
+  const { user } = useUser();
+
   return (
     <>
       <Head>
