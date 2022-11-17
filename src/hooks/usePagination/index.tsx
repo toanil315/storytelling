@@ -29,7 +29,7 @@ const usePagination = (
   /* eslint-disable */
   useEffect(() => {
     setPagination(Number(page));
-  }, [page]);
+  }, []);
   /* eslint-enable */
 
   return {

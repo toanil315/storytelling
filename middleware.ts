@@ -6,7 +6,7 @@ import {
   REFRESH_TOKEN,
 } from "src/utils/constants";
 import { Path } from "src/utils/Path";
-import * as Sentry from "@sentry/nextjs";
+import { default as Sentry } from "@sentry/nextjs";
 
 export async function middleware(req: NextRequest) {
   try {

@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import { NextPageWithLayout } from "pages/_app";

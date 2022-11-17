@@ -1,9 +1,7 @@
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
-import { useEffect } from "react";
 import { CourseType } from "src/data-model/CourseTypes";
 import { useUser } from "src/hooks/apis";
-import RealTimeServices from "src/services/RealTimeServices";
 import {
   BASE_URL,
   DEFAULT_PAGINATION_SIZE_IN_PAGES,
