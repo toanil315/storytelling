@@ -25,12 +25,7 @@ const SignUpContainer = () => {
   const { register, isLoading, isError, isSuccess } = useSignUp();
   const onSubmit: SubmitHandler<SignUpInputProps> = async (data) => {
     delete data.confirmPassword;
-    try {
-      await register(data);
-      toast.success(t("toast.success.register"));
-    } catch (error) {
-      toast.error(t("toast.error.register"));
-    }
+    await register(data);
   };
 
   const fieldsSignUp = useMemo(

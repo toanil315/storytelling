@@ -27,6 +27,7 @@ const Comments = ({ videoId }: Props) => {
         userId: user?.userId ?? "",
         videoId: videoId ?? "",
       });
+      setCommentContent("");
     }
   };
 

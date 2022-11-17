@@ -11,4 +11,4 @@ const CourseLearnPage: NextPageWithLayout = () => {
   return <CourseContainer courseId={id as string} />;
 };
 
-export default withAuth(CourseLearnPage, USER_ROLES.AUTHOR);
+export default withAuth(CourseLearnPage, [USER_ROLES.AUTHOR, USER_ROLES.USER]);

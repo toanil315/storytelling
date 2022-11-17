@@ -1,9 +1,18 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import ProfileContainer from "src/containers/ProfileContainer";
+import withAuth from "src/components/HOC/withAuth";
+import { USER_ROLES } from "src/utils/constants";
 import { NextPageWithLayout } from "../_app";
+import dynamic from "next/dynamic";
 
-const Home: NextPageWithLayout = () => {
+const ProfileContainer = dynamic(
+  () => import("src/containers/ProfileContainer"),
+  {
+    ssr: false,
+  }
+);
+
+const Profile: NextPageWithLayout = () => {
   const router = useRouter();
   const { id } = router.query;
 
@@ -20,4 +29,4 @@ const Home: NextPageWithLayout = () => {
   );
 };
 
-export default Home;
+export default withAuth(Profile, [USER_ROLES.AUTHOR, USER_ROLES.USER]);

@@ -59,13 +59,19 @@ const Input = React.forwardRef(function Input(
     setInputValue(value);
   };
 
+  /* eslint-disable */
   useEffect(() => {
-    handleChange && handleChange(inputValue);
-  }, [inputValue, handleChange]);
+    if (inputValue) {
+      handleChange && handleChange(inputValue);
+    }
+  }, [inputValue]);
+  /* eslint-enable */
 
   /* eslint-disable */
   useEffect(() => {
-    if (!value || value !== inputValue) setInputValue(value);
+    if (value !== inputValue) {
+      setInputValue(value);
+    }
   }, [value]);
   /* eslint-enable */
 

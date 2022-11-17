@@ -1,6 +1,8 @@
-import { ENV_VARIABLES } from "src/utils/constants";
+import { ENV_VARIABLES, QUERY_KEYS } from "src/utils/constants";
 import * as Sentry from "@sentry/nextjs";
 import Stomp from "stompjs";
+import { QueryClient } from "react-query";
+import { NotificationType } from "src/data-model/NotificationTypes";
 
 const initRabbitConnection = async (userId: string) => {
   const result = await fetch(
@@ -10,8 +12,27 @@ const initRabbitConnection = async (userId: string) => {
   return data;
 };
 
+const handleNewNotification = (
+  newNotification: NotificationType,
+  currentUserId: string,
+  queryClient: QueryClient
+) => {
+  console.log("content: ", newNotification);
+  if (newNotification.senderId !== currentUserId) {
+    queryClient.setQueryData(
+      [QUERY_KEYS.GET_NOTIFICATION_BY_USER_ID, currentUserId],
+      (old: any) => {
+        return {
+          ...old,
+          data: [newNotification, ...old.data],
+        };
+      }
+    );
+  }
+};
+
 export default class RealTimeServices {
-  init = (userId: string) => {
+  constructor(userId: string, queryClient: QueryClient) {
     try {
       const ws = new WebSocket(ENV_VARIABLES.WS_URL);
       const stompClient = Stomp.over(ws);
@@ -21,11 +42,13 @@ export default class RealTimeServices {
         ENV_VARIABLES.WS_PASS_CODE,
         async (frame) => {
           const data = await initRabbitConnection(userId);
-          console.log("ws data: ", data);
           stompClient.subscribe(
             `/queue/${data}`,
             (newContent) => {
-              console.log("newContent: ", JSON.parse(newContent.body));
+              const newNotification: NotificationType = JSON.parse(
+                newContent.body
+              );
+              handleNewNotification(newNotification, userId, queryClient);
             },
             {
               id: ENV_VARIABLES.WS_MY_SUB_ID + "-" + (data || ""),
@@ -45,5 +68,5 @@ export default class RealTimeServices {
       Sentry.captureException({ ...error });
       console.log({ ...error });
     }
-  };
+  }
 }

@@ -9,10 +9,10 @@ import * as Sentry from "@sentry/nextjs";
 
 type WithAuthComponent = (
   Component: NextPageWithLayout,
-  role?: string
+  role?: string[]
 ) => NextPageWithLayout;
 
-const withAuth: WithAuthComponent = (Component, role = USER_ROLES.USER) => {
+const withAuth: WithAuthComponent = (Component, role = [USER_ROLES.USER]) => {
   const AuthComponent: NextPageWithLayout = ({ ...restProps }) => {
     return <Component {...restProps} />;
   };
@@ -25,7 +25,7 @@ const withAuth: WithAuthComponent = (Component, role = USER_ROLES.USER) => {
         },
       });
 
-      if (data.role !== role) {
+      if (!role.includes(data.role)) {
         redirect(context, Path.login);
         return {};
       }
