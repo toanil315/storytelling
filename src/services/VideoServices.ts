@@ -7,7 +7,7 @@ export const videoServices = {
     videoId: string
   ): Promise<CustomAxiosResponseWithPagination<CommentType[]>> => {
     return axiosClient.get(
-      `${process.env.NEXT_PUBLIC_API_WS_URL}/comments/${videoId}`
+      `${process.env.NEXT_PUBLIC_API_WS_URL}/comments/${videoId}?sort=createdAt&order=asc`
     );
   },
 

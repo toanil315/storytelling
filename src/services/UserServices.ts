@@ -7,7 +7,7 @@ export const userServices = {
     userId: string
   ): Promise<CustomAxiosResponseWithPagination<NotificationType[]>> => {
     return axiosClient.get(
-      `${process.env.NEXT_PUBLIC_API_WS_URL}/notifications/${userId}`
+      `${process.env.NEXT_PUBLIC_API_WS_URL}/notifications/${userId}?sort=createdAt&order=asc`
     );
   },
   markAllReadNotification: (userId: string) => {

@@ -59,7 +59,12 @@ const LectureForm = ({
     >
       <Form
         width="100%"
-        defaultValues={defaultValues}
+        defaultValues={{
+          ...defaultValues,
+          description: defaultValues.description
+            ? JSON.parse(defaultValues.description)
+            : "",
+        }}
         onSubmit={onSubmit}
         schema={lectureSchema}
       >

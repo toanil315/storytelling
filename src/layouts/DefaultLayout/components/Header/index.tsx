@@ -49,7 +49,7 @@ const Header = () => {
   }, [user]);
 
   const handleOpenNotificationList = (value: any) => {
-    if (value) {
+    if (!value) {
       markAllReadNotification(user?.userId ?? "");
     }
   };
@@ -189,6 +189,8 @@ const LanguageMenu = () => {
 const NotificationsList = () => {
   const { user } = useUser();
   const { data: notifications } = useGetNotification(user?.userId ?? "");
+
+  console.log(notifications);
 
   return (
     <Box
