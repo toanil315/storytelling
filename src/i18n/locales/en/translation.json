@@ -7,7 +7,8 @@
     "password": {
       "required": "Password is required",
       "notMatch": "Confirm Password must be matched with Password",
-      "min": "Password must contain at least 6 characters"
+      "min": "Password must contain at least 6 characters",
+      "invalid": "Password must be contained upper, lowercase letter, number and special characters"
     },
     "fullName": {
       "required": "Full Name is required"

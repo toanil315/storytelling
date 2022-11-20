@@ -26,6 +26,7 @@ export const REGEX = {
   HAS_LOWER_CASE: /[a-z]/,
   HAS_NUMBER: /[0-9]/,
   HAS_SYMBOLS: /["!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"]/,
+  PASSWORD: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/,
 };
 
 export const ENV_VARIABLES = {

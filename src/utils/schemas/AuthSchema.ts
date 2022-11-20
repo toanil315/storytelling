@@ -22,7 +22,8 @@ export const signUpSchema = yupGlobal.object().shape({
   password: yupGlobal
     .string()
     .min(6, i18next.t("validation.password.min"))
-    .required(i18next.t("validation.password.required")),
+    .required(i18next.t("validation.password.required"))
+    .isPassword(),
   confirmPassword: yupGlobal
     .string()
     .required(i18next.t("validation.confirmPassword.required"))
@@ -50,7 +51,8 @@ export const forgotPasswordSchemas = {
     newPassword: yupGlobal
       .string()
       .min(6, i18next.t("validation.password.min"))
-      .required(i18next.t("validation.password.required")),
+      .required(i18next.t("validation.password.required"))
+      .isPassword(),
     confirmNewPassword: yupGlobal
       .string()
       .required(i18next.t("validation.confirmPassword.required"))
