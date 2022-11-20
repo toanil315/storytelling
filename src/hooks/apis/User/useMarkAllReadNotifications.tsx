@@ -25,14 +25,22 @@ const useMarkAllReadNotification = (userId: string) => {
         queryClient.setQueryData(
           [QUERY_KEYS.GET_NOTIFICATION_BY_USER_ID, userId],
           (old: any) => {
-            const allReadNotifications = old.data.map(
-              (notification: NotificationType) => {
-                return { ...notification, read: true };
+            const allReadNotifications = old.pages.map(
+              (pageNotification: { data: NotificationType[] }) => {
+                return {
+                  ...pageNotification,
+                  data: pageNotification.data.map((notification) => {
+                    return {
+                      ...notification,
+                      read: true,
+                    };
+                  }),
+                };
               }
             );
             return {
               ...old,
-              data: [...allReadNotifications],
+              pages: [...allReadNotifications],
             };
           }
         );

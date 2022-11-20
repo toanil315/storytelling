@@ -4,3 +4,8 @@ export interface UseQueryResponse<T> {
   isError: boolean;
   isSuccess: boolean;
 }
+
+export interface UseInfinityQueryResponse<T> extends UseQueryResponse<T> {
+  hasNextPage?: boolean;
+  fetchNextPage: any;
+}
