@@ -13,4 +13,5 @@ export interface UserType extends UserBase {
   fullName: string;
   userId: string;
   role: string;
+  avatarUrl: string | null;
 }

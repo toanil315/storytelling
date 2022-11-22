@@ -21,7 +21,7 @@ const DateTimeUtils = {
         break;
       }
     }
-    return result;
+    return Boolean(result.trim()) ? result : "now";
   },
 };
 

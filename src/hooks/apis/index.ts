@@ -20,3 +20,5 @@ export { default as useGetNotifications } from "./User/useGetNotifications";
 export { default as useMarkAllReadNotifications } from "./User/useMarkAllReadNotifications";
 
 export { default as useRealTimeServices } from "./RealTime/useRealTimeServices";
+
+export * from "./User/useGetUserById";

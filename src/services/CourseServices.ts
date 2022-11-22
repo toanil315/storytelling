@@ -46,7 +46,7 @@ export const courseService = {
   createCourse: (
     courseData: Partial<CourseType>
   ): Promise<CustomAxiosResponse<CourseType>> => {
-    return axiosClient.post("/courses?page=2&limit=12", courseData);
+    return axiosClient.post("/courses", courseData);
   },
 
   updateCourse: ({

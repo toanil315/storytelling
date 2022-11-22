@@ -1,13 +1,21 @@
-import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Box from "src/components/commons/Box";
 import useGetNotification from "src/hooks/apis/User/useGetNotifications";
 import { NotificationMapperContent } from "../../constants";
 import DateTimeUtils from "src/utils/DateTimeUtils";
 import InfiniteScroll from "react-infinite-scroller";
 import { Skeleton } from "antd";
-import { useUser } from "src/hooks/apis";
+import { useGetUserByIdParallel, useUser } from "src/hooks/apis";
 import Text from "src/components/commons/Typography";
 import { StyledMenu } from "src/components/commons/Menu/styles";
+import { UserType } from "src/data-model/UserTypes";
+import ImageComponent from "src/components/commons/Image";
 
 const NotificationsList = () => {
   const { user } = useUser();
@@ -17,6 +25,16 @@ const NotificationsList = () => {
     hasNextPage,
     fetchNextPage,
   } = useGetNotification(user?.userId ?? "");
+  const { users, isLoading: isGetUsersLoading } = useGetUserByIdParallel(
+    notifications
+      ? notifications.map((notification) => {
+          return notification.senderId;
+        })
+      : []
+  );
+  const [transformedUsers, setTransformedUsers] = useState<
+    { [k: string]: UserType } | undefined
+  >(undefined);
 
   const LoadingSkeleton = useCallback(
     () => (
@@ -43,7 +61,15 @@ const NotificationsList = () => {
 
   const scrollParentRef = useRef(null);
 
-  console.log(isLoading);
+  useEffect(() => {
+    if (users) {
+      const usersById = users?.reduce(
+        (prev, user) => ({ ...prev, [user?.userId as string]: user }),
+        {}
+      );
+      setTransformedUsers(usersById);
+    }
+  }, [JSON.stringify(users)]);
 
   return (
     <Box width="400px" borderRadius="md" boxShadow="box">
@@ -70,18 +96,30 @@ const NotificationsList = () => {
               return {
                 key: notification.id,
                 label: (
-                  <Box display="flex" padding="15px 5px">
+                  <Box display="flex" padding="15px 10px 15px 5px">
                     {!notification.read && (
                       <Box
                         width="15px"
                         height="15px"
                         bg="danger"
                         borderRadius="rounded"
-                        margin="0 20px 0 0"
+                        margin="0 5px 0 0"
                         className="flex-shrink-0"
                         key={notification.id}
                       />
                     )}
+                    <Box
+                      width="55px"
+                      height="55px"
+                      borderRadius="rounded"
+                      overflow="hidden"
+                      margin="0 10px 0 0"
+                    >
+                      <ImageComponent
+                        src={user?.avatarUrl ?? "/assets/ava.png"}
+                        alt="ava"
+                      />
+                    </Box>
                     <Box>
                       <Box display="flex" alignItems="center">
                         <Text
@@ -90,7 +128,7 @@ const NotificationsList = () => {
                           lineHeight="large"
                           color="text"
                         >
-                          {notification.senderId}
+                          {transformedUsers?.[notification.senderId]?.fullName}
                         </Text>
                         <Box
                           width="5px"
@@ -108,7 +146,9 @@ const NotificationsList = () => {
                             color="textLight"
                           >
                             {DateTimeUtils.convertToTimeAgo(
-                              new Date(notification.createdAt).getTime()
+                              typeof notification.createdAt === "number"
+                                ? Number(notification.createdAt)
+                                : new Date(notification.createdAt).getTime()
                             )}
                           </Text>
                         </Box>
@@ -133,7 +173,7 @@ const NotificationsList = () => {
           ></StyledMenu>
         </InfiniteScroll>
 
-        {isLoading && (
+        {(isLoading || isGetUsersLoading) && (
           <Box padding="15px 5px">
             <LoadingSkeleton />
           </Box>
