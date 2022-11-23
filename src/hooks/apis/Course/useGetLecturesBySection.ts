@@ -2,7 +2,7 @@ import { useQueries, useQuery } from "react-query";
 import { LectureType, SectionType } from "src/data-model/CourseTypes";
 import { courseService } from "src/services/CourseServices";
 import { QUERY_KEYS } from "src/utils/constants";
-import { CustomAxiosResponse } from "src/utils/types/CustomAxiosReponse";
+import { CustomAxiosResponse } from "src/utils/types/CustomAxiosResponse";
 import { UseQueryResponse } from "src/utils/types/UseQueryHookResponse";
 
 export const useGetLecturesBySection = (
@@ -10,7 +10,10 @@ export const useGetLecturesBySection = (
 ): UseQueryResponse<LectureType[]> => {
   const { data, isLoading, isError, isSuccess } = useQuery(
     [QUERY_KEYS.GET_LECTURES_IN_SECTION, sectionId],
-    () => courseService.getLecturesOfSection(sectionId)
+    () => courseService.getLecturesOfSection(sectionId),
+    {
+      enabled: Boolean(sectionId),
+    }
   );
 
   return {

@@ -56,7 +56,7 @@ const theme: Theme = {
   },
 
   shadows: {
-    box: "0px 4px 4px rgba(48, 48, 48, 0.25)",
+    box: "0px 4px 4px rgba(0, 0, 0, 0.1)",
   },
 
   radii: {

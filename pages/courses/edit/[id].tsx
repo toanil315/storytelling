@@ -16,4 +16,4 @@ const EditCoursePage: NextPageWithLayout = () => {
   );
 };
 
-export default withAuth(EditCoursePage, USER_ROLES.AUTHOR);
+export default withAuth(EditCoursePage, [USER_ROLES.AUTHOR]);

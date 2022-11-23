@@ -12,4 +12,4 @@ const UpLoadCoursePage: NextPageWithLayout = () => {
   );
 };
 
-export default withAuth(UpLoadCoursePage, USER_ROLES.AUTHOR);
+export default withAuth(UpLoadCoursePage, [USER_ROLES.AUTHOR]);

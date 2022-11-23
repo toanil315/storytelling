@@ -11,7 +11,7 @@ import { axiosClient } from "src/utils/axios";
 import {
   CustomAxiosResponse,
   CustomAxiosResponseWithPagination,
-} from "src/utils/types/CustomAxiosReponse";
+} from "src/utils/types/CustomAxiosResponse";
 
 export const courseService = {
   getCourses: (): Promise<CustomAxiosResponseWithPagination<CourseType[]>> =>
@@ -33,6 +33,11 @@ export const courseService = {
   ): Promise<CustomAxiosResponse<{ sections: SectionType[] }>> =>
     axiosClient.get(`/courses/${courseId}/sections`),
 
+  getSectionById: (
+    sectionId: string
+  ): Promise<CustomAxiosResponse<SectionType>> =>
+    axiosClient.get(`/sections/${sectionId}`),
+
   getLecturesOfSection: (
     sectionId: string
   ): Promise<CustomAxiosResponse<LectureType[]>> =>
@@ -46,7 +51,7 @@ export const courseService = {
   createCourse: (
     courseData: Partial<CourseType>
   ): Promise<CustomAxiosResponse<CourseType>> => {
-    return axiosClient.post("/courses?page=2&limit=12", courseData);
+    return axiosClient.post("/courses", courseData);
   },
 
   updateCourse: ({

@@ -9,6 +9,9 @@ const { withSentryConfig } = require("@sentry/nextjs");
 const moduleExports = {
   // Your existing module.exports
   reactStrictMode: true,
+  compiler: {
+    styledComponents: true,
+  },
   images: {
     remotePatterns: [
       {
@@ -24,6 +27,7 @@ const moduleExports = {
     // https://webpack.js.org/configuration/devtool/ and
     // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/#use-hidden-source-map
     // for more information.
+    autoInstrumentServerFunctions: false,
     hideSourceMaps: true,
   },
 };

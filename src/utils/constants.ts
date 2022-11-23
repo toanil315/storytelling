@@ -11,11 +11,6 @@ export const Languages = [
     icon: UkIcon,
     text: "English",
   },
-  {
-    key: "vi",
-    icon: UkIcon,
-    text: "Vietnamese",
-  },
 ];
 
 export enum StepOfRetrievePassword {
@@ -49,8 +44,8 @@ export const ACCESS_TOKEN = "accessToken";
 export const REFRESH_TOKEN = "refreshToken";
 
 export const EXPIRE_TIME = {
-  ACCESS_TOKEN: 1800000,
-  REFRESH_TOKEN: 2592000000,
+  ACCESS_TOKEN: 3600000,
+  REFRESH_TOKEN: 604800000,
 };
 
 export const QUERY_KEYS = {
@@ -62,6 +57,9 @@ export const QUERY_KEYS = {
   GET_SECTIONS: "GET_SECTIONS",
   GET_LECTURES_IN_SECTION: "GET_LECTURES_IN_SECTION",
   GET_LECTURE_DETAIL: "GET_LECTURE_DETAIL",
+  GET_COMMENTS_OF_VIDEO: "GET_COMMENTS_OF_VIDEO",
+  GET_NOTIFICATION_BY_USER_ID: "GET_NOTIFICATION_BY_USER_ID",
+  GET_USER_BY_ID: "GET_USER_BY_ID",
 };
 
 export const USER_ROLES = {
@@ -72,7 +70,17 @@ export const USER_ROLES = {
 const dev = process.env.NODE_ENV !== "production";
 export const BASE_HOST = process.env.NEXT_PUBLIC_MY_HOST;
 export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+export const BASE_JAVA_URL = process.env.NEXT_PUBLIC_API_WS_URL;
 
-export const DEFAULT_PAGINATION_SIZE_IN_PAGES = 16;
+export const DEFAULT_PAGINATION_SIZE = {
+  COURSES_SIZE: 16,
+  NOTIFICATIONS_SIZE: 6,
+  COMMENTS: 10,
+};
 
 export const FALL_BACK_IMAGE_URL = "/assets/image-fallback.png";
+
+export enum NOTIFICATIONS_TYPES {
+  COMMENT_VIDEO = "COMMENT_VIDEO",
+  EMOTION_REACT_VIDEO = "EMOTION_REACT_VIDEO",
+}

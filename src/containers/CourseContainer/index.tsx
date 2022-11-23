@@ -43,7 +43,7 @@ const CourseContainer = ({ courseId }: Props) => {
   }
 
   return (
-    <Box margin="30px 0 0">
+    <div style={{ margin: "30px 0 0", height: "100%" }}>
       <Box as={Row} width="100%" gutter={[10, 0]}>
         <Col span={16}>
           <Box as={Row} width="100%" gutter={[0, 30]}>
@@ -51,7 +51,7 @@ const CourseContainer = ({ courseId }: Props) => {
               <VideoPlay />
             </Col>
             <Box as={Col} span={24}>
-              <Comments />
+              <Comments videoId={router.query.lectureId as string} />
             </Box>
           </Box>
         </Col>
@@ -59,7 +59,7 @@ const CourseContainer = ({ courseId }: Props) => {
           <VideoPlayList sections={sections ?? []} />
         </Col>
       </Box>
-    </Box>
+    </div>
   );
 };
 

@@ -59,6 +59,7 @@ const InformationForm = ({
       thumbnailUrl: data.thumbnailUrl,
       categoryTopicId: data.categoryTopicId,
       userId: user?.userId,
+      hashtags: [],
     };
 
     if (mode === "create") {

@@ -26,14 +26,14 @@ const usePagination = (
     });
   };
 
-  /* eslint-disable */
-  useEffect(() => {
-    setPagination(Number(page));
-  }, [page]);
-  /* eslint-enable */
+  // /* eslint-disable */
+  // useEffect(() => {
+  //   setPagination(Number(page));
+  // }, []);
+  // /* eslint-enable */
 
   return {
-    page: Number(page),
+    page: page ? Number(page) : 1,
     pageSize: Number(initialParams.pageSize),
     onChange: (page: any, pageSize: any) => setPagination(Number(page)),
   };

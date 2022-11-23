@@ -3,7 +3,7 @@ import VoiceIcon from "src/components/icons/VoiceIcon";
 import GlobalIcon from "src/components/icons/GlobalIcon";
 import UploadIcon from "src/components/icons/UploadIcon";
 import NotificationIcon from "src/components/icons/NotificationIcon";
-import NotificationIcon2 from "src/components/icons/NotificationIcon2";
+import NotificationIconNotRead from "src/components/icons/NotificationIconNotRead";
 import {
   HeaderWrapper,
   LanguageItemActive,
@@ -16,21 +16,48 @@ import { Languages, QUERY_KEYS, USER_ROLES } from "src/utils/constants";
 import { useTranslation } from "react-i18next";
 import Text from "src/components/commons/Typography";
 import Box from "src/components/commons/Box";
-import Center from "src/components/commons/Center";
 import Button from "src/components/commons/Button";
 import { useRouter } from "next/router";
 import ImageComponent from "src/components/commons/Image";
 import { Path } from "src/utils/Path";
 import Link from "next/link";
 import { authService } from "src/services/AuthServices";
-import { localStorageClient } from "src/utils/localStorageClient";
 import { clearTokens } from "src/utils/axios/helper";
 import { useQueryClient } from "react-query";
-import { useUser } from "src/hooks/apis";
+import { useRealTimeServices, useUser } from "src/hooks/apis";
+import RealTimeServices from "src/services/RealTimeServices";
+import useGetNotification from "src/hooks/apis/User/useGetNotifications";
+import useMarkAllReadNotification from "src/hooks/apis/User/useMarkAllReadNotifications";
+import NotificationsList from "../NotificationsList";
 
 const Header = () => {
   const router = useRouter();
   const { user, isError } = useUser();
+  const { markAllReadNotification } = useMarkAllReadNotification(
+    user?.userId ?? ""
+  );
+
+  const { data: notifications } = useGetNotification(user?.userId ?? "");
+
+  const [init, destroy] = useRealTimeServices();
+
+  useEffect(() => {
+    if (user && user.userId) {
+      init(user.userId);
+    }
+  }, [user]);
+
+  const handleOpenNotificationList = (value: any) => {
+    if (!value) {
+      markAllReadNotification(user?.userId ?? "");
+    }
+  };
+
+  const countNotificationUnRead = useMemo(() => {
+    return notifications?.reduce((acc, notification) => {
+      return (acc += Number(!notification.read));
+    }, 0);
+  }, [notifications]);
 
   return (
     <HeaderWrapper height="50px">
@@ -54,8 +81,13 @@ const Header = () => {
               trigger={["click"]}
               placement={"bottomRight"}
               arrow={{ pointAtCenter: true }}
+              onOpenChange={handleOpenNotificationList}
             >
-              <NotificationIcon />
+              {countNotificationUnRead === 0 ? (
+                <NotificationIcon />
+              ) : (
+                <NotificationIconNotRead />
+              )}
             </StyledDropdown>
             {user.role === USER_ROLES.AUTHOR && (
               <Button
@@ -153,109 +185,18 @@ const LanguageMenu = () => {
   );
 };
 
-const NotificationsList = () => {
-  const notificationsList = useMemo(() => {
-    return [
-      {
-        id: 1,
-        type: "comment",
-        sender: {
-          id: "123",
-          name: "Ahmed Bukhatir",
-        },
-        content: "Comment on your video",
-        time: "6m ago",
-      },
-      {
-        id: 2,
-        type: "comment",
-        sender: {
-          id: "123",
-          name: "Ahmed Bukhatir",
-        },
-        content: "Comment on your video",
-        time: "6m ago",
-      },
-      {
-        id: 3,
-        type: "comment",
-        sender: {
-          id: "123",
-          name: "Ahmed Bukhatir",
-        },
-        content: "Comment on your video",
-        time: "6m ago",
-      },
-    ];
-  }, []);
-
-  return (
-    <Box width="400px">
-      <StyledMenu
-        title="Notifications"
-        items={notificationsList.map((notification) => {
-          return {
-            key: notification.id,
-            label: (
-              <Box display="flex" padding="15px 5px">
-                <Box
-                  width="15px"
-                  height="15px"
-                  bg="danger"
-                  borderRadius="rounded"
-                  margin="0 20px 0 0"
-                />
-                <Box>
-                  <Box display="flex" alignItems="center">
-                    <Text
-                      fontSize="base"
-                      fontWeight="bold"
-                      lineHeight="large"
-                      color="text"
-                    >
-                      {notification.sender?.name}
-                    </Text>
-                    <Box
-                      width="5px"
-                      height="5px"
-                      bg="textLight"
-                      borderRadius="rounded"
-                      margin="0 6px"
-                    />
-                    <Text
-                      fontSize="xs"
-                      fontWeight="regular"
-                      lineHeight="normal"
-                      color="textLight"
-                    >
-                      {notification.time}
-                    </Text>
-                  </Box>
-                  <Text
-                    fontSize="sm"
-                    fontWeight="regular"
-                    lineHeight="normal"
-                    color="text"
-                  >
-                    {notification.content}
-                  </Text>
-                </Box>
-              </Box>
-            ),
-          };
-        })}
-      ></StyledMenu>
-    </Box>
-  );
-};
-
 const UserDropdown = () => {
+  const router = useRouter();
   const client = useQueryClient();
+  const [init, destroy] = useRealTimeServices();
+
   const handleLogOut = useCallback(async () => {
     await authService.logout();
     clearTokens();
     client.setQueriesData(QUERY_KEYS.GET_ME, null);
     client.refetchQueries(QUERY_KEYS.GET_ME);
+    destroy();
+    router.push(Path.home);
   }, [client]);
 
   const userDropdownOptions = useMemo(

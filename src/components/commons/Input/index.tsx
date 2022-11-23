@@ -59,13 +59,20 @@ const Input = React.forwardRef(function Input(
     setInputValue(value);
   };
 
+  /* eslint-disable */
   useEffect(() => {
-    handleChange && handleChange(inputValue);
-  }, [inputValue, handleChange]);
+    if (inputValue) {
+      handleChange && handleChange(inputValue);
+    }
+  }, [inputValue]);
+  /* eslint-enable */
 
   /* eslint-disable */
   useEffect(() => {
-    if (!value || value !== inputValue) setInputValue(value);
+    // condition value !== "<p><br></p>" used for case user input utf8 characters and react-quill auto translate into <br>
+    if (value !== inputValue && value !== "<p><br></p>") {
+      setInputValue(value);
+    }
   }, [value]);
   /* eslint-enable */
 
