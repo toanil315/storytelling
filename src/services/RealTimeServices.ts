@@ -61,7 +61,7 @@ const handleNewNotification = (
                 pages: newCommentList,
               };
             }
-            queryClient.invalidateQueries([
+            queryClient.removeQueries([
               QUERY_KEYS.GET_COMMENTS_OF_VIDEO,
               newNotification.objectableId,
             ]);

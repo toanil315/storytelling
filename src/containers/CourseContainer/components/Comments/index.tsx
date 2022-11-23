@@ -73,9 +73,9 @@ const Comments = forwardRef(function Comments({ videoId }: Props, ref: any) {
   const LoadingSkeleton = useCallback(
     () => (
       <>
-        {new Array(DEFAULT_PAGINATION_SIZE.COMMENTS).map(() => {
+        {new Array(DEFAULT_PAGINATION_SIZE.COMMENTS).map((_, index) => {
           return (
-            <Box padding="15px 5px">
+            <Box key={index} padding="15px 5px">
               <Skeleton avatar active paragraph={{ rows: 1 }} />
             </Box>
           );
