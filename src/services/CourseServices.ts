@@ -2,6 +2,7 @@ import {
   CategoryType,
   CourseBase,
   CourseType,
+  HashTagType,
   LectureBase,
   LectureType,
   SectionBase,
@@ -81,5 +82,9 @@ export const courseService = {
   ): Promise<CustomAxiosResponse<LectureType>> => {
     const { id, ...restLectureData } = lectureData;
     return axiosClient.put(`/videos/${id}`, restLectureData);
+  },
+
+  getHashTags: (): Promise<CustomAxiosResponse<HashTagType[]>> => {
+    return axiosClient.get("/hashtags");
   },
 };
