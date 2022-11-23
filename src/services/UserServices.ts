@@ -26,6 +26,12 @@ export const userServices = {
     );
   },
 
+  markReadNotification: (notificationId: string) => {
+    return axiosClient.patch(
+      `${process.env.NEXT_PUBLIC_API_WS_URL}/notifications/${notificationId}`
+    );
+  },
+
   getUserById: (userId: string): Promise<CustomAxiosResponse<UserType>> => {
     return axiosClient.get(`/users/${userId}`);
   },

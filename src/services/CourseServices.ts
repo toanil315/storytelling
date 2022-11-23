@@ -33,6 +33,11 @@ export const courseService = {
   ): Promise<CustomAxiosResponse<{ sections: SectionType[] }>> =>
     axiosClient.get(`/courses/${courseId}/sections`),
 
+  getSectionById: (
+    sectionId: string
+  ): Promise<CustomAxiosResponse<SectionType>> =>
+    axiosClient.get(`/sections/${sectionId}`),
+
   getLecturesOfSection: (
     sectionId: string
   ): Promise<CustomAxiosResponse<LectureType[]>> =>

@@ -44,21 +44,28 @@ const handleNewNotification = (
         queryClient.setQueryData(
           [QUERY_KEYS.GET_COMMENTS_OF_VIDEO, newNotification.objectableId],
           (old: any) => {
-            const newCommentList = [...old.pages];
-            newCommentList[0].data = [
-              {
-                videoId: newNotification.objectableId,
-                content: newNotification.content,
-                createdAt: new Date(newNotification.createdAt).getTime(),
-                id: String(Date.now()),
-                userId: newNotification.senderId,
-              } as CommentType,
-              ...newCommentList[0].data,
-            ];
-            return {
-              ...old,
-              pages: newCommentList,
-            };
+            if (Boolean(old)) {
+              const newCommentList = [...old?.pages];
+              newCommentList[0].data = [
+                {
+                  videoId: newNotification.objectableId,
+                  content: newNotification.content,
+                  createdAt: new Date(newNotification.createdAt).getTime(),
+                  id: String(Date.now()),
+                  userId: newNotification.senderId,
+                } as CommentType,
+                ...newCommentList[0].data,
+              ];
+              return {
+                ...old,
+                pages: newCommentList,
+              };
+            }
+            queryClient.invalidateQueries([
+              QUERY_KEYS.GET_COMMENTS_OF_VIDEO,
+              newNotification.objectableId,
+            ]);
+            return;
           }
         );
         break;
