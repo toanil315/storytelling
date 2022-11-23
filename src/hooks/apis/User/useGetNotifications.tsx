@@ -1,3 +1,4 @@
+import { notification } from "antd";
 import { useInfiniteQuery, useQuery } from "react-query";
 import { NotificationType } from "src/data-model/NotificationTypes";
 import { userServices } from "src/services/UserServices";
@@ -33,9 +34,11 @@ const useGetNotification = (
     data: data?.pages.reduce((result, pageNotification) => {
       return [
         ...result,
-        ...pageNotification.data.map((notification) => {
-          return notification;
-        }),
+        ...pageNotification.data
+          .filter((item) => item.senderId !== userId)
+          .map((notification) => {
+            return notification;
+          }),
       ];
     }, [] as NotificationType[]),
     isLoading: isFetching || isLoading,

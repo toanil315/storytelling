@@ -1,8 +1,13 @@
-import { ENV_VARIABLES, QUERY_KEYS } from "src/utils/constants";
+import {
+  ENV_VARIABLES,
+  NOTIFICATIONS_TYPES,
+  QUERY_KEYS,
+} from "src/utils/constants";
 import * as Sentry from "@sentry/nextjs";
 import Stomp from "stompjs";
 import { QueryClient } from "react-query";
 import { NotificationType } from "src/data-model/NotificationTypes";
+import { CommentType } from "src/data-model/CommentTypes";
 
 const initRabbitConnection = async (userId: string) => {
   const result = await fetch(
@@ -17,7 +22,6 @@ const handleNewNotification = (
   currentUserId: string,
   queryClient: QueryClient
 ) => {
-  console.log("content: ", newNotification);
   if (newNotification.senderId !== currentUserId) {
     queryClient.setQueryData(
       [QUERY_KEYS.GET_NOTIFICATION_BY_USER_ID, currentUserId],
@@ -33,6 +37,35 @@ const handleNewNotification = (
         };
       }
     );
+
+    // handle add item to list
+    switch (newNotification.type) {
+      case NOTIFICATIONS_TYPES.COMMENT_VIDEO:
+        queryClient.setQueryData(
+          [QUERY_KEYS.GET_COMMENTS_OF_VIDEO, newNotification.objectableId],
+          (old: any) => {
+            const newCommentList = [...old.pages];
+            newCommentList[0].data = [
+              {
+                videoId: newNotification.objectableId,
+                content: newNotification.content,
+                createdAt: new Date(newNotification.createdAt).getTime(),
+                id: String(Date.now()),
+                userId: newNotification.senderId,
+              } as CommentType,
+              ...newCommentList[0].data,
+            ];
+            return {
+              ...old,
+              pages: newCommentList,
+            };
+          }
+        );
+        break;
+
+      default:
+        break;
+    }
   }
 };
 

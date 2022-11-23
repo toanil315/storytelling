@@ -37,9 +37,11 @@ const useCreateComment = (): {
         queryClient.setQueryData(
           [QUERY_KEYS.GET_COMMENTS_OF_VIDEO, newComment.videoId],
           (old: any) => {
+            const newCommentList = [...old.pages];
+            newCommentList[0].data = [newComment, ...newCommentList[0].data];
             return {
               ...old,
-              data: [...old.data, { ...newComment, id: String(Date.now()) }],
+              pages: newCommentList,
             };
           }
         );

@@ -70,10 +70,12 @@ export const USER_ROLES = {
 const dev = process.env.NODE_ENV !== "production";
 export const BASE_HOST = process.env.NEXT_PUBLIC_MY_HOST;
 export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+export const BASE_JAVA_URL = process.env.NEXT_PUBLIC_API_WS_URL;
 
 export const DEFAULT_PAGINATION_SIZE = {
   COURSES_SIZE: 16,
   NOTIFICATIONS_SIZE: 6,
+  COMMENTS: 10,
 };
 
 export const FALL_BACK_IMAGE_URL = "/assets/image-fallback.png";

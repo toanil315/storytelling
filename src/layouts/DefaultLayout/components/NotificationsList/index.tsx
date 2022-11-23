@@ -16,6 +16,7 @@ import Text from "src/components/commons/Typography";
 import { StyledMenu } from "src/components/commons/Menu/styles";
 import { UserType } from "src/data-model/UserTypes";
 import ImageComponent from "src/components/commons/Image";
+import { DEFAULT_PAGINATION_SIZE } from "src/utils/constants";
 
 const NotificationsList = () => {
   const { user } = useUser();
@@ -39,21 +40,13 @@ const NotificationsList = () => {
   const LoadingSkeleton = useCallback(
     () => (
       <>
-        <Box padding="15px 5px">
-          <Skeleton avatar active paragraph={{ rows: 1 }} />
-        </Box>
-        <Box padding="15px 5px">
-          <Skeleton avatar active paragraph={{ rows: 1 }} />
-        </Box>
-        <Box padding="15px 5px">
-          <Skeleton avatar active paragraph={{ rows: 1 }} />
-        </Box>
-        <Box padding="15px 5px">
-          <Skeleton avatar active paragraph={{ rows: 1 }} />
-        </Box>
-        <Box padding="15px 5px">
-          <Skeleton avatar active paragraph={{ rows: 1 }} />
-        </Box>
+        {new Array(DEFAULT_PAGINATION_SIZE.NOTIFICATIONS_SIZE).map(() => {
+          return (
+            <Box padding="15px 5px">
+              <Skeleton avatar active paragraph={{ rows: 1 }} />
+            </Box>
+          );
+        })}
       </>
     ),
     []
@@ -88,6 +81,7 @@ const NotificationsList = () => {
           loader={undefined}
           useWindow={false}
           getScrollParent={() => scrollParentRef.current}
+          threshold={150}
         >
           <StyledMenu
             style={{ boxShadow: "none" }}
@@ -173,7 +167,7 @@ const NotificationsList = () => {
           ></StyledMenu>
         </InfiniteScroll>
 
-        {(isLoading || isGetUsersLoading) && (
+        {(isLoading || isGetUsersLoading) && hasNextPage && (
           <Box padding="15px 5px">
             <LoadingSkeleton />
           </Box>

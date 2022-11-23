@@ -10,7 +10,10 @@ export const useGetLecturesBySection = (
 ): UseQueryResponse<LectureType[]> => {
   const { data, isLoading, isError, isSuccess } = useQuery(
     [QUERY_KEYS.GET_LECTURES_IN_SECTION, sectionId],
-    () => courseService.getLecturesOfSection(sectionId)
+    () => courseService.getLecturesOfSection(sectionId),
+    {
+      enabled: Boolean(sectionId),
+    }
   );
 
   return {
