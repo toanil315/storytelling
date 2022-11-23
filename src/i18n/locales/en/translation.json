@@ -7,7 +7,8 @@
     "password": {
       "required": "Password is required",
       "notMatch": "Confirm Password must be matched with Password",
-      "min": "Password must contain at least 6 characters"
+      "min": "Password must contain at least 6 characters",
+      "invalid": "Password must be contained upper, lowercase letter, number and special characters"
     },
     "fullName": {
       "required": "Full Name is required"
@@ -73,7 +74,12 @@
       "updateCourse": "Update course successfully.",
       "createSection": "Create section successfully. Please create your lectures.",
       "createLecture": "Create lecture successfully.",
-      "updateLecture": "Update lecture successfully."
+      "updateLecture": "Update lecture successfully.",
+      "forgotPassword": {
+        "enterEmail": "Send verify code successfully. Please check your email.",
+        "verifyCode": "Verify code successfully. Please submit your new password.",
+        "resetPassword": "Reset password successfully. Please login."
+      }
     },
     "error": {
       "register": "Register failed. Please try again.",
@@ -85,7 +91,12 @@
       "createSection": "Create section failed. Please try again.",
       "wrongFileType": "File for this field should be {{fileType}}.",
       "createLecture": "Create lecture failed. Please try again.",
-      "updateLecture": "Update lecture failed. Please try again."
+      "updateLecture": "Update lecture failed. Please try again.",
+      "forgotPassword": {
+        "enterEmail": "Send verify code failed. Please try again.",
+        "verifyCode": "Verify code failed. Please try again.",
+        "resetPassword": "Reset password failed. Please try again."
+      }
     }
   },
   "courseContent": "Course Content",
