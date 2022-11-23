@@ -7,13 +7,20 @@ import Select from "src/components/commons/Select";
 import Form from "src/components/Form";
 import { HelpersUseStep } from "src/hooks/useStep";
 import { upLoadInformationSchema } from "src/utils/schemas/UploadCourseSchema";
-import { CourseBase, CourseType } from "src/data-model/CourseTypes";
+import {
+  CourseBase,
+  CourseType,
+  HashTagType,
+} from "src/data-model/CourseTypes";
 import {
   useCreateCourse,
   useGetCategory,
+  useGetHashTags,
   useUpdateCourse,
   useUser,
 } from "src/hooks/apis";
+import { useQueryClient } from "react-query";
+import { QUERY_KEYS } from "src/utils/constants";
 
 interface Props extends Partial<HelpersUseStep> {
   mode: "create" | "edit";
@@ -27,7 +34,7 @@ const emptyDefaultValues = {
   description: "",
   thumbnailUrl: "",
   categoryTopicId: undefined,
-  hashTag: [],
+  hashtags: [],
   userId: "",
 };
 
@@ -51,6 +58,10 @@ const InformationForm = ({
   } = useUpdateCourse();
 
   const { user } = useUser();
+  const { data: hashTags } = useGetHashTags();
+  const queryClient = useQueryClient();
+  const [temporarySelectValue, setTemporarySelectValue] = useState<string>("");
+
   const onSubmit: SubmitHandler<Partial<CourseType>> = async (data) => {
     const validValues = {
       name: data.name,
@@ -59,7 +70,7 @@ const InformationForm = ({
       thumbnailUrl: data.thumbnailUrl,
       categoryTopicId: data.categoryTopicId,
       userId: user?.userId,
-      hashtags: [],
+      hashtags: data.hashtags ?? [],
     };
 
     if (mode === "create") {
@@ -88,7 +99,33 @@ const InformationForm = ({
     goToNextStep,
   ]);
 
-  console.log(createCourseSuccess, createCourseSuccess);
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    // if user typing and don't enter
+    if (e.which >= 48 && e.which <= 90) {
+      setTemporarySelectValue((prev) => prev + e.key);
+    }
+    if (e.key === "Enter" && Boolean(temporarySelectValue.trim())) {
+      const index = hashTags?.findIndex(
+        (item) => item.name === temporarySelectValue.trim()
+      );
+      index === -1 &&
+        queryClient.setQueryData(QUERY_KEYS.GET_HASH_TAGS, (old: any) => {
+          return {
+            ...old,
+            data: [
+              ...old.data,
+              {
+                name: temporarySelectValue.trim(),
+                id: String(Date.now()),
+                createdAt: String(Date.now()),
+                updatedAt: String(Date.now()),
+              } as HashTagType,
+            ],
+          };
+        });
+      setTemporarySelectValue("");
+    }
+  };
 
   return (
     <Box>
@@ -162,15 +199,15 @@ const InformationForm = ({
               <Col span={24}>
                 <Form.Select
                   label="Hash Tag"
-                  name="hashTag"
+                  name="hashtags"
                   mode="multiple"
                   allowClear
                   style={{ width: "100%" }}
                   placeholder="Please select"
-                  options={[
-                    { label: "abc", value: 1 },
-                    { label: "def", value: 2 },
-                  ]}
+                  options={hashTags?.map((hashTag) => ({
+                    value: hashTag.name,
+                    label: hashTag.name,
+                  }))}
                   control={control}
                   filterOption={(inputValue, option) => {
                     return (
@@ -179,6 +216,7 @@ const InformationForm = ({
                         .indexOf(inputValue.toLowerCase()) >= 0
                     );
                   }}
+                  onKeyDown={handleInputKeyDown}
                 />
               </Col>
             </Box>

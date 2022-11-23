@@ -17,6 +17,7 @@ export { default as useGetLectureById } from "./Course/useGetLectureById";
 export { default as useGetCommentsOfVideo } from "./Course/useGetCommentsOfVideo";
 export { default as useAccessCourseByLectureId } from "./Course/useAccessCourseByLectureId";
 export * from "./Course/useGetLecturesBySection";
+export { default as useGetHashTags } from "./Course/useGetHashTags";
 
 export { default as useGetNotifications } from "./User/useGetNotifications";
 export { default as useMarkAllReadNotifications } from "./User/useMarkAllReadNotifications";

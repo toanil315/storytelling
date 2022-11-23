@@ -78,4 +78,8 @@ export const StyledSelect = styled(Select)`
     margin-top: 0 !important;
     margin-bottom: 0 !important;
   }
+
+  &.ant-select-multiple .ant-select-selection-item-content {
+    line-height: 1.5 !important;
+  }
 `;
