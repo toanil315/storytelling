@@ -1,20 +1,23 @@
 import { CommentBase, CommentType } from "src/data-model/CommentTypes";
 import { axiosClient } from "src/utils/axios";
+import {
+  BASE_JAVA_URL,
+  BASE_URL,
+  DEFAULT_PAGINATION_SIZE,
+} from "src/utils/constants";
 import { CustomAxiosResponseWithPagination } from "src/utils/types/CustomAxiosResponse";
 
 export const videoServices = {
   getComments: (
-    videoId: string
+    videoId: string,
+    page: number
   ): Promise<CustomAxiosResponseWithPagination<CommentType[]>> => {
     return axiosClient.get(
-      `${process.env.NEXT_PUBLIC_API_WS_URL}/comments/${videoId}?sort=createdAt&order=asc`
+      `${BASE_JAVA_URL}/comments/${videoId}?page=${page}&paging=${DEFAULT_PAGINATION_SIZE.COMMENTS}&sort=createdAt&order=desc`
     );
   },
 
   postComment: (commentData: CommentBase) => {
-    return axiosClient.post(
-      `${process.env.NEXT_PUBLIC_API_WS_URL}/comments`,
-      commentData
-    );
+    return axiosClient.post(`${BASE_JAVA_URL}/comments`, commentData);
   },
 };

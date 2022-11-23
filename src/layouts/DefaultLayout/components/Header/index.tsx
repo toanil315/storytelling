@@ -22,14 +22,13 @@ import ImageComponent from "src/components/commons/Image";
 import { Path } from "src/utils/Path";
 import Link from "next/link";
 import { authService } from "src/services/AuthServices";
-import { localStorageClient } from "src/utils/localStorageClient";
 import { clearTokens } from "src/utils/axios/helper";
 import { useQueryClient } from "react-query";
 import { useRealTimeServices, useUser } from "src/hooks/apis";
 import RealTimeServices from "src/services/RealTimeServices";
 import useGetNotification from "src/hooks/apis/User/useGetNotifications";
-import { NotificationMapperContent } from "../../constants";
 import useMarkAllReadNotification from "src/hooks/apis/User/useMarkAllReadNotifications";
+import NotificationsList from "../NotificationsList";
 
 const Header = () => {
   const router = useRouter();
@@ -183,94 +182,6 @@ const LanguageMenu = () => {
         };
       })}
     ></StyledMenu>
-  );
-};
-
-const NotificationsList = () => {
-  const { user } = useUser();
-  const { data: notifications } = useGetNotification(user?.userId ?? "");
-
-  console.log(notifications);
-
-  return (
-    <Box
-      width="400px"
-      height="80vh"
-      borderRadius="md"
-      boxShadow="box"
-      overflow="hidden"
-    >
-      <Box
-        width="100%"
-        height="100%"
-        overflow="scroll"
-        borderRadius="md"
-        bg="white"
-      >
-        <StyledMenu
-          style={{ boxShadow: "none" }}
-          title="Notifications"
-          items={notifications?.map((notification) => {
-            return {
-              key: notification.id,
-              label: (
-                <Box display="flex" padding="15px 5px">
-                  {!notification.read && (
-                    <Box
-                      width="15px"
-                      height="15px"
-                      bg="danger"
-                      borderRadius="rounded"
-                      margin="0 20px 0 0"
-                      className="flex-shrink-0"
-                    />
-                  )}
-                  <Box>
-                    <Box display="flex" alignItems="center">
-                      <Text
-                        fontSize="base"
-                        fontWeight="bold"
-                        lineHeight="large"
-                        color="text"
-                      >
-                        {notification.senderId}
-                      </Text>
-                      <Box
-                        width="5px"
-                        height="5px"
-                        bg="textLight"
-                        borderRadius="rounded"
-                        margin="0 6px"
-                      />
-                      <Text
-                        fontSize="xs"
-                        fontWeight="regular"
-                        lineHeight="normal"
-                        color="textLight"
-                      >
-                        {notification.createdAt}
-                      </Text>
-                    </Box>
-                    <Text
-                      fontSize="sm"
-                      fontWeight="regular"
-                      lineHeight="normal"
-                      color="text"
-                    >
-                      {
-                        NotificationMapperContent[
-                          notification.type as keyof typeof NotificationMapperContent
-                        ]
-                      }
-                    </Text>
-                  </Box>
-                </Box>
-              ),
-            };
-          })}
-        ></StyledMenu>
-      </Box>
-    </Box>
   );
 };
 

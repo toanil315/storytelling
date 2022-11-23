@@ -1,5 +1,5 @@
 export interface NotificationType {
-  createdAt: number;
+  createdAt: string;
   id: string;
   senderId: string;
   objectableId: string;

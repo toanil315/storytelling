@@ -6,7 +6,7 @@ import { CourseType } from "src/data-model/CourseTypes";
 import Pagination from "src/components/Pagination";
 import { PaginationType } from "src/utils/types/CustomAxiosResponse";
 import { usePagination } from "src/hooks";
-import { DEFAULT_PAGINATION_SIZE_IN_PAGES } from "src/utils/constants";
+import { DEFAULT_PAGINATION_SIZE } from "src/utils/constants";
 import Box from "src/components/commons/Box";
 
 interface Props {
@@ -17,7 +17,7 @@ interface Props {
 const HomeContainer = ({ courses, pagination }: Props) => {
   const { t, i18n } = useTranslation();
   const paginationHelper = usePagination({
-    pageSize: DEFAULT_PAGINATION_SIZE_IN_PAGES,
+    pageSize: DEFAULT_PAGINATION_SIZE.COURSES_SIZE,
   });
 
   const renderCourseList = () => {

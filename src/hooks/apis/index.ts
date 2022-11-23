@@ -14,9 +14,13 @@ export { default as useUpdateLecture } from "./Course/useUpdateLecture";
 export { default as useGetCoursesByInstructor } from "./Course/useGetCoursesByInstructor";
 export { default as useGetLectureById } from "./Course/useGetLectureById";
 export { default as useGetCommentsOfVideo } from "./Course/useGetCommentsOfVideo";
+export { default as useAccessCourseByLectureId } from "./Course/useAccessCourseByLectureId";
 export * from "./Course/useGetLecturesBySection";
 
 export { default as useGetNotifications } from "./User/useGetNotifications";
 export { default as useMarkAllReadNotifications } from "./User/useMarkAllReadNotifications";
+export { default as useMarkReadNotification } from "./User/useMarkReadNotification";
 
 export { default as useRealTimeServices } from "./RealTime/useRealTimeServices";
+
+export * from "./User/useGetUserById";

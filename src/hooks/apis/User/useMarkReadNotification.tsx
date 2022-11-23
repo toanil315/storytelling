@@ -2,13 +2,16 @@ import { useMutation, useQueryClient } from "react-query";
 import { NotificationType } from "src/data-model/NotificationTypes";
 import { userServices } from "src/services/UserServices";
 import { QUERY_KEYS } from "src/utils/constants";
+import useUser from "../Auth/useUser";
 
-const useMarkAllReadNotification = (userId: string) => {
+const useMarkReadNotification = () => {
   const queryClient = useQueryClient();
+  const { user } = useUser();
   const { mutate, isLoading, isError, isSuccess, data } = useMutation(
-    userServices.markAllReadNotification,
+    userServices.markReadNotification,
     {
-      onMutate: async (userId) => {
+      onMutate: async (notificationId) => {
+        const userId = user?.userId;
         // Cancel any outgoing refetches
         // (so they don't overwrite our optimistic update)
         await queryClient.cancelQueries({
@@ -32,7 +35,10 @@ const useMarkAllReadNotification = (userId: string) => {
                   data: pageNotification.data.map((notification) => {
                     return {
                       ...notification,
-                      read: true,
+                      read:
+                        notification.id === notificationId
+                          ? true
+                          : notification.read,
                     };
                   }),
                 };
@@ -64,8 +70,8 @@ const useMarkAllReadNotification = (userId: string) => {
   );
 
   return {
-    markAllReadNotification: (userId: string) => {
-      return mutate(userId);
+    markReadNotification: (notificationId: string) => {
+      return mutate(notificationId);
     },
     data: data?.data,
     isLoading,
@@ -74,4 +80,4 @@ const useMarkAllReadNotification = (userId: string) => {
   };
 };
 
-export default useMarkAllReadNotification;
+export default useMarkReadNotification;

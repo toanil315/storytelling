@@ -2,10 +2,7 @@ import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import { CourseType } from "src/data-model/CourseTypes";
 import { useUser } from "src/hooks/apis";
-import {
-  BASE_URL,
-  DEFAULT_PAGINATION_SIZE_IN_PAGES,
-} from "src/utils/constants";
+import { BASE_URL, DEFAULT_PAGINATION_SIZE } from "src/utils/constants";
 import { PaginationType } from "src/utils/types/CustomAxiosResponse";
 import HomeContainer from "../src/containers/HomeContainer";
 import { NextPageWithLayout } from "./_app";
@@ -33,9 +30,9 @@ export const getServerSideProps = async (
 ) => {
   const { page } = context.query;
   const result = await fetch(
-    `${BASE_URL}/courses?page=${
-      page ?? 1
-    }&limit=${DEFAULT_PAGINATION_SIZE_IN_PAGES}`
+    `${BASE_URL}/courses?page=${page ?? 1}&limit=${
+      DEFAULT_PAGINATION_SIZE.COURSES_SIZE
+    }`
   );
   const data = await result.json();
   return {

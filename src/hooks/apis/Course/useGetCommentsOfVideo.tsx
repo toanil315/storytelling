@@ -1,25 +1,48 @@
-import { useQuery } from "react-query";
+import { useInfiniteQuery } from "react-query";
 import { CommentType } from "src/data-model/CommentTypes";
 import { videoServices } from "src/services/VideoServices";
 import { QUERY_KEYS } from "src/utils/constants";
-import { UseQueryResponse } from "src/utils/types/UseQueryHookResponse";
+import { UseInfinityQueryResponse } from "src/utils/types/UseQueryHookResponse";
 
 const useGetCommentsOfCourse = (
   videoId: string
-): UseQueryResponse<CommentType[]> => {
-  const { data, isLoading, isError, isSuccess } = useQuery(
+): UseInfinityQueryResponse<CommentType[]> => {
+  const {
+    data,
+    isLoading,
+    isError,
+    isSuccess,
+    isFetching,
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteQuery(
     [QUERY_KEYS.GET_COMMENTS_OF_VIDEO, videoId],
-    () => videoServices.getComments(videoId),
+    ({ pageParam = 1 }) => videoServices.getComments(videoId, pageParam),
     {
-      enabled: !!videoId,
+      enabled: Boolean(videoId),
+      getNextPageParam: ({ pagination }, pages) => {
+        return pagination.current_page &&
+          pagination.current_page < pagination.total_pages
+          ? pagination.next_page
+          : undefined;
+      },
     }
   );
 
   return {
-    data: data?.data,
-    isLoading,
+    data: data?.pages.reduce((result, pageComments) => {
+      return [
+        ...result,
+        ...pageComments.data.map((comment) => {
+          return comment;
+        }),
+      ];
+    }, [] as CommentType[]),
+    isLoading: isFetching || isLoading,
     isError,
     isSuccess,
+    hasNextPage,
+    fetchNextPage,
   };
 };
 
