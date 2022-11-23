@@ -10,7 +10,8 @@ import Text from "src/components/commons/Typography";
 import Center from "src/components/commons/Center";
 import SendToEmailIcon from "src/components/icons/SendToEmailIcon";
 import { HelpersUseStep } from "src/hooks/useStep";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
+import { useSubmitEmail } from "src/hooks/apis";
 
 interface SubmitEmailInputProps {
   email: string;
@@ -21,11 +22,17 @@ interface Props extends Partial<HelpersUseStep> {
 }
 
 const SubmitEmailForm = ({ setEmail, goToNextStep }: Props) => {
+  const { submitEmail, isLoading, isSuccess } = useSubmitEmail();
   const onSubmit: SubmitHandler<SubmitEmailInputProps> = (data) => {
-    console.log(data);
+    submitEmail(data.email);
     setEmail(data.email);
-    goToNextStep && goToNextStep();
   };
+
+  useEffect(() => {
+    if (!isLoading && isSuccess) {
+      goToNextStep && goToNextStep();
+    }
+  }, [isLoading, isSuccess]);
 
   return (
     <Center flexDirection="column">
@@ -60,7 +67,7 @@ const SubmitEmailForm = ({ setEmail, goToNextStep }: Props) => {
               control={control}
             />
             <Box width="100%">
-              <Box as={Button} width="100%" type="submit">
+              <Box loading={isLoading} as={Button} width="100%" type="submit">
                 Send
               </Box>
               <Link href={`${Path.login}`}>

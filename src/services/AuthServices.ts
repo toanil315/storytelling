@@ -1,5 +1,11 @@
 import { axiosClient } from "src/utils/axios";
-import { UserLogin, UserRegister, UserType } from "src/data-model/UserTypes";
+import {
+  ResetPasswordType,
+  UserLogin,
+  UserRegister,
+  UserType,
+  VerifyCodeForgotPassword,
+} from "src/data-model/UserTypes";
 import { CustomAxiosResponse } from "src/utils/types/CustomAxiosResponse";
 
 export const authService = {
@@ -16,6 +22,18 @@ export const authService = {
   },
 
   logout: () => {
-    return axiosClient.get("/logout");
+    return axiosClient.post("/logout");
+  },
+
+  forgotPassword: {
+    enterEmail: (email: string) => {
+      return axiosClient.post("/forgot-password", { email });
+    },
+    verifyCode: (verifyCode: VerifyCodeForgotPassword) => {
+      return axiosClient.post("/verify-code", verifyCode);
+    },
+    resetPassword: (resetPassword: ResetPasswordType) => {
+      return axiosClient.post("/reset-password", resetPassword);
+    },
   },
 };

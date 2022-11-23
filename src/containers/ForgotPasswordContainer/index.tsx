@@ -11,6 +11,7 @@ import VerifyEmailForm from "./components/VerifyEmailForm";
 const ForgotPasswordContainer = () => {
   const [currentStep, { goToNextStep }] = useStep(3);
   const [email, setEmail] = useState<string>("");
+  const [verifyCode, setVerifyCode] = useState<number>(0);
 
   const renderProperForm = () => {
     switch (currentStep) {
@@ -21,11 +22,17 @@ const ForgotPasswordContainer = () => {
       }
 
       case StepOfRetrievePassword.VERIFY_EMAIL: {
-        return <VerifyEmailForm email={email} goToNextStep={goToNextStep} />;
+        return (
+          <VerifyEmailForm
+            setVerifyCode={setVerifyCode}
+            email={email}
+            goToNextStep={goToNextStep}
+          />
+        );
       }
 
       case StepOfRetrievePassword.CHANGE_PASSWORD: {
-        return <ChangePasswordForm />;
+        return <ChangePasswordForm verifyCode={verifyCode} email={email} />;
       }
 
       default:

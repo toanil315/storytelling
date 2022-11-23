@@ -9,6 +9,8 @@ import Text from "src/components/commons/Typography";
 import Center from "src/components/commons/Center";
 import VerifyEmailIcon from "src/components/icons/VerifyEmailIcon";
 import { HelpersUseStep } from "src/hooks/useStep";
+import { Dispatch, SetStateAction, useEffect } from "react";
+import { useVerifyCodeForgotPassword } from "src/hooks/apis";
 
 interface VerifyEmailInputProps {
   verifyCode: string;
@@ -16,13 +18,24 @@ interface VerifyEmailInputProps {
 
 interface Props extends Partial<HelpersUseStep> {
   email: string;
+  setVerifyCode: Dispatch<SetStateAction<number>>;
 }
 
-const VerifyEmailForm = ({ email, goToNextStep }: Props) => {
+const VerifyEmailForm = ({ email, setVerifyCode, goToNextStep }: Props) => {
+  const { verifyCode, isLoading, isSuccess } = useVerifyCodeForgotPassword();
   const onSubmit: SubmitHandler<VerifyEmailInputProps> = (data) => {
-    console.log(data);
-    goToNextStep && goToNextStep();
+    verifyCode({
+      email,
+      verifyCode: Number(data.verifyCode),
+    });
+    setVerifyCode(Number(data.verifyCode));
   };
+
+  useEffect(() => {
+    if (!isLoading && isSuccess) {
+      goToNextStep && goToNextStep();
+    }
+  }, [isLoading, isSuccess]);
 
   return (
     <Center flexDirection="column">

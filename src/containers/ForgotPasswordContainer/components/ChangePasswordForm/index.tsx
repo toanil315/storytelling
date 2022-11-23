@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Box from "src/components/commons/Box";
 import Button from "src/components/commons/Button";
 import Form from "src/components/Form";
@@ -6,15 +6,26 @@ import { SubmitHandler } from "react-hook-form";
 import { forgotPasswordSchemas } from "src/utils/schemas/AuthSchema";
 import Center from "src/components/commons/Center";
 import Text from "src/components/commons/Typography";
+import { useResetPassword } from "src/hooks/apis";
 
 interface ChangePasswordInputProps {
-  newPassword: string;
+  password: string;
   confirmNewPassword: string;
 }
 
-const ChangePasswordForm = () => {
+interface Props {
+  email: string;
+  verifyCode: number;
+}
+
+const ChangePasswordForm = ({ email, verifyCode }: Props) => {
+  const { resetPassword, isLoading, isSuccess } = useResetPassword();
   const onSubmit: SubmitHandler<ChangePasswordInputProps> = (data) =>
-    console.log(data);
+    resetPassword({
+      password: data.password,
+      email,
+      verifyCode,
+    });
 
   return (
     <Center width="80%" flexDirection="column">
@@ -35,7 +46,7 @@ const ChangePasswordForm = () => {
       <Form
         width="100%"
         defaultValues={{
-          newPassword: "",
+          password: "",
           confirmNewPassword: "",
         }}
         onSubmit={onSubmit}
@@ -45,7 +56,7 @@ const ChangePasswordForm = () => {
           <>
             <Form.Input
               placeholder="Enter your new password here"
-              name="newPassword"
+              name="password"
               label="New Password"
               type="password"
               control={control}
@@ -57,7 +68,7 @@ const ChangePasswordForm = () => {
               type="password"
               control={control}
             />
-            <Box as={Button} width="100%" type="submit">
+            <Box loading={isLoading} as={Button} width="100%" type="submit">
               Confirm
             </Box>
           </>

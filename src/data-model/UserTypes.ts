@@ -15,3 +15,14 @@ export interface UserType extends UserBase {
   role: string;
   avatarUrl: string | null;
 }
+
+export interface VerifyCodeForgotPassword {
+  email: string;
+  verifyCode: number;
+}
+
+export interface ResetPasswordType {
+  email: string;
+  verifyCode: number;
+  password: string;
+}
