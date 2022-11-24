@@ -36,6 +36,18 @@
       "required": "Phone Number is required",
       "invalid": "Phone Number is invalid"
     },
+    "occupation": {
+      "required": "Ocupation is required"
+    },
+    "dateOfBirth": {
+      "required": "Date of birth is required"
+    },
+    "backSideOfIdentityCard": {
+      "required": "Back side of identity is required"
+    },
+    "frontSideOfIdentityCard": {
+      "required": "Front side of identity is required"
+    },
     "uploadCourse": {
       "title": "Title is required",
       "description": "Description is required",

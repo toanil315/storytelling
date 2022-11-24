@@ -7,16 +7,20 @@ import ImageComponent from "src/components/commons/Image";
 import Text from "src/components/commons/Typography";
 import Form from "src/components/Form";
 import CustomModal from "src/components/Modal";
+import { useGetUserDetail } from "src/hooks/apis";
 import { UseModalHelper } from "src/hooks/useModal";
 import { userInformationSchema } from "src/utils/schemas/UserInformationSchema";
 import { AvatarContainer } from "./styles";
 
 interface InformationInputsProps {
-  name: string;
   email: string;
-  password: string;
-  phoneNumber: string;
+  phone: string;
   address: string;
+  occupation: string;
+  fullName: string;
+  dateOfBirth: string;
+  backSideOfIdentityCard: string;
+  frontSideOfIdentityCard: string;
 }
 
 interface Props {
@@ -26,6 +30,7 @@ interface Props {
 const InformationModal = ({
   modal: { show, toggleModal, closeModal },
 }: Props) => {
+  const { user } = useGetUserDetail();
   const onSubmit: SubmitHandler<InformationInputsProps> = (data) =>
     console.log(data);
 
@@ -36,7 +41,7 @@ const InformationModal = ({
         component: (
           <Form.Input
             placeholder="Enter your name here"
-            name="name"
+            name="fullName"
             label="Name"
           />
         ),
@@ -52,22 +57,11 @@ const InformationModal = ({
         ),
       },
       {
-        key: "Password",
-        component: (
-          <Form.Input
-            placeholder="Enter your password here"
-            name="password"
-            label="Password"
-            type="password"
-          />
-        ),
-      },
-      {
         key: "Phone Number",
         component: (
           <Form.Input
             placeholder="Enter your phone number here"
-            name="phoneNumber"
+            name="phone"
             label="Phone Number"
           />
         ),
@@ -82,6 +76,46 @@ const InformationModal = ({
           />
         ),
       },
+      {
+        key: "Address",
+        component: (
+          <Form.Input
+            placeholder="Enter your occupation here"
+            name="occupation"
+            label="Occupation"
+          />
+        ),
+      },
+      {
+        key: "Address",
+        component: (
+          <Form.Input
+            placeholder="Enter your date of birth here"
+            name="dateOfBirth"
+            label="Date of birth"
+          />
+        ),
+      },
+      {
+        key: "Address",
+        component: (
+          <Form.FileUpload
+            placeholder="Enter your front side of identity card here"
+            name="frontSideOfIdentityCard"
+            label="Front side of identity card"
+          />
+        ),
+      },
+      {
+        key: "Address",
+        component: (
+          <Form.FileUpload
+            placeholder="Enter your back side of identity card here"
+            name="backSideOfIdentityCard"
+            label="Back side of identity card"
+          />
+        ),
+      },
     ],
     []
   );
@@ -89,11 +123,9 @@ const InformationModal = ({
   const renderFields = (control: Control<InformationInputsProps>) => {
     return fields.map((colItem) => (
       <Col key={colItem.key} span={12}>
-        <Box height="60px">
-          {React.cloneElement(colItem.component, {
-            control,
-          })}
-        </Box>
+        {React.cloneElement(colItem.component, {
+          control,
+        })}
       </Col>
     ));
   };
@@ -123,24 +155,32 @@ const InformationModal = ({
           <Form
             width="100%"
             defaultValues={{
-              name: "string",
-              email: "string",
-              password: "string",
-              phoneNumber: "string",
-              address: "string",
+              email: user?.email ?? "",
+              phone: user?.phone ?? "",
+              address: user?.address ?? "",
+              occupation: user?.occupation ?? "",
+              fullName: user?.fullName ?? "",
+              dateOfBirth: user?.dateOfBirth ?? "",
+              backSideOfIdentityCard: "",
+              frontSideOfIdentityCard: "",
             }}
             onSubmit={onSubmit}
             schema={userInformationSchema}
+            enableResetForm={true}
           >
             {({ control }) => (
               <>
                 <Box as={Row} width="100%" gutter={[20, 30]}>
                   {renderFields(control)}
-                  <Col span={12}>
-                    <Box as={Button} width="100%" height="55px" type="submit">
-                      Edit
-                    </Box>
-                  </Col>
+                  <Box
+                    as={Button}
+                    width="50%"
+                    height="50px"
+                    type="submit"
+                    margin="20px auto"
+                  >
+                    Edit
+                  </Box>
                 </Box>
               </>
             )}

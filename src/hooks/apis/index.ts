@@ -1,6 +1,7 @@
 export { default as useSignUp } from "./Auth/useSignUp";
 export { default as useSignIn } from "./Auth/useSignIn";
 export { default as useUser } from "./Auth/useUser";
+export { default as useGetUserDetail } from "./Auth/useGetUserDetail";
 export * from "./Auth/useForgotPassword";
 
 export { default as useCreateCourse } from "./Course/useCreateCourse";
