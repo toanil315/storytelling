@@ -23,6 +23,8 @@ export { default as useGetHashTags } from "./Course/useGetHashTags";
 export { default as useGetNotifications } from "./User/useGetNotifications";
 export { default as useMarkAllReadNotifications } from "./User/useMarkAllReadNotifications";
 export { default as useMarkReadNotification } from "./User/useMarkReadNotification";
+export { default as useUpdateProfileUser } from "./User/useUpdateProfileUser";
+export { default as useChangePassword } from "./User/useChangePassword";
 
 export { default as useRealTimeServices } from "./RealTime/useRealTimeServices";
 

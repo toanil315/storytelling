@@ -45,3 +45,8 @@ export interface UpdateProfileToBecomeInstructor {
   phone: string;
   dateOfBirth: string;
 }
+
+export interface ChangePasswordType {
+  oldPassword: string;
+  newPassword: string;
+}

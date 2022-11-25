@@ -1,17 +1,17 @@
 import { useQuery } from "react-query";
-import { UserType } from "src/data-model/UserTypes";
+import { UserDetail, UserType } from "src/data-model/UserTypes";
 import { authService } from "src/services/AuthServices";
 import { QUERY_KEYS } from "src/utils/constants";
 
 const useUser = (): {
-  user?: UserType;
+  user?: UserDetail;
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
 } => {
   const { data, isLoading, isError, isSuccess } = useQuery(
     QUERY_KEYS.GET_ME,
-    authService.getMe
+    authService.getUserDetail
   );
 
   return {

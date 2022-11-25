@@ -27,3 +27,23 @@ export const userInformationSchema = yupGlobal.object().shape({
     .string()
     .required(i18next.t("validation.frontSideOfIdentityCard.required")),
 });
+
+export const changePasswordSchema = yupGlobal.object().shape({
+  oldPassword: yupGlobal
+    .string()
+    .min(6, i18next.t("validation.password.min"))
+    .required(i18next.t("validation.password.required"))
+    .isPassword(),
+  newPassword: yupGlobal
+    .string()
+    .min(6, i18next.t("validation.password.min"))
+    .required(i18next.t("validation.password.required"))
+    .isPassword(),
+  confirmNewPassword: yupGlobal
+    .string()
+    .required(i18next.t("validation.confirmPassword.required"))
+    .oneOf(
+      [yupGlobal.ref("newPassword"), null],
+      i18next.t("validation.password.notMatch")
+    ),
+});
