@@ -6,7 +6,14 @@ import CloseIcon from "src/components/icons/CloseIcon";
 interface Props extends ModalProps {}
 
 const CustomModal = ({ ...restProps }: Props) => {
-  return <StyledModal closeIcon={<CloseIcon />} footer={null} {...restProps} />;
+  return (
+    <StyledModal
+      maskTransitionName=""
+      closeIcon={<CloseIcon />}
+      footer={null}
+      {...restProps}
+    />
+  );
 };
 
 export default CustomModal;

@@ -6,6 +6,7 @@ import { FALL_BACK_IMAGE_URL } from "src/utils/constants";
 interface Props extends ImageProps {
   src: string;
   alt: string;
+  fallBack?: string;
 }
 
 const ImageComponent = ({
@@ -13,6 +14,7 @@ const ImageComponent = ({
   alt,
   objectFit = "contain",
   layout = "fill",
+  fallBack,
   ...restProps
 }: Props) => {
   const [imgSrc, setSrc] = useState<string>(src);
@@ -26,10 +28,10 @@ const ImageComponent = ({
         objectFit={objectFit}
         alt={alt}
         onError={() => {
-          setSrc(FALL_BACK_IMAGE_URL);
+          setSrc(fallBack ?? FALL_BACK_IMAGE_URL);
         }}
         onErrorCapture={() => {
-          setSrc(FALL_BACK_IMAGE_URL);
+          setSrc(fallBack ?? FALL_BACK_IMAGE_URL);
         }}
         {...restProps}
       />

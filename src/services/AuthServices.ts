@@ -1,6 +1,7 @@
 import { axiosClient } from "src/utils/axios";
 import {
   ResetPasswordType,
+  UserDetail,
   UserLogin,
   UserRegister,
   UserType,
@@ -19,6 +20,10 @@ export const authService = {
 
   getMe: (): Promise<CustomAxiosResponse<UserType>> => {
     return axiosClient.get("/me");
+  },
+
+  getUserDetail: (): Promise<CustomAxiosResponse<UserDetail>> => {
+    return axiosClient.get("/users/details");
   },
 
   logout: () => {

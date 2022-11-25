@@ -31,6 +31,8 @@ export interface LectureBase {
 export interface CourseType extends CourseBase {
   id: string;
   isActived: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface LectureType extends LectureBase {

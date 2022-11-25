@@ -1,10 +1,12 @@
+import { DatePicker } from "antd";
 import styled, { css } from "styled-components";
+import Box from "../Box";
 
 interface WrapperProps {
   width?: string;
 }
 
-interface InputWrapperProps {
+interface DatePickerWrapperProps {
   disabled?: boolean;
   isError?: boolean;
 }
@@ -14,7 +16,7 @@ export const Wrapper = styled.div<WrapperProps>`
   position: relative;
 `;
 
-export const Label = styled.span`
+export const Label = styled(Box)`
   font-size: ${({ theme }) => theme.fontSizes.xs};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: ${({ theme }) => theme.lineHeights.small};
@@ -28,7 +30,7 @@ export const Label = styled.span`
   z-index: 2;
 `;
 
-export const InputWrapper = styled.div<InputWrapperProps>`
+export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
   border-width: 2px;
   border-style: solid;
   border-color: ${({ isError, theme }) =>
@@ -45,6 +47,7 @@ export const InputWrapper = styled.div<InputWrapperProps>`
   ${({ disabled }) =>
     disabled &&
     css`
+      background-color: ${({ theme }) => theme.colors.lightGray};
       border-color: ${({ theme }) => theme.colors.lightGray} !important;
       box-shadow: unset !important;
       cursor: no-drop;
@@ -52,38 +55,27 @@ export const InputWrapper = styled.div<InputWrapperProps>`
         pointer-events: none;
       }
     `};
-  input {
-    width: 100%;
-    padding: 14px 16px;
-    color: ${({ theme }) => theme.colors.textLight};
-    font-weight: ${({ theme }) => theme.fontWeights.regular};
-    font-size: ${({ theme }) => theme.fontSizes.sm};
-    line-height: ${({ theme }) => theme.lineHeights.normal};
-    background-color: transparent !important;
-    border: 0;
-    &:focus {
-      color: ${({ theme }) => theme.colors.text} !important;
-      outline: none;
+`;
 
-      &:-webkit-autofill,
-      &:-webkit-autofill:hover,
-      &:-webkit-autofill:focus,
-      &:-webkit-autofill:active {
-        -webkit-text-fill-color: ${({ theme }) => theme.colors.text};
-      }
+export const StyledDatePicker = styled(DatePicker)`
+  padding: 14px 16px;
+  width: 100%;
+  border: 0;
+  outline: none;
+  box-shadow: unset;
+
+  .ant-picker-content
+    .ant-picker-cell-in-view.ant-picker-cell-selected
+    .ant-picker-cell-inner {
+    &::before {
+      border-color: ${({ theme }) => theme.colors.primary} !important;
     }
+    background: ${({ theme }) => theme.colors.primary} !important;
+  }
 
-    // Remove background color of autocomplete
-    &:-webkit-autofill,
-    &:-webkit-autofill:hover,
-    &:-webkit-autofill:focus,
-    &:-webkit-autofill:active {
-      -webkit-text-fill-color: ${({ theme }) => theme.colors.textLight};
-      transition: background-color 50000s ease-in-out 0s;
-    }
-
-    &::placeholder {
-      letter-spacing: 0.5px;
+  .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner {
+    &::before {
+      border-color: ${({ theme }) => theme.colors.primary} !important;
     }
   }
 `;

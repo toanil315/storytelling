@@ -3,7 +3,7 @@ import { UserDetail, UserType } from "src/data-model/UserTypes";
 import { authService } from "src/services/AuthServices";
 import { QUERY_KEYS } from "src/utils/constants";
 
-const useUser = (): {
+const useGetUserDetail = (): {
   user?: UserDetail;
   isLoading: boolean;
   isError: boolean;
@@ -22,4 +22,4 @@ const useUser = (): {
   };
 };
 
-export default useUser;
+export default useGetUserDetail;

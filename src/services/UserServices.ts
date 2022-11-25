@@ -1,5 +1,9 @@
 import { NotificationType } from "src/data-model/NotificationTypes";
-import { UserType } from "src/data-model/UserTypes";
+import {
+  ChangePasswordType,
+  UserDetail,
+  UserType,
+} from "src/data-model/UserTypes";
 import { axiosClient } from "src/utils/axios";
 import { DEFAULT_PAGINATION_SIZE } from "src/utils/constants";
 import {
@@ -34,5 +38,13 @@ export const userServices = {
 
   getUserById: (userId: string): Promise<CustomAxiosResponse<UserType>> => {
     return axiosClient.get(`/users/${userId}`);
+  },
+
+  updateProfileUser: (userData: UserDetail): Promise<any> => {
+    return axiosClient.put("/users/update-profile", userData);
+  },
+
+  changePassword: (changePassword: ChangePasswordType): Promise<any> => {
+    return axiosClient.post("/change-password", changePassword);
   },
 };

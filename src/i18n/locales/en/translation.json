@@ -36,6 +36,18 @@
       "required": "Phone Number is required",
       "invalid": "Phone Number is invalid"
     },
+    "occupation": {
+      "required": "Ocupation is required"
+    },
+    "dateOfBirth": {
+      "required": "Date of birth is required"
+    },
+    "backSideOfIdentityCard": {
+      "required": "Back side of identity is required"
+    },
+    "frontSideOfIdentityCard": {
+      "required": "Front side of identity is required"
+    },
     "uploadCourse": {
       "title": "Title is required",
       "description": "Description is required",
@@ -79,7 +91,9 @@
         "enterEmail": "Send verify code successfully. Please check your email.",
         "verifyCode": "Verify code successfully. Please submit your new password.",
         "resetPassword": "Reset password successfully. Please login."
-      }
+      },
+      "updateUserProfile": "Update user profile successfully.",
+      "changePassword": "Change Password successfully. Please login again"
     },
     "error": {
       "register": "Register failed. Please try again.",
@@ -96,7 +110,9 @@
         "enterEmail": "Send verify code failed. Please try again.",
         "verifyCode": "Verify code failed. Please try again.",
         "resetPassword": "Reset password failed. Please try again."
-      }
+      },
+      "updateUserProfile": "Update user profile failed. Please try again.",
+      "changePassword": "Change Password failed. Please try again."
     }
   },
   "courseContent": "Course Content",

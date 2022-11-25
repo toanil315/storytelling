@@ -2,13 +2,15 @@ import { useRouter } from "next/router";
 import React from "react";
 import Box from "src/components/commons/Box";
 import Button from "src/components/commons/Button";
+import Center from "src/components/commons/Center";
 import ImageComponent from "src/components/commons/Image";
 import Text from "src/components/commons/Typography";
 import CourseCard from "src/components/CourseCard";
 import { useGetCoursesByInstructor, useUser } from "src/hooks/apis";
 import useModal from "src/hooks/useModal";
+import { USER_ROLES } from "src/utils/constants";
 import { Path } from "src/utils/Path";
-import InformationModal from "./components/InformationModal";
+import UpdateProfileModal from "./components/UpdateProfileModal";
 import { ProfileHeader, ProfileImage } from "./styles";
 
 interface Props {
@@ -36,7 +38,11 @@ const ProfileContainer = ({ mode, instructorId }: Props) => {
       <ProfileHeader>
         <Box display="flex" alignItems="center">
           <ProfileImage>
-            <ImageComponent src="/assets/ava.png" alt="avatar" />
+            <ImageComponent
+              fallBack="/assets/ava.png"
+              src={user?.avatarUrl ?? ""}
+              alt="avatar"
+            />
           </ProfileImage>
           <Box padding=" 0 0 0 15px">
             <Text
@@ -64,30 +70,51 @@ const ProfileContainer = ({ mode, instructorId }: Props) => {
           </Box>
         </Box>
         <Box display="flex" alignItems="center">
-          <Box onClick={modal.toggleModal} as={Button} height="fit-content">
-            Edit Profile
-          </Box>
+          {mode === "me" && (
+            <Box onClick={modal.toggleModal} as={Button} height="fit-content">
+              Edit Profile
+            </Box>
+          )}
 
-          <Box
-            as={Button}
-            $type="secondary"
-            height="fit-content"
-            margin="0 0 0 10px"
-            onClick={() => router.push(Path.statistic)}
-          >
-            Statistic
-          </Box>
+          {mode === "me" && user?.role === USER_ROLES.AUTHOR && (
+            <Box
+              as={Button}
+              $type="secondary"
+              height="fit-content"
+              margin="0 0 0 10px"
+              onClick={() => router.push(Path.statistic)}
+            >
+              Statistic
+            </Box>
+          )}
         </Box>
       </ProfileHeader>
       <Box margin="40px 0">
         <Text fontSize="base" fontWeight="medium" lineHeight="large">
           My Courses:
         </Text>
-        <Box margin="20px 0 0" className="grid grid-cols-3 gap-x-4 gap-y-8">
-          {renderCourseList()}
-        </Box>
+
+        {courses?.length === 0 ? (
+          <Center width="100%" className="flex-col p-4">
+            <Box width="120%" height="300px">
+              <ImageComponent src="/assets/empty.png" alt="empty" />
+            </Box>
+            <Text
+              fontSize="sm"
+              fontWeight="medium"
+              lineHeight="large"
+              color="text"
+            >
+              You currently haven't any course
+            </Text>
+          </Center>
+        ) : (
+          <Box margin="20px 0 0" className="grid grid-cols-3 gap-x-4 gap-y-8">
+            {renderCourseList()}
+          </Box>
+        )}
       </Box>
-      <InformationModal modal={modal} />
+      <UpdateProfileModal modal={modal} />
     </Box>
   );
 };

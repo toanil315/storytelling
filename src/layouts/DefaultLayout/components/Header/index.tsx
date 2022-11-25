@@ -29,6 +29,8 @@ import RealTimeServices from "src/services/RealTimeServices";
 import useGetNotification from "src/hooks/apis/User/useGetNotifications";
 import useMarkAllReadNotification from "src/hooks/apis/User/useMarkAllReadNotifications";
 import NotificationsList from "../NotificationsList";
+import BecomeInstructorModal from "../BecomeInstructorModal";
+import { useModal } from "src/hooks";
 
 const Header = () => {
   const router = useRouter();
@@ -36,10 +38,9 @@ const Header = () => {
   const { markAllReadNotification } = useMarkAllReadNotification(
     user?.userId ?? ""
   );
-
   const { data: notifications } = useGetNotification(user?.userId ?? "");
-
   const [init, destroy] = useRealTimeServices();
+  const becomeInstructorModal = useModal();
 
   useEffect(() => {
     if (user && user.userId) {
@@ -101,6 +102,17 @@ const Header = () => {
                 </Box>
               </Button>
             )}
+            {user.role === USER_ROLES.USER && (
+              <Button
+                onClick={becomeInstructorModal.toggleModal}
+                $type="white"
+                borderRadius="25px"
+              >
+                <Box as={Text} padding="0 10px">
+                  Become an instructor?
+                </Box>
+              </Button>
+            )}
             <StyledDropdown
               overlay={<UserDropdown />}
               trigger={["click"]}
@@ -125,6 +137,7 @@ const Header = () => {
           <Button onClick={() => router.push(Path.login)}>Sign In</Button>
         )}
       </div>
+      <BecomeInstructorModal modal={becomeInstructorModal} />
     </HeaderWrapper>
   );
 };
