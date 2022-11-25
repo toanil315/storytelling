@@ -31,13 +31,15 @@ export interface LectureBase {
 export interface CourseType extends CourseBase {
   id: string;
   isActived: boolean;
-  deletedAt: string;
+  createdAt: string;
   updatedAt: string;
 }
 
 export interface LectureType extends LectureBase {
   id: string;
   createdAt: string;
+  deletedAt: string;
+  updatedAt: string;
 }
 
 export interface SectionType extends SectionBase {
