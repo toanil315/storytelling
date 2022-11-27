@@ -11,5 +11,6 @@ export const Path = {
   profile: `${basePath}/profile`,
   statistic: `${basePath}/profile/statistic`,
   user: `${basePath}/user`,
+  search: `${basePath}/courses/search`,
   error: "404",
 };

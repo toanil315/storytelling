@@ -86,3 +86,9 @@ export enum NOTIFICATIONS_TYPES {
   COMMENT_VIDEO = "COMMENT_VIDEO",
   EMOTION_REACT_VIDEO = "EMOTION_REACT_VIDEO",
 }
+
+export const QUERY_PARAMS_FOR_SEARCH_COURSE = {
+  query: "q",
+  category: "c",
+  hashtag: "tag",
+};
