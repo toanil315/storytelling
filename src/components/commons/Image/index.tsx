@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "../Box";
 import Image, { ImageProps } from "next/image";
 import { FALL_BACK_IMAGE_URL } from "src/utils/constants";
@@ -18,6 +18,10 @@ const ImageComponent = ({
   ...restProps
 }: Props) => {
   const [imgSrc, setSrc] = useState<string>(src);
+
+  useEffect(() => {
+    setSrc(src);
+  }, [src]);
 
   return (
     <Box style={{ position: "relative" }} width="100%" height="100%">

@@ -25,6 +25,7 @@ export { default as useMarkAllReadNotifications } from "./User/useMarkAllReadNot
 export { default as useMarkReadNotification } from "./User/useMarkReadNotification";
 export { default as useUpdateProfileUser } from "./User/useUpdateProfileUser";
 export { default as useChangePassword } from "./User/useChangePassword";
+export { default as useUploadAvatar } from "./User/useUploadAvatar";
 
 export { default as useRealTimeServices } from "./RealTime/useRealTimeServices";
 
