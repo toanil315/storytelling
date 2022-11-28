@@ -127,8 +127,9 @@ const Header = () => {
               >
                 {" "}
                 <ImageComponent
-                  src="/assets/avatar-fallback.png"
-                  alt="avatar fallback"
+                  fallBack="/assets/ava.png"
+                  src={user?.avatarUrl ?? ""}
+                  alt="avatar"
                 />
               </Box>
             </StyledDropdown>
