@@ -13,11 +13,14 @@ export const videoServices = {
     page: number
   ): Promise<CustomAxiosResponseWithPagination<CommentType[]>> => {
     return axiosClient.get(
-      `${BASE_JAVA_URL}/comments/${videoId}?page=${page}&paging=${DEFAULT_PAGINATION_SIZE.COMMENTS}&sort=createdAt&order=desc`
+      `${BASE_JAVA_URL}/videos/${videoId}/comments?page=${page}&paging=${DEFAULT_PAGINATION_SIZE.COMMENTS}&sort=createdAt&order=desc`
     );
   },
 
   postComment: (commentData: CommentBase) => {
-    return axiosClient.post(`${BASE_JAVA_URL}/comments`, commentData);
+    return axiosClient.post(
+      `${BASE_JAVA_URL}/videos/${commentData.videoId}/comments`,
+      commentData
+    );
   },
 };
