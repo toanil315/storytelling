@@ -1,7 +1,14 @@
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import React from "react";
 import withAuth from "src/components/HOC/withAuth";
-import SearchContainer from "src/containers/SearchContainer";
+
+const SearchContainer = dynamic(
+  () => import("src/containers/SearchContainer"),
+  {
+    ssr: false,
+  }
+);
 
 const SearchPage = () => {
   return (

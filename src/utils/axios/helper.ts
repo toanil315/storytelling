@@ -57,30 +57,32 @@ export const handleRefreshToken = async (
   axiosInstance: AxiosInstance,
   mode: "server" | "client"
 ) => {
-  originalConfig._retry = true;
-  Cookies.remove(ACCESS_TOKEN);
-  try {
-    if (!refreshTokenHandler) {
-      refreshTokenHandler = getNewAccessToken(mode);
-    }
-    const result = await refreshTokenHandler;
+  const refreshToken = localStorageClient.readValue(REFRESH_TOKEN);
+  if (refreshToken) {
+    Cookies.remove(ACCESS_TOKEN);
+    try {
+      if (!refreshTokenHandler) {
+        refreshTokenHandler = getNewAccessToken(mode);
+      }
+      const result = await refreshTokenHandler;
 
-    const tokens = result
-      ? {
-          accessToken: result.data.data.token,
-          refreshToken: result.data.data.refreshToken,
-        }
-      : undefined;
-    if (tokens) {
-      setAccessToken(mode, tokens);
-      return axiosInstance(originalConfig);
+      const tokens = result
+        ? {
+            accessToken: result.data.data.token,
+            refreshToken: result.data.data.refreshToken,
+          }
+        : undefined;
+      if (tokens) {
+        setAccessToken(mode, tokens);
+        return axiosInstance(originalConfig);
+      }
+    } catch (error) {
+      toast.error(i18next.t("toast.error.refreshTokenFailed") as string);
+      if (typeof window !== "undefined") {
+        Router.push(Path.login);
+      }
+    } finally {
+      refreshTokenHandler = undefined;
     }
-  } catch (error) {
-    toast.error(i18next.t("toast.error.refreshTokenFailed") as string);
-    if (typeof window !== "undefined") {
-      Router.push(Path.login);
-    }
-  } finally {
-    refreshTokenHandler = undefined;
   }
 };

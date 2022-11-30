@@ -2,9 +2,13 @@ import axios from "axios";
 import { ACCESS_TOKEN, BASE_URL } from "../constants";
 import { localStorageClient } from "../localStorageClient";
 import { handleRefreshToken } from "./helper";
+import qs from "qs";
 
 export const axiosClient = axios.create({
   baseURL: `${BASE_URL}`,
+  paramsSerializer: (params) => {
+    return qs.stringify(params);
+  },
 });
 
 axiosClient.interceptors.request.use(
@@ -31,9 +35,10 @@ axiosClient.interceptors.response.use(
     const originalConfig = error.config;
     if (error.response) {
       if (
-        error.response?.data?.error?.message === "Token invalid" &&
+        // error.response?.data?.error?.message === "Token invalid" &&
         !originalConfig._retry
       ) {
+        originalConfig._retry = true;
         await handleRefreshToken(originalConfig, axiosClient, "client");
       }
     }

@@ -1,10 +1,17 @@
+import { Col, Row } from "antd";
 import { useRouter } from "next/router";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Box from "src/components/commons/Box";
 import Collapse from "src/components/commons/Collapse";
+import Input from "src/components/commons/Input";
+import Slider from "src/components/commons/Slider";
 import Text from "src/components/commons/Typography";
+import { useDebounceWithoutDependencies } from "src/hooks";
 import { useGetCategory, useGetHashTags } from "src/hooks/apis";
-import { QUERY_PARAMS_FOR_SEARCH_COURSE } from "src/utils/constants";
+import {
+  MIN_MAX_PRICE_OF_COURSES,
+  QUERY_PARAMS_FOR_SEARCH_COURSE,
+} from "src/utils/constants";
 import { Path } from "src/utils/Path";
 import { FilterItemWrapper } from "./styles";
 
@@ -12,6 +19,12 @@ const FilterCourse = () => {
   const { data: categories } = useGetCategory();
   const { data: hashtags } = useGetHashTags();
   const router = useRouter();
+
+  const [priceRange, setPriceRange] = useState<{ start: number; end: number }>({
+    start: MIN_MAX_PRICE_OF_COURSES.MIN,
+    end: MIN_MAX_PRICE_OF_COURSES.MAX,
+  });
+  const { setDebounce } = useDebounceWithoutDependencies(300);
 
   const handleClickFilterItem = (item: string, queryKey: string) => {
     let params: string | string[] | undefined = router.query[queryKey];
@@ -94,6 +107,70 @@ const FilterCourse = () => {
     });
   }, [router.query, hashtags]);
 
+  const handleSliderChange = (side?: "start" | "end") => {
+    return (value: number[] | number) => {
+      console.log("side: ", side);
+      switch (side) {
+        case "start":
+          setPriceRange((prev) => ({
+            ...prev,
+            start: value as number,
+          }));
+          break;
+
+        case "end":
+          setPriceRange((prev) => ({
+            ...prev,
+            end: value as number,
+          }));
+          break;
+
+        default:
+          setPriceRange({
+            start: (value as number[])[0],
+            end: (value as number[])[1],
+          });
+          break;
+      }
+    };
+  };
+
+  useEffect(() => {
+    if (Object.keys(router.query).length !== 0) {
+      setDebounce(() => {
+        router.replace(
+          {
+            pathname: Path.search,
+            query: {
+              ...router.query,
+              [QUERY_PARAMS_FOR_SEARCH_COURSE.minPrice]: priceRange.start,
+              [QUERY_PARAMS_FOR_SEARCH_COURSE.maxPrice]: priceRange.end,
+            },
+          },
+          undefined,
+          { shallow: true }
+        );
+      });
+    }
+  }, [priceRange]);
+
+  useEffect(() => {
+    const minPrice = router.query[QUERY_PARAMS_FOR_SEARCH_COURSE.minPrice]
+      ? Number(router.query[QUERY_PARAMS_FOR_SEARCH_COURSE.minPrice])
+      : 0;
+    const maxPrice = router.query[QUERY_PARAMS_FOR_SEARCH_COURSE.maxPrice]
+      ? Number(router.query[QUERY_PARAMS_FOR_SEARCH_COURSE.maxPrice])
+      : 0;
+
+    if (minPrice && minPrice !== priceRange.start) {
+      setPriceRange((prev) => ({ ...prev, start: minPrice }));
+    }
+
+    if (maxPrice && maxPrice !== priceRange.end) {
+      setPriceRange((prev) => ({ ...prev, end: maxPrice }));
+    }
+  }, [router.query]);
+
   return (
     <Box
       width="100%"
@@ -107,6 +184,45 @@ const FilterCourse = () => {
         <Text fontSize="md" fontWeight="bold" color="text">
           Filters:
         </Text>
+      </Box>
+      <Box margin="0 0 25px">
+        <Text>Price:</Text>
+        <Box as={Row} margin="10px 0 20px" gutter={[10]}>
+          <Col span={24}>
+            <Slider
+              onChange={handleSliderChange()}
+              value={[priceRange.start, priceRange.end]}
+              min={MIN_MAX_PRICE_OF_COURSES.MIN}
+              max={MIN_MAX_PRICE_OF_COURSES.MAX}
+              range
+            />
+          </Col>
+          <Col span={10}>
+            <Input
+              handleChange={handleSliderChange("start")}
+              value={priceRange.start}
+              min={MIN_MAX_PRICE_OF_COURSES.MIN}
+              max={MIN_MAX_PRICE_OF_COURSES.MAX}
+              padding="5px 0"
+              suffixIcon="$"
+              suffixPosition="right"
+              type="number"
+            />
+          </Col>
+
+          <Col offset={4} span={10}>
+            <Input
+              handleChange={handleSliderChange("end")}
+              value={priceRange.end}
+              min={MIN_MAX_PRICE_OF_COURSES.MIN}
+              max={MIN_MAX_PRICE_OF_COURSES.MAX}
+              padding="5px 0"
+              suffixIcon="$"
+              suffixPosition="right"
+              type="number"
+            />
+          </Col>
+        </Box>
       </Box>
       <Box margin="0 0 25px">
         <Collapse header={"Category"}>{renderCategory}</Collapse>

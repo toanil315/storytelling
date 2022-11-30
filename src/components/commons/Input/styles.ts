@@ -29,6 +29,10 @@ export const Label = styled.span`
 `;
 
 export const InputWrapper = styled.div<InputWrapperProps>`
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+
   border-width: 2px;
   border-style: solid;
   border-color: ${({ isError, theme }) =>
@@ -54,7 +58,7 @@ export const InputWrapper = styled.div<InputWrapperProps>`
     `};
   input {
     width: 100%;
-    padding: 14px 16px;
+    padding: 14px 10px;
     color: ${({ theme }) => theme.colors.textLight};
     font-weight: ${({ theme }) => theme.fontWeights.regular};
     font-size: ${({ theme }) => theme.fontSizes.sm};

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { SearchbarWrapper } from "./styles";
 import WaveIcon from "src/components/icons/WaveIcon";
 import SearchIcon from "src/components/icons/SearchIcon";
@@ -9,6 +9,12 @@ import { QUERY_PARAMS_FOR_SEARCH_COURSE } from "src/utils/constants";
 const Searchbar = () => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState<string>("");
+
+  useEffect(() => {
+    setSearchTerm(
+      (router.query[QUERY_PARAMS_FOR_SEARCH_COURSE.query] as string) ?? ""
+    );
+  }, [router.query]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
