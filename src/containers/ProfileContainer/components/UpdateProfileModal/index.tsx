@@ -1,5 +1,5 @@
 import { Col, Row } from "antd";
-import React, { useMemo } from "react";
+import React, { ChangeEvent, useMemo } from "react";
 import { Control, SubmitHandler } from "react-hook-form";
 import Box from "src/components/commons/Box";
 import Button from "src/components/commons/Button";
@@ -8,14 +8,16 @@ import ImageComponent from "src/components/commons/Image";
 import Loading from "src/components/commons/Loading";
 import Text from "src/components/commons/Typography";
 import Form from "src/components/Form";
+import PlaceholderLoading from "src/components/commons/Loading";
 import CustomModal from "src/components/Modal";
 import StyledTabs from "src/components/Tabs/styles";
-import { useGetUserDetail } from "src/hooks/apis";
+import { useGetUserDetail, useUploadAvatar } from "src/hooks/apis";
 import { UseModalHelper } from "src/hooks/useModal";
 import { userInformationSchema } from "src/utils/schemas/UserInformationSchema";
 import ChangePasswordForm from "../ChangePasswordForm";
 import InformationForm from "../InformationForm";
-import { AvatarContainer } from "./styles";
+import { AvatarContainer, UploadAvatarWrapper } from "./styles";
+import UploadIcon from "src/components/icons/UploadIcon";
 
 interface Props {
   modal: UseModalHelper;
@@ -25,6 +27,7 @@ const UpdateProfileModal = ({
   modal: { show, toggleModal, closeModal },
 }: Props) => {
   const { user, isLoading } = useGetUserDetail();
+  const { uploadAvatar, isLoading: isUploadAvatarLoading } = useUploadAvatar();
 
   const items = useMemo(
     () => [
@@ -53,12 +56,43 @@ const UpdateProfileModal = ({
     []
   );
 
+  const handleUploadAvatar = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      uploadAvatar(files[0]);
+    }
+  };
+
   return (
     <CustomModal open={show} onCancel={closeModal}>
       <Box padding="20px" maxWidth="910px">
         <Box display="flex" alignItems="center">
-          <AvatarContainer>
-            <ImageComponent src="/assets/ava.png" alt="ava image" />
+          <AvatarContainer loading={isUploadAvatarLoading}>
+            <ImageComponent
+              fallBack="/assets/ava.png"
+              src={user?.avatarUrl ?? ""}
+              alt="ava image"
+            />
+            <input
+              onChange={handleUploadAvatar}
+              type="file"
+              style={{ display: "none" }}
+              id="avaUploader"
+              accept="image/png, image/gif, image/jpeg"
+            />
+            <label
+              className="ava-uploader"
+              style={{ cursor: "pointer" }}
+              htmlFor="avaUploader"
+            >
+              <UploadAvatarWrapper>
+                {isUploadAvatarLoading ? (
+                  <PlaceholderLoading />
+                ) : (
+                  <UploadIcon fill="white" />
+                )}
+              </UploadAvatarWrapper>
+            </label>
           </AvatarContainer>
           <Box padding=" 0 0 0 15px">
             <Text

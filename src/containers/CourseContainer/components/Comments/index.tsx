@@ -101,9 +101,8 @@ const Comments = forwardRef(function Comments({ videoId }: Props, ref: any) {
             margin="0 10px 0 0"
           >
             <ImageComponent
-              src={
-                usersById[commentItem.userId]?.avatarUrl ?? "/assets/ava.png"
-              }
+              src={usersById[commentItem.userId]?.avatarUrl ?? ""}
+              fallBack={"/assets/ava.png"}
               alt="avatar"
             />
           </Box>

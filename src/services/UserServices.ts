@@ -47,4 +47,8 @@ export const userServices = {
   changePassword: (changePassword: ChangePasswordType): Promise<any> => {
     return axiosClient.post("/change-password", changePassword);
   },
+
+  uploadAvatar: (avatarUrl: string): Promise<any> => {
+    return axiosClient.put("/users/update-avatar", { avatarUrl });
+  },
 };

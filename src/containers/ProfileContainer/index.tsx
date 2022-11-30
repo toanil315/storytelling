@@ -39,8 +39,9 @@ const ProfileContainer = ({ mode, instructorId }: Props) => {
         <Box display="flex" alignItems="center">
           <ProfileImage>
             <ImageComponent
+              key={user?.avatarUrl}
               fallBack="/assets/ava.png"
-              src={user?.avatarUrl ?? ""}
+              src={user?.avatarUrl as string}
               alt="avatar"
             />
           </ProfileImage>
