@@ -115,6 +115,9 @@ const Input = React.forwardRef(function Input(
       </S.Label>
       <S.InputWrapper disabled={disabled} isError={!!error}>
         {/* put suffix icon here */}
+        <Box className={`${suffixPosition === "left" ? "" : "order-1"}`}>
+          {suffixIcon}
+        </Box>
         {renderElementInput()}
       </S.InputWrapper>
       {error && <ErrorMessage text={error.message ?? ""} />}

@@ -18,6 +18,14 @@ export const courseService = {
   getCourses: (): Promise<CustomAxiosResponseWithPagination<CourseType[]>> =>
     axiosClient.get("/courses"),
 
+  searchCourses: (
+    queryParams: any
+  ): Promise<CustomAxiosResponseWithPagination<CourseType[]>> => {
+    console.log("query params: ", queryParams);
+    return axiosClient.get("/courses/search", {
+      params: queryParams,
+    });
+  },
   getCourseById: (courseId: string): Promise<CustomAxiosResponse<CourseType>> =>
     axiosClient.get(`/courses/${courseId}`),
 

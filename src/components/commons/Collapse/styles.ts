@@ -3,6 +3,7 @@ import Box from "../Box";
 
 export const CollapseHeader = styled(Box)`
   position: relative;
+  cursor: pointer;
 `;
 
 export const CollapseArrow = styled(Box)`

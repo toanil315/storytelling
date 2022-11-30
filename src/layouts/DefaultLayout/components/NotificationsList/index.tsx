@@ -140,7 +140,10 @@ const NotificationsList = () => {
                   margin="0 10px 0 0"
                 >
                   <ImageComponent
-                    src={user?.avatarUrl ?? "/assets/ava.png"}
+                    src={
+                      transformedUsers?.[notification.senderId]?.avatarUrl ?? ""
+                    }
+                    fallBack="/assets/ava.png"
                     alt="ava"
                   />
                 </Box>

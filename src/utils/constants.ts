@@ -62,6 +62,7 @@ export const QUERY_KEYS = {
   GET_NOTIFICATION_BY_USER_ID: "GET_NOTIFICATION_BY_USER_ID",
   GET_USER_BY_ID: "GET_USER_BY_ID",
   GET_HASH_TAGS: "GET_HASH_TAGS",
+  SEARCH_COURSES: "SEARCH_COURSES",
 };
 
 export const USER_ROLES = {
@@ -85,4 +86,17 @@ export const FALL_BACK_IMAGE_URL = "/assets/image-fallback.png";
 export enum NOTIFICATIONS_TYPES {
   COMMENT_VIDEO = "COMMENT_VIDEO",
   EMOTION_REACT_VIDEO = "EMOTION_REACT_VIDEO",
+}
+
+export const QUERY_PARAMS_FOR_SEARCH_COURSE = {
+  query: "key",
+  category: "category",
+  hashtag: "tag",
+  minPrice: "lteq",
+  maxPrice: "gteq",
+};
+
+export enum MIN_MAX_PRICE_OF_COURSES {
+  MIN = 0,
+  MAX = 1000,
 }
