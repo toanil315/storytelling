@@ -17,10 +17,10 @@ const ImageComponent = ({
   fallBack,
   ...restProps
 }: Props) => {
-  const [imgSrc, setSrc] = useState<string>(src);
+  const [imgSrc, setSrc] = useState<string>("");
 
   useEffect(() => {
-    setSrc(src);
+    setSrc(src ?? "");
   }, [src]);
 
   return (
