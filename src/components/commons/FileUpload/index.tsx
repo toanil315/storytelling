@@ -144,7 +144,7 @@ const FileUpload = ({
             lineHeight="small"
             color="text"
           >
-            Supports: MP4, MOV, WMV
+            Supports: MP4, MOV, WMV, PNG, JPEG
           </Text>
         </Center>
       </Box>
