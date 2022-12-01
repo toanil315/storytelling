@@ -107,51 +107,39 @@ const FilterCourse = () => {
     });
   }, [router.query, hashtags]);
 
-  const handleSliderChange = (side?: "start" | "end") => {
-    return (value: number[] | number) => {
-      console.log("side: ", side);
-      switch (side) {
-        case "start":
-          setPriceRange((prev) => ({
-            ...prev,
-            start: value as number,
-          }));
-          break;
+  const handleSliderChange = (value: number[]) => {
+    setPriceRange({
+      start: value[0],
+      end: value[1],
+    });
+  };
 
-        case "end":
-          setPriceRange((prev) => ({
-            ...prev,
-            end: value as number,
-          }));
-          break;
-
-        default:
-          setPriceRange({
-            start: (value as number[])[0],
-            end: (value as number[])[1],
-          });
-          break;
-      }
+  const handleInputPriceChange = (side: "start" | "end") => {
+    return (value: number) => {
+      setDebounce(() => {
+        setPriceRange((prev) => ({
+          ...prev,
+          [side]: Number(value),
+        }));
+      });
     };
   };
 
   useEffect(() => {
-    if (Object.keys(router.query).length !== 0) {
-      setDebounce(() => {
-        router.replace(
-          {
-            pathname: Path.search,
-            query: {
-              ...router.query,
-              [QUERY_PARAMS_FOR_SEARCH_COURSE.minPrice]: priceRange.start,
-              [QUERY_PARAMS_FOR_SEARCH_COURSE.maxPrice]: priceRange.end,
-            },
+    setDebounce(() => {
+      router.replace(
+        {
+          pathname: Path.search,
+          query: {
+            ...router.query,
+            [QUERY_PARAMS_FOR_SEARCH_COURSE.minPrice]: priceRange.start,
+            [QUERY_PARAMS_FOR_SEARCH_COURSE.maxPrice]: priceRange.end,
           },
-          undefined,
-          { shallow: true }
-        );
-      });
-    }
+        },
+        undefined,
+        { shallow: true }
+      );
+    });
   }, [priceRange]);
 
   useEffect(() => {
@@ -190,7 +178,7 @@ const FilterCourse = () => {
         <Box as={Row} margin="10px 0 20px" gutter={[10]}>
           <Col span={24}>
             <Slider
-              onChange={handleSliderChange()}
+              onChange={handleSliderChange}
               value={[priceRange.start, priceRange.end]}
               min={MIN_MAX_PRICE_OF_COURSES.MIN}
               max={MIN_MAX_PRICE_OF_COURSES.MAX}
@@ -199,7 +187,7 @@ const FilterCourse = () => {
           </Col>
           <Col span={10}>
             <Input
-              handleChange={handleSliderChange("start")}
+              handleChange={handleInputPriceChange("start")}
               value={priceRange.start}
               min={MIN_MAX_PRICE_OF_COURSES.MIN}
               max={MIN_MAX_PRICE_OF_COURSES.MAX}
@@ -212,7 +200,7 @@ const FilterCourse = () => {
 
           <Col offset={4} span={10}>
             <Input
-              handleChange={handleSliderChange("end")}
+              handleChange={handleInputPriceChange("end")}
               value={priceRange.end}
               min={MIN_MAX_PRICE_OF_COURSES.MIN}
               max={MIN_MAX_PRICE_OF_COURSES.MAX}
