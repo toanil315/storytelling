@@ -13,7 +13,10 @@ export const useGetUserById = (
 } => {
   const { data, isLoading, isError, isSuccess } = useQuery(
     [QUERY_KEYS.GET_USER_BY_ID, userId],
-    () => userServices.getUserById(userId)
+    () => userServices.getUserById(userId),
+    {
+      enabled: Boolean(userId),
+    }
   );
 
   return {
