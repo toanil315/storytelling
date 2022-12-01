@@ -7,7 +7,10 @@ import { UseQueryResponse } from "src/utils/types/UseQueryHookResponse";
 const useCountLikeOfVideo = (videoId: string): UseQueryResponse<number> => {
   const { data, isLoading, isError, isSuccess } = useQuery(
     [QUERY_KEYS.COUNT_LIKE_OF_VIDEO, videoId],
-    () => videoServices.countLikesOfVideo(videoId)
+    () => videoServices.countLikesOfVideo(videoId),
+    {
+      enabled: Boolean(videoId),
+    }
   );
 
   return {
