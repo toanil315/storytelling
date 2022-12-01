@@ -17,6 +17,7 @@ import { CourseType } from "src/data-model/CourseTypes";
 import useGetCategory from "src/hooks/apis/Course/useGetCategory";
 import HTMLReactParser from "html-react-parser";
 import { Description } from "./styles";
+import { useGetUserById } from "src/hooks/apis";
 
 interface Props {
   course: CourseType;
@@ -27,6 +28,7 @@ const CourseDetailContainer = ({ course }: Props) => {
   const [description, setDescription] = useState<
     string | JSX.Element | JSX.Element[]
   >("");
+  const { user } = useGetUserById(course.userId);
 
   useEffect(() => {
     setDescription(HTMLReactParser(JSON.parse(course.description)));
@@ -91,7 +93,7 @@ const CourseDetailContainer = ({ course }: Props) => {
             Created By{" "}
             <Box
               as={Link}
-              href={`${Path.user}/${course.userId}`}
+              href={`${Path.profile}/${course.userId}`}
               fontWeight="bold"
               color="green"
             >
@@ -101,7 +103,7 @@ const CourseDetailContainer = ({ course }: Props) => {
                 fontWeight="bold"
                 color="green"
               >
-                Example Name
+                {user?.fullName}
               </Text>
             </Box>
           </Box>

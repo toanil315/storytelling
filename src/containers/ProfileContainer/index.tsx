@@ -6,7 +6,12 @@ import Center from "src/components/commons/Center";
 import ImageComponent from "src/components/commons/Image";
 import Text from "src/components/commons/Typography";
 import CourseCard from "src/components/CourseCard";
-import { useGetCoursesByInstructor, useUser } from "src/hooks/apis";
+import {
+  useGetCoursesByInstructor,
+  useGetUserById,
+  useGetUserDetail,
+  useUser,
+} from "src/hooks/apis";
 import useModal from "src/hooks/useModal";
 import { USER_ROLES } from "src/utils/constants";
 import { Path } from "src/utils/Path";
@@ -21,14 +26,19 @@ interface Props {
 const ProfileContainer = ({ mode, instructorId }: Props) => {
   const modal = useModal();
   const router = useRouter();
-  const { user } = useUser();
+  const { user: currentUser } = useUser();
+  const { user: instructor } = useGetUserById(instructorId);
   const { data: courses, isLoading } = useGetCoursesByInstructor(
-    mode === "me" ? user?.userId : instructorId
+    mode === "me" ? currentUser?.userId : instructorId
   );
 
   const renderCourseList = () => {
     return courses?.map((courseItem) => (
-      <CourseCard key={courseItem.id} course={courseItem} />
+      <CourseCard
+        key={courseItem.id}
+        course={courseItem}
+        user={mode === "me" ? currentUser : instructor}
+      />
     ));
   };
 
@@ -39,9 +49,12 @@ const ProfileContainer = ({ mode, instructorId }: Props) => {
         <Box display="flex" alignItems="center">
           <ProfileImage>
             <ImageComponent
-              key={user?.avatarUrl}
               fallBack="/assets/ava.png"
-              src={user?.avatarUrl as string}
+              src={
+                mode === "me"
+                  ? (currentUser?.avatarUrl as string)
+                  : (instructor?.avatarUrl as string)
+              }
               alt="avatar"
             />
           </ProfileImage>
@@ -52,7 +65,7 @@ const ProfileContainer = ({ mode, instructorId }: Props) => {
               lineHeight="xl"
               color="text"
             >
-              {user?.fullName}
+              {mode === "me" ? currentUser?.fullName : instructor?.fullName}
             </Text>
             <Box display="flex">
               <Box
@@ -77,7 +90,7 @@ const ProfileContainer = ({ mode, instructorId }: Props) => {
             </Box>
           )}
 
-          {mode === "me" && user?.role === USER_ROLES.AUTHOR && (
+          {mode === "me" && currentUser?.role === USER_ROLES.AUTHOR && (
             <Box
               as={Button}
               $type="secondary"
@@ -86,6 +99,17 @@ const ProfileContainer = ({ mode, instructorId }: Props) => {
               onClick={() => router.push(Path.statistic)}
             >
               Statistic
+            </Box>
+          )}
+
+          {mode === "instructor" && (
+            <Box
+              as={Button}
+              $type="secondary"
+              height="fit-content"
+              margin="0 0 0 10px"
+            >
+              Follow
             </Box>
           )}
         </Box>
