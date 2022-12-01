@@ -20,6 +20,9 @@ export { default as useAccessCourseByLectureId } from "./Course/useAccessCourseB
 export * from "./Course/useGetLecturesBySection";
 export { default as useGetHashTags } from "./Course/useGetHashTags";
 export { default as useSearchCourses } from "./Course/useSearchCourses";
+export { default as useCountLikeOfVideo } from "./Course/useCountLikeOfVideo";
+export { default as useCheckLikeVideo } from "./Course/useCheckLikeVideo";
+export { default as useLikeVideo } from "./Course/useLikeVideo";
 
 export { default as useGetNotifications } from "./User/useGetNotifications";
 export { default as useMarkAllReadNotifications } from "./User/useMarkAllReadNotifications";

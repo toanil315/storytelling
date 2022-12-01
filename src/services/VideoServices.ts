@@ -1,4 +1,5 @@
 import { CommentBase, CommentType } from "src/data-model/CommentTypes";
+import { LikeBase, LikeType } from "src/data-model/LikeTypes";
 import { axiosClient } from "src/utils/axios";
 import {
   BASE_JAVA_URL,
@@ -17,10 +18,23 @@ export const videoServices = {
     );
   },
 
+  countLikesOfVideo: (
+    videoId: string
+  ): Promise<CustomAxiosResponseWithPagination<LikeType[]>> => {
+    return axiosClient.get(`${BASE_JAVA_URL}/videos/${videoId}/reacts`);
+  },
+
   postComment: (commentData: CommentBase) => {
-    return axiosClient.post(
-      `${BASE_JAVA_URL}/videos/${commentData.videoId}/comments`,
-      commentData
+    return axiosClient.post(`${BASE_JAVA_URL}/comments`, commentData);
+  },
+
+  checkLikedVideo: (videoId: string, userId: string) => {
+    return axiosClient.get(
+      `${BASE_JAVA_URL}/reacts/videos/${videoId}/users/${userId}/checkLike`
     );
+  },
+
+  likeVideo: (likeData: LikeBase) => {
+    return axiosClient.post(`${BASE_JAVA_URL}/reacts`, likeData);
   },
 };

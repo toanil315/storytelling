@@ -158,7 +158,11 @@ const Comments = forwardRef(function Comments({ videoId }: Props, ref: any) {
           overflow="hidden"
           flexShrink="0"
         >
-          <ImageComponent src="/assets/ava.png" alt="avatar" />
+          <ImageComponent
+            fallBack="/assets/ava.png"
+            src={user?.avatarUrl ?? ""}
+            alt="avatar"
+          />
         </Box>
         <Input
           handleChange={handleChange}

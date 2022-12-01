@@ -61,9 +61,7 @@ const Input = React.forwardRef(function Input(
 
   /* eslint-disable */
   useEffect(() => {
-    if (inputValue) {
-      handleChange && handleChange(inputValue);
-    }
+    handleChange && handleChange(inputValue);
   }, [inputValue]);
   /* eslint-enable */
 

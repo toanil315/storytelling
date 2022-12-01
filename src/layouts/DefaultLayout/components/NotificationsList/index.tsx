@@ -24,6 +24,7 @@ import ImageComponent from "src/components/commons/Image";
 import { DEFAULT_PAGINATION_SIZE } from "src/utils/constants";
 import { useRouter } from "next/router";
 import { Path } from "src/utils/Path";
+import Center from "src/components/commons/Center";
 
 const NotificationsList = () => {
   const { user } = useUser();
@@ -215,32 +216,48 @@ const NotificationsList = () => {
         id="scrollableDiv"
         ref={scrollParentRef}
       >
-        <InfiniteScroll
-          loadMore={fetchNextPage}
-          hasMore={hasNextPage ?? false}
-          loader={undefined}
-          useWindow={false}
-          getScrollParent={() => scrollParentRef.current}
-          threshold={150}
-        >
-          {!(isGetUsersLoading || isGetCourseIdLoading) ? (
-            <StyledMenu
-              style={{ boxShadow: "none" }}
-              title="Notifications"
-              items={notificationsItems}
-            ></StyledMenu>
-          ) : null}
-          {(isLoading ||
-            isGetUsersLoading ||
-            isGetCourseIdLoading ||
-            !Boolean(transformedUsers) ||
-            !Boolean(coursesId)) &&
-            hasNextPage && (
-              <Box padding="15px 5px">
-                <LoadingSkeleton />
-              </Box>
-            )}
-        </InfiniteScroll>
+        {notifications?.length !== 0 ? (
+          <InfiniteScroll
+            loadMore={fetchNextPage}
+            hasMore={hasNextPage ?? false}
+            loader={undefined}
+            useWindow={false}
+            getScrollParent={() => scrollParentRef.current}
+            threshold={150}
+          >
+            {!(isGetUsersLoading || isGetCourseIdLoading) ? (
+              <StyledMenu
+                style={{ boxShadow: "none" }}
+                title="Notifications"
+                items={notificationsItems}
+              ></StyledMenu>
+            ) : null}
+            {(isLoading ||
+              isGetUsersLoading ||
+              isGetCourseIdLoading ||
+              !Boolean(transformedUsers) ||
+              !Boolean(coursesId)) &&
+              hasNextPage && (
+                <Box padding="15px 5px">
+                  <LoadingSkeleton />
+                </Box>
+              )}
+          </InfiniteScroll>
+        ) : (
+          <Center width="100%" className="flex-col p-4">
+            <Box width="100%" height="300px">
+              <ImageComponent src="/assets/empty.png" alt="empty" />
+            </Box>
+            <Text
+              fontSize="sm"
+              fontWeight="medium"
+              lineHeight="large"
+              color="text"
+            >
+              Currently we cant find any notifications
+            </Text>
+          </Center>
+        )}
       </Box>
     </Box>
   );
