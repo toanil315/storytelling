@@ -2,14 +2,16 @@
 // The config you add here will be used whenever a page is visited.
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
-import * as Sentry from '@sentry/nextjs';
+import * as Sentry from "@sentry/nextjs";
 
 const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;
 
 Sentry.init({
-  dsn: SENTRY_DSN || 'https://6848d9cba0d84b62849d1a161e417b87@o1376713.ingest.sentry.io/4504084334313472',
+  dsn:
+    SENTRY_DSN ||
+    "https://0bac3a64a3434279ae5e0210a77f4f7e@o4504270232158208.ingest.sentry.io/4504270233468928",
   // Adjust this value in production, or use tracesSampler for greater control
-  tracesSampleRate: 1.0,
+  tracesSampleRate: 0.5,
   // ...
   // Note: if you want to override the automatic release value, do not set a
   // `release` value here - use the environment variable `SENTRY_RELEASE`, so
