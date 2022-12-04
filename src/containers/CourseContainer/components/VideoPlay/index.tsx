@@ -72,7 +72,7 @@ const VideoPlay = () => {
               fontWeight="medium"
               color="text"
             >
-              {JSON.parse(authorOfVideo?.fullName as string)}
+              {authorOfVideo?.fullName}
             </Box>
             <Button>Follow</Button>
           </Box>
