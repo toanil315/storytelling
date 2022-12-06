@@ -7,3 +7,10 @@ export interface Video {
 export interface VideoPlayList {
   videos: Video[];
 }
+
+export interface UpdateViewType {
+  lastDuration: number;
+  lastestViewDate: string;
+  userId: string;
+  videoId: string;
+}

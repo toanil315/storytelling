@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import Box from "src/components/commons/Box";
 import Text from "src/components/commons/Typography";
 import parser from "html-react-parser";
@@ -15,6 +15,9 @@ import ImageComponent from "src/components/commons/Image";
 import Button from "src/components/commons/Button";
 import ViewIcon from "src/components/icons/ViewIcon";
 import LikeIcon from "src/components/icons/LikeIcon";
+import { videoServices } from "src/services/VideoServices";
+import moment from "moment";
+import { DATE_FORMATS } from "src/utils/helpers/formatDate";
 
 const VideoPlay = () => {
   const { query } = useRouter();
@@ -31,12 +34,32 @@ const VideoPlay = () => {
     (lectureId as string) ?? "",
     currentUser?.userId ?? ""
   );
-
   const { likeVideo } = useLikeVideo(lectureId as string);
+  let videoRef = useRef<HTMLVideoElement | null>(null);
+
+  const handleUpdateView = useCallback(
+    (node: HTMLVideoElement | null, userId: string) => {
+      videoServices.updateViewLecture({
+        userId: userId as string,
+        videoId: lectureId as string,
+        lastDuration: Math.floor(Number(node?.currentTime)) / 60,
+        lastestViewDate: moment(new Date()).format(DATE_FORMATS.UPDATE_VIEW),
+      });
+    },
+    [currentUser, videoRef]
+  );
+
+  useEffect(() => {
+    const node = videoRef.current;
+    const userId = currentUser?.userId ?? "";
+    return () => {
+      handleUpdateView(node, userId);
+    };
+  }, [videoRef, currentUser]);
 
   return (
     <Box width="100%">
-      <video width={"100%"} controls src={lecture?.url} />
+      <video ref={videoRef} width={"100%"} controls src={lecture?.url} />
       <Box
         width="100%"
         bg="white"
