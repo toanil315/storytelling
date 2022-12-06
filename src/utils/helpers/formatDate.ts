@@ -2,6 +2,7 @@ import moment from "moment";
 
 export const DATE_FORMATS = {
   DEFAULT: "dddd, DD/MM/YYYY",
+  UPDATE_VIEW: "YYYY-MM-DD HH:mm:ss +0700",
 };
 
 export const formatDate = (

@@ -1,5 +1,6 @@
 import { CommentBase, CommentType } from "src/data-model/CommentTypes";
 import { LikeBase, LikeType } from "src/data-model/LikeTypes";
+import { UpdateViewType } from "src/data-model/VideoTypes";
 import { axiosClient } from "src/utils/axios";
 import {
   BASE_JAVA_URL,
@@ -36,5 +37,9 @@ export const videoServices = {
 
   likeVideo: (likeData: LikeBase) => {
     return axiosClient.post(`${BASE_JAVA_URL}/reacts`, likeData);
+  },
+
+  updateViewLecture: (updateViewData: UpdateViewType) => {
+    return axiosClient.put(`${BASE_URL}/users/update-view`, updateViewData);
   },
 };
