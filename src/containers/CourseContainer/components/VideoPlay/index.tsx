@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Box from "src/components/commons/Box";
 import Text from "src/components/commons/Typography";
 import parser from "html-react-parser";
@@ -18,6 +18,7 @@ import LikeIcon from "src/components/icons/LikeIcon";
 import { videoServices } from "src/services/VideoServices";
 import moment from "moment";
 import { DATE_FORMATS } from "src/utils/helpers/formatDate";
+import { useDebounceWithoutDependencies } from "src/hooks";
 
 const VideoPlay = () => {
   const { query } = useRouter();
@@ -36,18 +37,17 @@ const VideoPlay = () => {
   );
   const { likeVideo } = useLikeVideo(lectureId as string);
   let videoRef = useRef<HTMLVideoElement | null>(null);
+  const { setDebounce: setDebounceUpdateVideoLastDuration } =
+    useDebounceWithoutDependencies(1500);
 
-  const handleUpdateView = useCallback(
-    (node: HTMLVideoElement | null, userId: string) => {
-      videoServices.updateViewLecture({
-        userId: userId as string,
-        videoId: lectureId as string,
-        lastDuration: Math.floor(Number(node?.currentTime)) / 60,
-        lastestViewDate: moment(new Date()).format(DATE_FORMATS.UPDATE_VIEW),
-      });
-    },
-    [currentUser, videoRef]
-  );
+  const handleUpdateView = (node: HTMLVideoElement | null, userId: string) => {
+    videoServices.updateViewLecture({
+      userId: userId as string,
+      videoId: lectureId as string,
+      lastDuration: Math.floor(Number(node?.currentTime)) / 60,
+      lastestViewDate: moment(new Date()).format(DATE_FORMATS.UPDATE_VIEW),
+    });
+  };
 
   useEffect(() => {
     const node = videoRef.current;
@@ -57,9 +57,39 @@ const VideoPlay = () => {
     };
   }, [videoRef, currentUser]);
 
+  useEffect(() => {
+    const handleGetLastDuration = async () => {
+      const result = (
+        await videoServices.getLastDuration(
+          lectureId as string,
+          currentUser?.userId as string
+        )
+      ).data;
+      if (videoRef.current) {
+        videoRef.current.currentTime = Number(result.data?.lastDuration) * 60;
+      }
+    };
+
+    handleGetLastDuration();
+  }, [lectureId, currentUser, videoRef]);
+
+  const handleOnTimeUpdate = () => {
+    setDebounceUpdateVideoLastDuration(() => {
+      if (Number(videoRef.current?.currentTime) > 1) {
+        handleUpdateView(videoRef.current, currentUser?.userId ?? "");
+      }
+    });
+  };
+
   return (
     <Box width="100%">
-      <video ref={videoRef} width={"100%"} controls src={lecture?.url} />
+      <video
+        onTimeUpdate={handleOnTimeUpdate}
+        ref={videoRef}
+        width={"100%"}
+        controls
+        src={lecture?.url}
+      />
       <Box
         width="100%"
         bg="white"

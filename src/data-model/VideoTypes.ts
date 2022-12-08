@@ -14,3 +14,11 @@ export interface UpdateViewType {
   userId: string;
   videoId: string;
 }
+
+export interface LastDurationType {
+  userId: string;
+  videoId: string;
+  id: string;
+  countView: number;
+  lastDuration: number;
+}

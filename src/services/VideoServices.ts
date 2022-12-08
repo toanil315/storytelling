@@ -1,13 +1,16 @@
 import { CommentBase, CommentType } from "src/data-model/CommentTypes";
 import { LikeBase, LikeType } from "src/data-model/LikeTypes";
-import { UpdateViewType } from "src/data-model/VideoTypes";
+import { LastDurationType, UpdateViewType } from "src/data-model/VideoTypes";
 import { axiosClient } from "src/utils/axios";
 import {
   BASE_JAVA_URL,
   BASE_URL,
   DEFAULT_PAGINATION_SIZE,
 } from "src/utils/constants";
-import { CustomAxiosResponseWithPagination } from "src/utils/types/CustomAxiosResponse";
+import {
+  CustomAxiosResponse,
+  CustomAxiosResponseWithPagination,
+} from "src/utils/types/CustomAxiosResponse";
 
 export const videoServices = {
   getComments: (
@@ -41,5 +44,14 @@ export const videoServices = {
 
   updateViewLecture: (updateViewData: UpdateViewType) => {
     return axiosClient.put(`${BASE_URL}/users/update-view`, updateViewData);
+  },
+
+  getLastDuration: (
+    videoId: string,
+    userId: string
+  ): Promise<CustomAxiosResponse<{ data: LastDurationType }>> => {
+    return axiosClient.get(
+      `${BASE_URL}/users/${userId}/videos/${videoId}/videoviews`
+    );
   },
 };
