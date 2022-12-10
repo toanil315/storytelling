@@ -34,3 +34,5 @@ export { default as useUploadAvatar } from "./User/useUploadAvatar";
 export { default as useRealTimeServices } from "./RealTime/useRealTimeServices";
 
 export * from "./User/useGetUserById";
+
+export { default as useBuyCourse } from "./Payment/useBuyCourse";

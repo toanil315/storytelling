@@ -26,4 +26,5 @@ export const getRoutes = (): RouteItem[] => [
 export const NotificationMapperContent = {
   [NOTIFICATIONS_TYPES.COMMENT_VIDEO]: "Commented on your video.",
   [NOTIFICATIONS_TYPES.EMOTION_REACT_VIDEO]: "Liked your video.",
+  [NOTIFICATIONS_TYPES.USER_SUBSCRIBE_COURSE]: "Buy your course.",
 };

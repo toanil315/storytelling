@@ -1,13 +1,25 @@
 import { Col, Row } from "antd";
 import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import path from "path";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import Box from "src/components/commons/Box";
+import Center from "src/components/commons/Center";
+import PlaceholderLoading from "src/components/commons/Loading";
 import { LectureType } from "src/data-model/CourseTypes";
 import {
   useGetCourseById,
   useGetLecturesBySection,
   useGetSection,
+  useUser,
 } from "src/hooks/apis";
+import { userServices } from "src/services/UserServices";
+import { Path } from "src/utils/Path";
 import Comments from "./components/Comments";
 import VideoPlay from "./components/VideoPlay";
 import VideoPlayList from "./components/VideoPlayList";
@@ -18,10 +30,12 @@ interface Props {
 
 const CourseContainer = ({ courseId }: Props) => {
   const router = useRouter();
+  const [isCheckPurchased, setIsCheckPurchased] = useState<boolean>(false);
   const { data: sections, isLoading: getSectionsLoading } =
     useGetSection(courseId);
   const { data: lectures, isLoading: getLecturesLoading } =
     useGetLecturesBySection(sections?.[0]?.id ?? "");
+  const { user: currentUserLogin } = useUser();
 
   useEffect(() => {
     if (!router.query.lectureId) {
@@ -38,8 +52,30 @@ const CourseContainer = ({ courseId }: Props) => {
     window.scrollY = 0;
   }, []);
 
-  if (getSectionsLoading) {
-    return <p>Loading...</p>;
+  useLayoutEffect(() => {
+    const handleCheckIsPurchasedCourse = async (
+      userId: string,
+      courseId: string
+    ) => {
+      const result = await userServices.checkPurchasedCourse(userId, courseId);
+      if (Boolean(result.data)) {
+        setIsCheckPurchased(true);
+      } else {
+        router.push(`/${Path.error}`);
+      }
+    };
+
+    if (currentUserLogin) {
+      handleCheckIsPurchasedCourse(currentUserLogin.userId, courseId);
+    }
+  }, [currentUserLogin]);
+
+  if (getSectionsLoading || !isCheckPurchased) {
+    return (
+      <Center width="100%" height="50vh">
+        <PlaceholderLoading />
+      </Center>
+    );
   }
 
   return (

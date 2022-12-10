@@ -20,6 +20,7 @@ import { UserType } from "src/data-model/UserTypes";
 import DateTimeUtils from "src/utils/DateTimeUtils";
 import ImageComponent from "../commons/Image";
 import { useRouter } from "next/router";
+import { useUser } from "src/hooks/apis";
 
 interface Props {
   course: CourseType;
@@ -29,6 +30,7 @@ interface Props {
 const CourseCard = ({ course, user }: Props) => {
   const router = useRouter();
   const { data } = useGetCategory();
+  const { user: currentUserLogin } = useUser();
 
   const redirectToProfilePage = () => {
     router.push(`${Path.profile}/${course.userId}`);
@@ -79,7 +81,18 @@ const CourseCard = ({ course, user }: Props) => {
         <CategoryName>
           {data?.find((item) => item.id === course.categoryTopicId)?.name}
         </CategoryName>
-        <Link href={`${Path.courses}/${course.id}`}>
+        <Link
+          href={{
+            pathname: `${Path.courses}/${course.id}`,
+            query: {
+              ...(user
+                ? {
+                    userId: currentUserLogin?.userId,
+                  }
+                : {}),
+            },
+          }}
+        >
           <Title style={{ cursor: "pointer" }}>{course.name}</Title>
         </Link>
         <Box margin="auto 0 0">
