@@ -38,7 +38,7 @@ const VideoPlay = () => {
   const { likeVideo } = useLikeVideo(lectureId as string);
   let videoRef = useRef<HTMLVideoElement | null>(null);
   const { setDebounce: setDebounceUpdateVideoLastDuration } =
-    useDebounceWithoutDependencies(1500);
+    useDebounceWithoutDependencies(1200);
 
   const handleUpdateView = (node: HTMLVideoElement | null, userId: string) => {
     videoServices.updateViewLecture({
@@ -66,7 +66,9 @@ const VideoPlay = () => {
         )
       ).data;
       if (videoRef.current) {
-        videoRef.current.currentTime = Number(result.data?.lastDuration) * 60;
+        videoRef.current.currentTime = result.data?.lastDuration
+          ? Number(result.data?.lastDuration) * 60
+          : 0;
       }
     };
 

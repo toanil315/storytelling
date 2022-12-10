@@ -93,7 +93,8 @@
         "resetPassword": "Reset password successfully. Please login."
       },
       "updateUserProfile": "Update user profile successfully.",
-      "changePassword": "Change Password successfully. Please login again"
+      "changePassword": "Change Password successfully. Please login again",
+      "buyCourse": "Buy course successfully."
     },
     "error": {
       "register": "Register failed. Please try again.",
@@ -112,7 +113,9 @@
         "resetPassword": "Reset password failed. Please try again."
       },
       "updateUserProfile": "Update user profile failed. Please try again.",
-      "changePassword": "Change Password failed. Please try again."
+      "changePassword": "Change Password failed. Please try again.",
+      "cantBuyCourseWithoutLogin": "You must be login first to buy this course.",
+      "buyCourse": "Buy course fail. Please try again."
     }
   },
   "courseContent": "Course Content",

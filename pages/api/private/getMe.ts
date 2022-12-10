@@ -7,6 +7,7 @@ type Data = {
   email: string;
   fullName: string;
   role: string;
+  userId: string;
 };
 
 export default async function handler(

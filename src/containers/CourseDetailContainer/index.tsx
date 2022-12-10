@@ -17,18 +17,45 @@ import { CourseType } from "src/data-model/CourseTypes";
 import useGetCategory from "src/hooks/apis/Course/useGetCategory";
 import HTMLReactParser from "html-react-parser";
 import { Description } from "./styles";
-import { useGetUserById } from "src/hooks/apis";
+import {
+  useBuyCourse,
+  useGetSection,
+  useGetUserById,
+  useUser,
+} from "src/hooks/apis";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import { useRouter } from "next/router";
+import { PAYMENT_STATUS } from "src/utils/constants";
 
 interface Props {
   course: CourseType;
 }
 
 const CourseDetailContainer = ({ course }: Props) => {
+  const router = useRouter();
+  const { t } = useTranslation();
   const { data } = useGetCategory();
+  const { data: sections } = useGetSection(course.id ?? "");
+  const { user: currentUserLogin } = useUser();
   const [description, setDescription] = useState<
     string | JSX.Element | JSX.Element[]
   >("");
   const { user } = useGetUserById(course.userId);
+  const { buyCourse, isLoading: buyCourseLoading } = useBuyCourse();
+  const handleBuyCourse = () => {
+    if (!currentUserLogin) {
+      toast.error(t("toast.error.cantBuyCourseWithoutLogin"));
+      return;
+    }
+    buyCourse({
+      courseId: course.id,
+      userId: currentUserLogin.userId,
+      language: "vi",
+      orderInfo: "tt",
+      ipAddress: "127.0.0.1",
+    });
+  };
 
   useEffect(() => {
     setDescription(HTMLReactParser(JSON.parse(course.description)));
@@ -37,6 +64,19 @@ const CourseDetailContainer = ({ course }: Props) => {
   useEffect(() => {
     window.scrollY = 0;
   }, []);
+
+  useEffect(() => {
+    const paymentStatus = router.query.vnp_TransactionStatus ?? "";
+    if (paymentStatus) {
+      if (paymentStatus === PAYMENT_STATUS.SUCCESS) {
+        toast.success(t("toast.success.buyCourse"));
+        router.push(`${Path.courses}/learn/${course.id}`);
+      } else {
+        toast.error(t("toast.error.buyCourse"));
+        router.replace(`${Path.courses}/${course.id}`);
+      }
+    }
+  }, [router.query]);
 
   return (
     <Box as={Row} width="100%" gutter={[10, 0]}>
@@ -158,9 +198,15 @@ const CourseDetailContainer = ({ course }: Props) => {
             as={Text}
             padding="10px 0"
           >
-            {formatNumber(course.price)}$
+            {formatNumber(course.price)} Vnd
           </Box>
-          <Box as={Button} width="100%" margin="15px 0">
+          <Box
+            onClick={handleBuyCourse}
+            as={Button}
+            width="100%"
+            margin="15px 0"
+            loading={buyCourseLoading}
+          >
             Enroll Now
           </Box>
           <Box as="ul">
@@ -183,7 +229,7 @@ const CourseDetailContainer = ({ course }: Props) => {
               <Box width="30px">
                 <PaperIcon />
               </Box>
-              <Text>3 sections</Text>
+              <Text>{sections?.length} sections</Text>
             </Box>
           </Box>
         </Box>

@@ -43,15 +43,13 @@ export const videoServices = {
   },
 
   updateViewLecture: (updateViewData: UpdateViewType) => {
-    return axiosClient.put(`${BASE_URL}/users/update-view`, updateViewData);
+    return axiosClient.put(`/users/update-view`, updateViewData);
   },
 
   getLastDuration: (
     videoId: string,
     userId: string
   ): Promise<CustomAxiosResponse<{ data: LastDurationType }>> => {
-    return axiosClient.get(
-      `${BASE_URL}/users/${userId}/videos/${videoId}/videoviews`
-    );
+    return axiosClient.get(`/users/${userId}/videos/${videoId}/videoviews`);
   },
 };

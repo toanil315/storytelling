@@ -7,7 +7,10 @@ import { UseQueryResponse } from "src/utils/types/UseQueryHookResponse";
 const useGetSection = (courseId: string): UseQueryResponse<SectionType[]> => {
   const { data, isLoading, isError, isSuccess } = useQuery(
     [QUERY_KEYS.GET_SECTIONS, courseId],
-    () => courseService.getSections(courseId)
+    () => courseService.getSections(courseId),
+    {
+      enabled: Boolean(courseId),
+    }
   );
 
   return {

@@ -21,10 +21,14 @@ import Text from "src/components/commons/Typography";
 import { StyledMenu } from "src/components/commons/Menu/styles";
 import { UserType } from "src/data-model/UserTypes";
 import ImageComponent from "src/components/commons/Image";
-import { DEFAULT_PAGINATION_SIZE } from "src/utils/constants";
+import {
+  DEFAULT_PAGINATION_SIZE,
+  NOTIFICATIONS_TYPES,
+} from "src/utils/constants";
 import { useRouter } from "next/router";
 import { Path } from "src/utils/Path";
 import Center from "src/components/commons/Center";
+import { NotificationType } from "src/data-model/NotificationTypes";
 
 const NotificationsList = () => {
   const { user } = useUser();
@@ -78,10 +82,12 @@ const NotificationsList = () => {
       if (notifications) {
         const updatedCoursesId = { ...(coursesId ? coursesId : {}) };
         for (const notification of notifications) {
-          const lectureId = notification.objectableId;
-          if (!updatedCoursesId[lectureId]) {
-            const { courseId } = await getCourseByLectureId(lectureId);
-            updatedCoursesId[lectureId] = courseId;
+          if (notification.type !== NOTIFICATIONS_TYPES.USER_SUBSCRIBE_COURSE) {
+            const lectureId = notification.objectableId;
+            if (!updatedCoursesId[lectureId]) {
+              const { courseId } = await getCourseByLectureId(lectureId);
+              updatedCoursesId[lectureId] = courseId;
+            }
           }
         }
 
@@ -104,6 +110,27 @@ const NotificationsList = () => {
     handleGetCoursesId();
   }, [JSON.stringify(users)]);
 
+  const handleClickNotification = (notification: NotificationType) => {
+    switch (notification.type) {
+      case NOTIFICATIONS_TYPES.USER_SUBSCRIBE_COURSE:
+        router.push(Path.statistic);
+        break;
+
+      case NOTIFICATIONS_TYPES.COMMENT_VIDEO:
+      case NOTIFICATIONS_TYPES.EMOTION_REACT_VIDEO:
+        router.push(
+          `${Path.courses}/learn/${
+            coursesId?.[notification.objectableId]
+          }?lectureId=${notification.objectableId}`
+        );
+        break;
+
+      default:
+        break;
+    }
+    markReadNotification(notification.id);
+  };
+
   const notificationsItems = useMemo(() => {
     return Boolean(coursesId)
       ? notifications?.map((notification) => {
@@ -111,14 +138,7 @@ const NotificationsList = () => {
             key: notification.id,
             label: (
               <Box
-                onClick={() => {
-                  router.push(
-                    `${Path.courses}/learn/${
-                      coursesId?.[notification.objectableId]
-                    }?lectureId=${notification.objectableId}`
-                  );
-                  markReadNotification(notification.id);
-                }}
+                onClick={() => handleClickNotification(notification)}
                 display="flex"
                 padding="15px 10px 15px 5px"
               >

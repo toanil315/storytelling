@@ -5,7 +5,7 @@ import {
   UserType,
 } from "src/data-model/UserTypes";
 import { axiosClient } from "src/utils/axios";
-import { DEFAULT_PAGINATION_SIZE } from "src/utils/constants";
+import { BASE_JAVA_URL, DEFAULT_PAGINATION_SIZE } from "src/utils/constants";
 import {
   CustomAxiosResponse,
   CustomAxiosResponseWithPagination,
@@ -17,22 +17,20 @@ export const userServices = {
     page?: number
   ): Promise<CustomAxiosResponseWithPagination<NotificationType[]>> => {
     return axiosClient.get(
-      `${process.env.NEXT_PUBLIC_API_WS_URL}/notifications/${userId}?page=${
-        page ?? 1
-      }&paging=${
+      `${BASE_JAVA_URL}/notifications/${userId}?page=${page ?? 1}&paging=${
         DEFAULT_PAGINATION_SIZE.NOTIFICATIONS_SIZE
       }&sort=createdAt&order=desc`
     );
   },
   markAllReadNotification: (userId: string) => {
     return axiosClient.patch(
-      `${process.env.NEXT_PUBLIC_API_WS_URL}/notifications/markAllRead/${userId}`
+      `${BASE_JAVA_URL}/notifications/markAllRead/${userId}`
     );
   },
 
   markReadNotification: (notificationId: string) => {
     return axiosClient.patch(
-      `${process.env.NEXT_PUBLIC_API_WS_URL}/notifications/${notificationId}`
+      `${BASE_JAVA_URL}/notifications/${notificationId}`
     );
   },
 
@@ -50,5 +48,14 @@ export const userServices = {
 
   uploadAvatar: (avatarUrl: string): Promise<any> => {
     return axiosClient.put("/users/update-avatar", { avatarUrl });
+  },
+
+  checkPurchasedCourse: (
+    userId: string,
+    courseId: string
+  ): Promise<CustomAxiosResponse<any>> => {
+    return axiosClient.get(
+      `${BASE_JAVA_URL}/subscribes/courses/${courseId}/users/${userId}/checkSubscribe`
+    );
   },
 };
