@@ -3,7 +3,7 @@ import Box from "src/components/commons/Box";
 import Center from "src/components/commons/Center";
 import Text from "src/components/commons/Typography";
 import StyledSteps from "src/components/Steps/styles";
-import useGetCourseById from "src/hooks/apis/Course/useGetCourseById";
+import { useGetCourseById } from "src/hooks/apis";
 import useStep from "src/hooks/useStep";
 import CreateSections from "./components/CreateSections";
 import InformationForm from "./components/InformationForm";

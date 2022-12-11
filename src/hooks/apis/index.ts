@@ -7,7 +7,7 @@ export * from "./Auth/useForgotPassword";
 export { default as useCreateCourse } from "./Course/useCreateCourse";
 export { default as useCreateSection } from "./Course/useCreateSection";
 export { default as useGetCategory } from "./Course/useGetCategory";
-export { default as useGetCourseById } from "./Course/useGetCourseById";
+export * from "./Course/useGetCourseById";
 export { default as useGetCourses } from "./Course/useGetCourses";
 export { default as useGetSection } from "./Course/useGetSection";
 export { default as useUpdateCourse } from "./Course/useUpdateCourse";
@@ -23,6 +23,7 @@ export { default as useSearchCourses } from "./Course/useSearchCourses";
 export { default as useCountLikeOfVideo } from "./Course/useCountLikeOfVideo";
 export { default as useCheckLikeVideo } from "./Course/useCheckLikeVideo";
 export { default as useLikeVideo } from "./Course/useLikeVideo";
+export { default as useGetMyPurchasedCourses } from "./Course/useGetMyPurchasedCourses";
 
 export { default as useGetNotifications } from "./User/useGetNotifications";
 export { default as useMarkAllReadNotifications } from "./User/useMarkAllReadNotifications";
@@ -36,3 +37,4 @@ export { default as useRealTimeServices } from "./RealTime/useRealTimeServices";
 export * from "./User/useGetUserById";
 
 export { default as useBuyCourse } from "./Payment/useBuyCourse";
+export { default as useGetPurchasedHistory } from "./Payment/useGetPurchasedHistory";

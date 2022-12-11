@@ -8,6 +8,7 @@ import Text from "src/components/commons/Typography";
 import CourseCard from "src/components/CourseCard";
 import {
   useGetCoursesByInstructor,
+  useGetMyPurchasedCourses,
   useGetUserById,
   useGetUserDetail,
   useUser,
@@ -29,16 +30,28 @@ const ProfileContainer = ({ mode, instructorId }: Props) => {
   const { user: currentUser } = useUser();
   const { user: instructor } = useGetUserById(instructorId);
   const { data: courses, isLoading } = useGetCoursesByInstructor(
-    mode === "me" ? currentUser?.userId : instructorId
+    mode === "instructor" ? instructorId : undefined
+  );
+  const { data: myPurchasedCourses } = useGetMyPurchasedCourses(
+    currentUser?.userId
   );
 
   const renderCourseList = () => {
+    if (mode === "me") {
+      return myPurchasedCourses?.map((courseItem) => {
+        if (courseItem) {
+          return (
+            <CourseCard
+              key={courseItem?.id}
+              course={courseItem}
+              user={instructor}
+            />
+          );
+        }
+      });
+    }
     return courses?.map((courseItem) => (
-      <CourseCard
-        key={courseItem.id}
-        course={courseItem}
-        user={mode === "me" ? currentUser : instructor}
-      />
+      <CourseCard key={courseItem.id} course={courseItem} user={instructor} />
     ));
   };
 
@@ -116,10 +129,10 @@ const ProfileContainer = ({ mode, instructorId }: Props) => {
       </ProfileHeader>
       <Box margin="40px 0">
         <Text fontSize="base" fontWeight="medium" lineHeight="large">
-          My Courses:
+          {mode === "me" ? "My Purchased Courses:" : "Courses:"}
         </Text>
 
-        {courses?.length === 0 ? (
+        {courses?.length === 0 || myPurchasedCourses?.length === 0 ? (
           <Center width="100%" className="flex-col p-4">
             <Box width="120%" height="300px">
               <ImageComponent src="/assets/empty.png" alt="empty" />
@@ -130,7 +143,7 @@ const ProfileContainer = ({ mode, instructorId }: Props) => {
               lineHeight="large"
               color="text"
             >
-              You currently haven't any course
+              You currently haven't purchased any course
             </Text>
           </Center>
         ) : (

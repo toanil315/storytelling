@@ -5,8 +5,10 @@ import PurchaseHistory from "./components/PurchaseHistory";
 import IncomeChart from "./components/IncomeChart";
 import Overview from "./components/Overview";
 import PublishCourses from "./components/PublishCourses";
+import { useUser } from "src/hooks/apis";
 
 const StatisticContainer = () => {
+  const { user } = useUser();
   return (
     <Box>
       <Overview />
@@ -15,7 +17,7 @@ const StatisticContainer = () => {
           <IncomeChart />
         </Col>
         <Col span={8}>
-          <PurchaseHistory />
+          <PurchaseHistory instructorId={user?.userId} />
         </Col>
       </Box>
       <Box margin="30px 0">

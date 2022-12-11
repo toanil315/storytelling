@@ -1,51 +1,51 @@
-import { Col, Row } from "antd";
+import { Col, Row, Skeleton } from "antd";
 import React from "react";
 import Box from "src/components/commons/Box";
 import Center from "src/components/commons/Center";
 import ImageComponent from "src/components/commons/Image";
 import Text from "src/components/commons/Typography";
+import { CourseType } from "src/data-model/CourseTypes";
+import { PaymentHistory } from "src/data-model/PaymentTypes";
+import { UserType } from "src/data-model/UserTypes";
+import { useGetPurchasedHistory } from "src/hooks/apis";
 
-const historyList = [
-  {
-    id: "1",
-    user: {
-      name: "Amad Dias",
-    },
-    course: {
-      id: "1",
-      name: "English for beginners",
-      price: 22,
-    },
-  },
-  {
-    id: "2",
-    user: {
-      name: "Amad Dias",
-    },
-    course: {
-      id: "2",
-      name: "English for adults",
-      price: 22,
-    },
-  },
-];
+interface Props {
+  instructorId?: string;
+}
 
-const PurchaseHistory = () => {
+const PurchaseHistory = ({ instructorId }: Props) => {
+  const { data: historyList, isLoading } = useGetPurchasedHistory(instructorId);
+
+  if (isLoading) {
+    return (
+      <>
+        {new Array(5).map((_, index) => {
+          return (
+            <Box key={index} padding="15px 5px">
+              <Skeleton avatar active paragraph={{ rows: 1 }} />
+            </Box>
+          );
+        })}
+      </>
+    );
+  }
+
   return (
     <Box
       width="100%"
       height={450}
-      padding="20px 20px 30px"
+      padding="20px 10px 30px"
       bg="white"
       border="1px solid"
       borderColor="lightGray"
       borderRadius="large"
+      className="overflow-y-auto"
     >
       <Text fontSize="base" fontWeight="bold" lineHeight="large" color="text">
         History:
       </Text>
       <Box as={Row} width="100%" gutter={[0, 10]} margin="20px 0 0">
-        {historyList.map((historyItem) => (
+        {historyList?.map((historyItem) => (
           <Col span={24} key={historyItem.id}>
             <HistoryItem history={historyItem} />
           </Col>
@@ -56,28 +56,35 @@ const PurchaseHistory = () => {
 };
 
 interface HistoryItemProps {
-  history: {
-    id: string;
-    user: {
-      name: string;
-    };
-    course: {
-      id: string;
-      name: string;
-      price: number;
-    };
-  };
+  history: PaymentHistory & { user?: UserType; course?: CourseType };
 }
 
-const HistoryItem = ({ history: { user, course } }: HistoryItemProps) => {
+const HistoryItem = ({
+  history: { user, course, ...restHistory },
+}: HistoryItemProps) => {
   return (
-    <Box display="flex" alignItems="center" width="100%" padding="10px 5px">
-      <Box width="40px" height="40px" borderRadius="rounded" overflow="hidden">
-        <ImageComponent src="/assets/ava.png" alt="avatar" />
+    <Box
+      width="100%"
+      height="100%"
+      padding="10px 5px"
+      className="flex items-center"
+    >
+      <Box
+        className="flex-shrink-0"
+        width="40px"
+        height="40px"
+        borderRadius="rounded"
+        overflow="hidden"
+      >
+        <ImageComponent
+          fallBack="/assets/ava.png"
+          src={user?.avatarUrl ?? ""}
+          alt="avatar"
+        />
       </Box>
       <Box margin="0 8px">
         <Text fontSize="sm" fontWeight="bold" lineHeight="large" color="text">
-          {user.name}
+          {user?.fullName}
         </Text>
         <Text
           fontSize="xs"
@@ -85,7 +92,7 @@ const HistoryItem = ({ history: { user, course } }: HistoryItemProps) => {
           lineHeight="normal"
           color="text"
         >
-          has bought {course.name}
+          has bought {course?.name.slice(0, 15) + "..."}
         </Text>
       </Box>
       <Center
@@ -96,7 +103,7 @@ const HistoryItem = ({ history: { user, course } }: HistoryItemProps) => {
         margin="0 0 0 auto"
       >
         <Text fontSize="sm" fontWeight="medium" color="green">
-          + {course.price}$
+          +{restHistory.amount}Vnd
         </Text>
       </Center>
     </Box>

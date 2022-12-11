@@ -1,4 +1,5 @@
 import { NotificationType } from "src/data-model/NotificationTypes";
+import { PaymentHistory } from "src/data-model/PaymentTypes";
 import {
   ChangePasswordType,
   UserDetail,
@@ -57,5 +58,19 @@ export const userServices = {
     return axiosClient.get(
       `${BASE_JAVA_URL}/subscribes/courses/${courseId}/users/${userId}/checkSubscribe`
     );
+  },
+
+  getPurchasedHistoryOfInstructor: (
+    instructorId: string
+  ): Promise<CustomAxiosResponseWithPagination<PaymentHistory[]>> => {
+    return axiosClient.get(
+      `${BASE_JAVA_URL}/instructors/${instructorId}/payments`
+    );
+  },
+
+  getPurchasesOfUser: (
+    userId: string
+  ): Promise<CustomAxiosResponseWithPagination<PaymentHistory[]>> => {
+    return axiosClient.get(`${BASE_JAVA_URL}/users/${userId}/payments`);
   },
 };
