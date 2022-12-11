@@ -4,6 +4,7 @@ import React from "react";
 import CourseDetailContainer from "src/containers/CourseDetailContainer";
 import { CourseType } from "src/data-model/CourseTypes";
 import { BASE_JAVA_URL, BASE_URL } from "src/utils/constants";
+import { redirect } from "src/utils/helpers/redirect";
 import { Path } from "src/utils/Path";
 
 interface Props {
@@ -44,12 +45,17 @@ export const getServerSideProps = async (
         },
       };
     }
+
+    return {
+      props: {
+        course: data.data,
+      },
+    };
   }
 
+  redirect(context, Path.home);
   return {
-    props: {
-      course: data.data,
-    },
+    props: {},
   };
 };
 
