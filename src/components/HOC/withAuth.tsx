@@ -37,7 +37,6 @@ const withAuth: WithAuthComponent = (Component, role = [USER_ROLES.USER]) => {
       };
     } catch (error) {
       Sentry.captureException(error);
-      redirect(context, Path.error);
       return {
         props: {},
       };
