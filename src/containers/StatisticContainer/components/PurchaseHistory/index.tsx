@@ -8,6 +8,7 @@ import { CourseType } from "src/data-model/CourseTypes";
 import { PaymentHistory } from "src/data-model/PaymentTypes";
 import { UserType } from "src/data-model/UserTypes";
 import { useGetPurchasedHistory } from "src/hooks/apis";
+import formatNumber from "src/utils/helpers/formatNumber";
 
 interface Props {
   instructorId?: string;
@@ -103,7 +104,7 @@ const HistoryItem = ({
         margin="0 0 0 auto"
       >
         <Text fontSize="sm" fontWeight="medium" color="green">
-          +{restHistory.amount}Vnd
+          +{formatNumber(restHistory.amount)}Vnd
         </Text>
       </Center>
     </Box>

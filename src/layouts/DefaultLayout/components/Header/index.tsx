@@ -209,6 +209,7 @@ const UserDropdown = () => {
     clearTokens();
     client.setQueriesData(QUERY_KEYS.GET_ME, null);
     client.refetchQueries(QUERY_KEYS.GET_ME);
+    client.removeQueries({ queryKey: [] });
     destroy();
     router.push(Path.home);
   }, [client]);

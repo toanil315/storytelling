@@ -51,9 +51,17 @@ const addItemToListCommentAfterReceiveNotification = (
 };
 
 const invalidatePurchasedHistory = (queryClient: QueryClient) => {
-  const old = queryClient.getQueryData(QUERY_KEYS.GET_PURCHASED_HISTORY);
-  if (Boolean(old)) {
+  const oldPurchasedHistory = queryClient.getQueryData(
+    QUERY_KEYS.GET_PURCHASED_HISTORY
+  );
+  const oldRevenue = queryClient.getQueryData(
+    QUERY_KEYS.GET_REVENUE_OF_THE_MONTH
+  );
+  if (Boolean(oldPurchasedHistory)) {
     queryClient.invalidateQueries(QUERY_KEYS.GET_PURCHASED_HISTORY);
+  }
+  if (Boolean(oldRevenue)) {
+    queryClient.invalidateQueries(QUERY_KEYS.GET_REVENUE_OF_THE_MONTH);
   }
 };
 
