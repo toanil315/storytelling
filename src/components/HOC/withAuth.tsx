@@ -27,12 +27,19 @@ const withAuth: WithAuthComponent = (Component, role = [USER_ROLES.USER]) => {
 
       if (!role.includes(data.role)) {
         redirect(context, Path.login);
-        return {};
+        return {
+          props: {},
+        };
       }
 
-      return {};
+      return {
+        props: {},
+      };
     } catch (error) {
       Sentry.captureException(error);
+      return {
+        props: {},
+      };
     }
   };
 
