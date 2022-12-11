@@ -175,7 +175,7 @@ const FilterCourse = () => {
       </Box>
       <Box margin="0 0 25px">
         <Text>Price:</Text>
-        <Box as={Row} margin="10px 0 20px" gutter={[10]}>
+        <Box as={Row} margin="10px 0 20px" gutter={[20]}>
           <Col span={24}>
             <Slider
               onChange={handleSliderChange}
@@ -183,29 +183,28 @@ const FilterCourse = () => {
               min={MIN_MAX_PRICE_OF_COURSES.MIN}
               max={MIN_MAX_PRICE_OF_COURSES.MAX}
               range
+              step={1000}
             />
           </Col>
-          <Col span={10}>
+          <Col span={12}>
             <Input
               handleChange={handleInputPriceChange("start")}
               value={priceRange.start}
               min={MIN_MAX_PRICE_OF_COURSES.MIN}
               max={MIN_MAX_PRICE_OF_COURSES.MAX}
-              padding="5px 0"
-              suffixIcon="$"
+              suffixIcon="Vnd"
               suffixPosition="right"
               type="number"
             />
           </Col>
 
-          <Col offset={4} span={10}>
+          <Col span={12}>
             <Input
               handleChange={handleInputPriceChange("end")}
               value={priceRange.end}
               min={MIN_MAX_PRICE_OF_COURSES.MIN}
               max={MIN_MAX_PRICE_OF_COURSES.MAX}
-              padding="5px 0"
-              suffixIcon="$"
+              suffixIcon="Vnd"
               suffixPosition="right"
               type="number"
             />

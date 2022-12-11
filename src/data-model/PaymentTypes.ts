@@ -22,3 +22,18 @@ export interface PaymentResponse {
   courseId: string;
   instructorId: string;
 }
+
+export interface PaymentHistory {
+  id: string;
+  vnpOrderInfo: string;
+  orderType: string;
+  amount: number;
+  locate: string;
+  ipAddress: string;
+  status: string;
+  txnRef: string;
+  timeOver: string;
+  userId: string;
+  courseId: string;
+  instructorId: string;
+}

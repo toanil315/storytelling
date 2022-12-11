@@ -17,6 +17,46 @@ const initRabbitConnection = async (userId: string) => {
   return data;
 };
 
+const addItemToListCommentAfterReceiveNotification = (
+  queryClient: QueryClient,
+  newNotification: NotificationType
+) => {
+  queryClient.setQueryData(
+    [QUERY_KEYS.GET_COMMENTS_OF_VIDEO, newNotification.objectableId],
+    (old: any) => {
+      if (Boolean(old)) {
+        const newCommentList = [...old?.pages];
+        newCommentList[0].data = [
+          {
+            videoId: newNotification.objectableId,
+            content: newNotification.content,
+            createdAt: new Date(newNotification.createdAt).getTime(),
+            id: String(Date.now()),
+            userId: newNotification.senderId,
+          } as CommentType,
+          ...newCommentList[0].data,
+        ];
+        return {
+          ...old,
+          pages: newCommentList,
+        };
+      }
+      queryClient.removeQueries([
+        QUERY_KEYS.GET_COMMENTS_OF_VIDEO,
+        newNotification.objectableId,
+      ]);
+      return;
+    }
+  );
+};
+
+const invalidatePurchasedHistory = (queryClient: QueryClient) => {
+  const old = queryClient.getQueryData(QUERY_KEYS.GET_PURCHASED_HISTORY);
+  if (Boolean(old)) {
+    queryClient.invalidateQueries(QUERY_KEYS.GET_PURCHASED_HISTORY);
+  }
+};
+
 const handleNewNotification = (
   newNotification: NotificationType,
   currentUserId: string,
@@ -41,33 +81,14 @@ const handleNewNotification = (
     // handle add item to list
     switch (newNotification.type) {
       case NOTIFICATIONS_TYPES.COMMENT_VIDEO:
-        queryClient.setQueryData(
-          [QUERY_KEYS.GET_COMMENTS_OF_VIDEO, newNotification.objectableId],
-          (old: any) => {
-            if (Boolean(old)) {
-              const newCommentList = [...old?.pages];
-              newCommentList[0].data = [
-                {
-                  videoId: newNotification.objectableId,
-                  content: newNotification.content,
-                  createdAt: new Date(newNotification.createdAt).getTime(),
-                  id: String(Date.now()),
-                  userId: newNotification.senderId,
-                } as CommentType,
-                ...newCommentList[0].data,
-              ];
-              return {
-                ...old,
-                pages: newCommentList,
-              };
-            }
-            queryClient.removeQueries([
-              QUERY_KEYS.GET_COMMENTS_OF_VIDEO,
-              newNotification.objectableId,
-            ]);
-            return;
-          }
+        addItemToListCommentAfterReceiveNotification(
+          queryClient,
+          newNotification
         );
+        break;
+
+      case NOTIFICATIONS_TYPES.USER_SUBSCRIBE_COURSE:
+        invalidatePurchasedHistory(queryClient);
         break;
 
       default:

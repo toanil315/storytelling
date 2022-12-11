@@ -36,6 +36,7 @@ const CourseContainer = ({ courseId }: Props) => {
   const { data: lectures, isLoading: getLecturesLoading } =
     useGetLecturesBySection(sections?.[0]?.id ?? "");
   const { user: currentUserLogin } = useUser();
+  const { data: course } = useGetCourseById(courseId ?? "");
 
   useEffect(() => {
     if (!router.query.lectureId) {
@@ -58,17 +59,20 @@ const CourseContainer = ({ courseId }: Props) => {
       courseId: string
     ) => {
       const result = await userServices.checkPurchasedCourse(userId, courseId);
-      if (Boolean(result.data)) {
-        setIsCheckPurchased(true);
-      } else {
+      if (!Boolean(result.data)) {
         router.push(`/${Path.error}`);
       }
     };
 
-    if (currentUserLogin) {
+    if (
+      currentUserLogin &&
+      course &&
+      currentUserLogin.userId !== course?.userId
+    ) {
       handleCheckIsPurchasedCourse(currentUserLogin.userId, courseId);
     }
-  }, [currentUserLogin]);
+    setIsCheckPurchased(true);
+  }, [currentUserLogin, course]);
 
   if (getSectionsLoading || !isCheckPurchased) {
     return (
