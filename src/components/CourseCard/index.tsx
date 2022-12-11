@@ -85,7 +85,7 @@ const CourseCard = ({ course, user }: Props) => {
           href={{
             pathname: `${Path.courses}/${course.id}`,
             query: {
-              ...(user
+              ...(currentUserLogin
                 ? {
                     userId: currentUserLogin?.userId,
                   }

@@ -1,5 +1,8 @@
 import { NotificationType } from "src/data-model/NotificationTypes";
-import { PaymentHistory } from "src/data-model/PaymentTypes";
+import {
+  PaymentHistory,
+  RevenueForTheMonthType,
+} from "src/data-model/PaymentTypes";
 import {
   ChangePasswordType,
   UserDetail,
@@ -72,5 +75,13 @@ export const userServices = {
     userId: string
   ): Promise<CustomAxiosResponseWithPagination<PaymentHistory[]>> => {
     return axiosClient.get(`${BASE_JAVA_URL}/users/${userId}/payments`);
+  },
+
+  getEarningDataOfInstructor: (
+    instructorId: string
+  ): Promise<CustomAxiosResponse<RevenueForTheMonthType[]>> => {
+    return axiosClient.get(
+      `${BASE_JAVA_URL}/instructors/${instructorId}/revenue`
+    );
   },
 };

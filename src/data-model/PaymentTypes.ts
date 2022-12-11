@@ -37,3 +37,8 @@ export interface PaymentHistory {
   courseId: string;
   instructorId: string;
 }
+
+export interface RevenueForTheMonthType {
+  month: string;
+  revenue: number;
+}

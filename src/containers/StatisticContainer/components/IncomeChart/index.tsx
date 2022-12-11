@@ -9,60 +9,13 @@ import {
 } from "recharts";
 import Box from "src/components/commons/Box";
 import Text from "src/components/commons/Typography";
-import { backgroundColor } from "styled-system";
-
-const data = [
-  {
-    month: 1,
-    income: 4000,
-  },
-  {
-    month: 2,
-    income: 5000,
-  },
-  {
-    month: 3,
-    income: 3000,
-  },
-  {
-    month: 4,
-    income: 3300,
-  },
-  {
-    month: 5,
-    income: 6000,
-  },
-  {
-    month: 6,
-    income: 9500,
-  },
-  {
-    month: 7,
-    income: 9000,
-  },
-  {
-    month: 8,
-    income: 7300,
-  },
-  {
-    month: 9,
-    income: 10000,
-  },
-  {
-    month: 10,
-    income: 14000,
-  },
-  {
-    month: 11,
-    income: 14700,
-  },
-  {
-    month: 12,
-    income: 15000,
-  },
-];
+import { useGetRevenueOfTheMonths, useUser } from "src/hooks/apis";
+import formatNumber, { abbreviateNumber } from "src/utils/helpers/formatNumber";
 
 const IncomeChart = () => {
+  const { user } = useUser();
+  const { data } = useGetRevenueOfTheMonths(user?.userId);
+
   return (
     <Box
       width="100%"
@@ -78,7 +31,7 @@ const IncomeChart = () => {
           this month earnings:
         </Text>
         <Text fontSize="xl" fontWeight="bold" lineHeight="xl" color="text">
-          $621
+          {formatNumber(data?.at(-1)?.revenue)}Vnd
         </Text>
         <Text fontSize="sm" fontWeight="bold" lineHeight="normal" color="green">
           + 12%
@@ -100,7 +53,7 @@ const IncomeChart = () => {
             animationBegin={800}
             animationDuration={2000}
             type="monotone"
-            dataKey="income"
+            dataKey="revenue"
             stroke="#ffc107"
             fillOpacity={1}
             fill="url(#fillColor)"
@@ -108,7 +61,11 @@ const IncomeChart = () => {
           />
 
           <XAxis tickLine={false} dataKey="month" />
-          <YAxis tickLine={false} dataKey="income" />
+          <YAxis
+            tickFormatter={abbreviateNumber}
+            tickLine={false}
+            dataKey="revenue"
+          />
           <Tooltip />
         </AreaChart>
       </ResponsiveContainer>
