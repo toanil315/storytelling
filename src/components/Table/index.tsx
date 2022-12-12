@@ -2,8 +2,11 @@ import { TableProps as AntdTableProps } from "antd";
 import { StyledTable } from "./styles";
 import RightIcon from "src/components/icons/RightIcon";
 import DownIcon from "src/components/icons/DropDownIcon";
+import { UseTableHelper } from "src/hooks/useTable";
 
-export interface TableProps<T> extends AntdTableProps<T> {}
+export interface TableProps<T> extends AntdTableProps<T> {
+  table: UseTableHelper;
+}
 
 const CustomExpandIcon = (props: any) => {
   if (props.expanded) {
@@ -31,11 +34,16 @@ const CustomExpandIcon = (props: any) => {
   );
 };
 
-const Table = ({ ...restProps }: TableProps<any>) => {
+const Table = ({ table, ...restProps }: TableProps<any>) => {
   return (
     <StyledTable
       expandIcon={(propsExpand) => <CustomExpandIcon {...propsExpand} />}
       {...restProps}
+      pagination={{
+        hideOnSinglePage: true,
+        onChange: table.onPageChange,
+        pageSize: table.pageSize,
+      }}
     />
   );
 };

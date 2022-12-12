@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import Box from "src/components/commons/Box";
 import Text from "src/components/commons/Typography";
 import Table from "src/components/Table";
+import { useTable } from "src/hooks";
 import {
   useGetCategory,
   useGetCoursesByInstructor,
@@ -25,6 +26,11 @@ const PublishCourses = () => {
     [categories]
   );
 
+  const table = useTable({
+    page: 1,
+    pageSize: 5,
+  });
+
   return (
     <Box bg="white" padding="20px" borderRadius="large">
       <Box
@@ -42,10 +48,7 @@ const PublishCourses = () => {
         rowKey={(record) => record.id}
         columns={column}
         dataSource={publishCourseList}
-        pagination={{
-          hideOnSinglePage: true,
-          pageSize: 5,
-        }}
+        table={table}
         expandable={{
           expandedRowKeys: [expandedRowKey],
           expandedRowRender: (record: any) => (

@@ -64,10 +64,14 @@ export const userServices = {
   },
 
   getPurchasedHistoryOfInstructor: (
-    instructorId: string
+    instructorId: string,
+    page?: number,
+    pageSize?: number
   ): Promise<CustomAxiosResponseWithPagination<PaymentHistory[]>> => {
     return axiosClient.get(
-      `${BASE_JAVA_URL}/instructors/${instructorId}/payments`
+      `${BASE_JAVA_URL}/instructors/${instructorId}/payments?page=${
+        page ?? 1
+      }&limit=${pageSize ?? 5}`
     );
   },
 

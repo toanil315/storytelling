@@ -1,14 +1,17 @@
 import { Col, Row, Skeleton } from "antd";
-import React from "react";
+import React, { useCallback } from "react";
 import Box from "src/components/commons/Box";
 import Center from "src/components/commons/Center";
 import ImageComponent from "src/components/commons/Image";
 import Text from "src/components/commons/Typography";
+import CustomModal from "src/components/Modal";
 import { CourseType } from "src/data-model/CourseTypes";
 import { PaymentHistory } from "src/data-model/PaymentTypes";
 import { UserType } from "src/data-model/UserTypes";
+import { useModal } from "src/hooks";
 import { useGetPurchasedHistory } from "src/hooks/apis";
 import formatNumber from "src/utils/helpers/formatNumber";
+import PurchasedDetail from "../PurchasedDetail";
 
 interface Props {
   instructorId?: string;
@@ -16,6 +19,7 @@ interface Props {
 
 const PurchaseHistory = ({ instructorId }: Props) => {
   const { data: historyList, isLoading } = useGetPurchasedHistory(instructorId);
+  const purchasedDetailModal = useModal();
 
   if (isLoading) {
     return (
@@ -42,9 +46,22 @@ const PurchaseHistory = ({ instructorId }: Props) => {
       borderRadius="large"
       className="overflow-y-auto"
     >
-      <Text fontSize="base" fontWeight="bold" lineHeight="large" color="text">
-        History:
-      </Text>
+      <Box className="w-full flex items-center justify-between">
+        <Text fontSize="base" fontWeight="bold" lineHeight="large" color="text">
+          History:
+        </Text>
+        <Box
+          as={Text}
+          className="cursor-pointer"
+          fontSize="sm"
+          fontWeight="bold"
+          lineHeight="large"
+          color="green"
+          onClick={purchasedDetailModal.toggleModal}
+        >
+          View detail
+        </Box>
+      </Box>
       <Box as={Row} width="100%" gutter={[0, 10]} margin="20px 0 0">
         {historyList?.map((historyItem) => (
           <Col span={24} key={historyItem.id}>
@@ -52,6 +69,7 @@ const PurchaseHistory = ({ instructorId }: Props) => {
           </Col>
         ))}
       </Box>
+      <PurchasedDetail modal={purchasedDetailModal} />
     </Box>
   );
 };
