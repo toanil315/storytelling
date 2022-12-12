@@ -1,3 +1,6 @@
+import { CourseType } from "./CourseTypes";
+import { UserType } from "./UserTypes";
+
 export interface PaymentBase {
   courseId: string;
   userId: string;
@@ -36,6 +39,11 @@ export interface PaymentHistory {
   userId: string;
   courseId: string;
   instructorId: string;
+}
+
+export interface PurchasedDetail extends PaymentHistory {
+  course: CourseType;
+  user: UserType;
 }
 
 export interface RevenueForTheMonthType {

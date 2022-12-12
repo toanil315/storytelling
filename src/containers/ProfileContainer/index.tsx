@@ -1,15 +1,17 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Box from "src/components/commons/Box";
 import Button from "src/components/commons/Button";
 import Center from "src/components/commons/Center";
 import ImageComponent from "src/components/commons/Image";
 import Text from "src/components/commons/Typography";
 import CourseCard from "src/components/CourseCard";
+import { UserType } from "src/data-model/UserTypes";
 import {
   useGetCoursesByInstructor,
   useGetMyPurchasedCourses,
   useGetUserById,
+  useGetUserByIdParallel,
   useGetUserDetail,
   useUser,
 } from "src/hooks/apis";
@@ -27,6 +29,9 @@ interface Props {
 const ProfileContainer = ({ mode, instructorId }: Props) => {
   const modal = useModal();
   const router = useRouter();
+  const [usersById, setUsersById] = useState<
+    { [key: string]: UserType } | undefined
+  >(undefined);
   const { user: currentUser } = useUser();
   const { user: instructor } = useGetUserById(instructorId);
   const { data: courses, isLoading } = useGetCoursesByInstructor(
@@ -36,6 +41,26 @@ const ProfileContainer = ({ mode, instructorId }: Props) => {
     currentUser?.userId
   );
 
+  const {
+    users,
+    isLoading: getUsersLoading,
+    isError,
+  } = useGetUserByIdParallel(
+    myPurchasedCourses
+      ? myPurchasedCourses.map((course) => course?.userId ?? "")
+      : [""]
+  );
+
+  useEffect(() => {
+    if (!isLoading && !isError && users) {
+      setUsersById({
+        ...users.reduce((acc, current) => {
+          return { ...acc, [current?.userId as string]: current };
+        }, {}),
+      });
+    }
+  }, [getUsersLoading, isError]);
+
   const renderCourseList = () => {
     if (mode === "me") {
       return myPurchasedCourses?.map((courseItem) => {
@@ -44,7 +69,7 @@ const ProfileContainer = ({ mode, instructorId }: Props) => {
             <CourseCard
               key={courseItem?.id}
               course={courseItem}
-              user={instructor}
+              user={usersById?.[courseItem.userId]}
             />
           );
         }

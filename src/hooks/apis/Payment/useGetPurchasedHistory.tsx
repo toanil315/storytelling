@@ -7,7 +7,11 @@ import { QUERY_KEYS } from "src/utils/constants";
 import { useGetCourseByIdParallel } from "../Course/useGetCourseById";
 import { useGetUserByIdParallel } from "../User/useGetUserById";
 
-const useGetPurchasedHistory = (instructorId?: string) => {
+const useGetPurchasedHistory = (
+  instructorId?: string,
+  page?: number,
+  pageSize?: number
+) => {
   const {
     data: purchasedHistory,
     isLoading: getHistoryLoading,
@@ -15,7 +19,12 @@ const useGetPurchasedHistory = (instructorId?: string) => {
     isSuccess,
   } = useQuery(
     QUERY_KEYS.GET_PURCHASED_HISTORY,
-    () => userServices.getPurchasedHistoryOfInstructor(instructorId ?? ""),
+    () =>
+      userServices.getPurchasedHistoryOfInstructor(
+        instructorId ?? "",
+        page,
+        pageSize
+      ),
     {
       enabled: Boolean(instructorId),
     }

@@ -18,6 +18,10 @@ const moduleExports = {
         protocol: "https",
         hostname: "res.cloudinary.com",
       },
+      {
+        protocol: "https",
+        hostname: "robohash.org",
+      },
     ],
   },
   sentry: {
