@@ -23,7 +23,7 @@ const Profile: NextPageWithLayout = () => {
       </Head>
       <ProfileContainer
         mode={id === "me" ? "me" : "instructor"}
-        instructorId={id as string}
+        instructorId={id !== "me" ? (id as string) : ""}
       />
     </>
   );
