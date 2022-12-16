@@ -17,6 +17,8 @@ import * as Sentry from "@sentry/nextjs";
 import { Router } from "next/router";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
+import handleErrors from "src/utils/helpers/handleErrors";
+import { useDebounceWithoutDependencies } from "src/hooks";
 
 NProgress.settings.showSpinner = false;
 
@@ -30,6 +32,7 @@ type AppPropsWithLayout = AppProps & {
 };
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const { setDebounce } = useDebounceWithoutDependencies(100);
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -38,14 +41,16 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
             staleTime: 300000, // 5 minutes
             cacheTime: 600000, // 10 minutes
             retryDelay: 1000,
-            retry: 3,
-            onError: (error) => {
+            retry: 2,
+            onError: (error: any) => {
               Sentry.captureException(error);
+              setDebounce(() => handleErrors(error?.response?.status));
             },
           },
           mutations: {
-            onError: (error) => {
+            onError: (error: any) => {
               Sentry.captureException(error);
+              setDebounce(() => handleErrors(error?.response?.status));
             },
           },
         },

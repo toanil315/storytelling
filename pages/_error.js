@@ -17,14 +17,37 @@
  */
 
 import * as Sentry from "@sentry/nextjs";
-import NextErrorComponent from "next/error";
+import { useRouter } from "next/router";
+import ImageComponent from "src/components/commons/Image";
+import Center from "src/components/commons/Center";
+import Button from "src/components/commons/Button";
+import { Path } from "src/utils/Path";
+import Box from "src/components/commons/Box";
 
 const CustomErrorComponent = (props) => {
   // If you're using a Nextjs version prior to 12.2.1, uncomment this to
   // compensate for https://github.com/vercel/next.js/issues/8592
   Sentry.captureUnderscoreErrorException(props);
 
-  return <NextErrorComponent statusCode={props.statusCode} />;
+  const router = useRouter();
+
+  return (
+    <Center
+      padding="20px 0px 150px"
+      flexDirection="column"
+      width="100vw"
+      height="100vh"
+    >
+      <ImageComponent src="/assets/404.png" alt="404 error" />
+      <Box as={Button} width="200px" onClick={() => router.push(Path.home)}>
+        Go Back
+      </Box>
+    </Center>
+  );
+};
+
+CustomErrorComponent.getLayout = function getLayout(page) {
+  return page;
 };
 
 CustomErrorComponent.getInitialProps = async (contextData) => {
@@ -33,7 +56,9 @@ CustomErrorComponent.getInitialProps = async (contextData) => {
   await Sentry.captureUnderscoreErrorException(contextData);
 
   // This will contain the status code of the response
-  return NextErrorComponent.getInitialProps(contextData);
+  const { res, err } = contextData;
+  const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
+  return { statusCode };
 };
 
 export default CustomErrorComponent;
