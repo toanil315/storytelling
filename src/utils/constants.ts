@@ -114,3 +114,17 @@ export enum PAYMENT_STATUS {
 export enum CONDITIONS_IN_WITH_AUTH {
   PURCHASED_COURSE = "PURCHASED_COURSE",
 }
+
+export enum ERRORS {
+  "SERVER_ERROR" = 500,
+  "BAD_REQUEST" = 400,
+  "NOT_FOUND" = 404,
+  "UN_AUTHORIZE" = 403,
+}
+
+export enum ERRORS_DETAIL {
+  "SERVER_ERROR" = "500 - Internal Server Error.",
+  "BAD_REQUEST" = "400 - Bad Request",
+  "NOT_FOUND" = "404 - The requested resource does not exist.",
+  "UN_AUTHORIZE" = "403 - User is not permitted to acess requested resource.",
+}

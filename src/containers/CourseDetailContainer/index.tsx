@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import Box from "src/components/commons/Box";
 import { Col, Row } from "antd";
 import Text from "src/components/commons/Typography";
@@ -64,6 +64,14 @@ const CourseDetailContainer = ({ course }: Props) => {
   useEffect(() => {
     window.scrollY = 0;
   }, []);
+
+  // useLayoutEffect(() => {
+  //   if (currentUserLogin) {
+  //     const resultCheckIsPurchasedCourse = await fetch(
+  //       `${BASE_JAVA_URL}/subscribes/courses/${context.params?.id}/users/${context.query?.userId}/checkSubscribe`
+  //     );
+  //   }
+  // }, [currentUserLogin]);
 
   useEffect(() => {
     const paymentStatus = router.query.vnp_TransactionStatus ?? "";
