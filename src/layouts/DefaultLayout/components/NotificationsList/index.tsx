@@ -237,32 +237,31 @@ const NotificationsList = () => {
         ref={scrollParentRef}
       >
         {notifications?.length !== 0 ? (
-          <InfiniteScroll
-            loadMore={fetchNextPage}
-            hasMore={hasNextPage ?? false}
-            loader={undefined}
-            useWindow={false}
-            getScrollParent={() => scrollParentRef.current}
-            threshold={150}
-          >
-            {!(isGetUsersLoading || isGetCourseIdLoading) ? (
+          <>
+            <InfiniteScroll
+              loadMore={fetchNextPage}
+              hasMore={
+                hasNextPage &&
+                !(isLoading || isGetUsersLoading || isGetCourseIdLoading)
+              }
+              loader={undefined}
+              useWindow={false}
+              getScrollParent={() => scrollParentRef.current}
+              threshold={150}
+            >
               <StyledMenu
                 style={{ boxShadow: "none" }}
                 title="Notifications"
                 items={notificationsItems}
               ></StyledMenu>
-            ) : null}
-            {(isLoading ||
-              isGetUsersLoading ||
-              isGetCourseIdLoading ||
-              !Boolean(transformedUsers) ||
-              !Boolean(coursesId)) &&
+            </InfiniteScroll>
+            {(isLoading || isGetUsersLoading || isGetCourseIdLoading) &&
               hasNextPage && (
                 <Box padding="15px 5px">
                   <LoadingSkeleton />
                 </Box>
               )}
-          </InfiniteScroll>
+          </>
         ) : (
           <Center width="100%" className="flex-col p-4">
             <Box width="100%" height="300px">
