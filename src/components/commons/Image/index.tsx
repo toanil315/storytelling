@@ -20,14 +20,14 @@ const ImageComponent = ({
   const [imgSrc, setSrc] = useState<string>("");
 
   useEffect(() => {
-    setSrc(src ?? "");
+    setSrc(src ?? FALL_BACK_IMAGE_URL);
   }, [src]);
 
   return (
     <Box style={{ position: "relative" }} width="100%" height="100%">
       <Image
         className="w-full h-full"
-        src={imgSrc}
+        src={imgSrc ?? FALL_BACK_IMAGE_URL}
         layout={layout}
         objectFit={objectFit}
         alt={alt}
