@@ -45,17 +45,12 @@ export const getServerSideProps = async (
         },
       };
     }
-
-    return {
-      props: {
-        course: data.data,
-      },
-    };
   }
 
-  redirect(context, Path.home);
   return {
-    props: {},
+    props: {
+      course: data.data,
+    },
   };
 };
 

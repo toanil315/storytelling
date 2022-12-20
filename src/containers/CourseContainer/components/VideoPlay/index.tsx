@@ -40,7 +40,11 @@ const VideoPlay = () => {
   const { setDebounce: setDebounceUpdateVideoLastDuration } =
     useDebounceWithoutDependencies(1200);
 
-  const handleUpdateView = (node: HTMLVideoElement | null, userId: string) => {
+  const handleUpdateView = (
+    node: HTMLVideoElement | null,
+    userId: string,
+    lectureId: string
+  ) => {
     videoServices.updateViewLecture({
       userId: userId as string,
       videoId: lectureId as string,
@@ -53,9 +57,9 @@ const VideoPlay = () => {
     const node = videoRef.current;
     const userId = currentUser?.userId ?? "";
     return () => {
-      handleUpdateView(node, userId);
+      handleUpdateView(node, userId, lectureId as string);
     };
-  }, [videoRef, currentUser]);
+  }, [videoRef, currentUser, lectureId]);
 
   useEffect(() => {
     const handleGetLastDuration = async () => {
@@ -78,7 +82,11 @@ const VideoPlay = () => {
   const handleOnTimeUpdate = () => {
     setDebounceUpdateVideoLastDuration(() => {
       if (Number(videoRef.current?.currentTime) > 1) {
-        handleUpdateView(videoRef.current, currentUser?.userId ?? "");
+        handleUpdateView(
+          videoRef.current,
+          currentUser?.userId ?? "",
+          lectureId as string
+        );
       }
     });
   };
@@ -146,7 +154,7 @@ const VideoPlay = () => {
                 fontWeight="regular"
                 color="text"
               >
-                0 viewers
+                {lecture?.totalView} viewers
               </Box>
             </Box>
             <Box

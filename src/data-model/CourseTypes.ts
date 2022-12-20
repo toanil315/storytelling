@@ -40,6 +40,7 @@ export interface LectureType extends LectureBase {
   createdAt: string;
   deletedAt: string;
   updatedAt: string;
+  totalView: number;
 }
 
 export interface SectionType extends SectionBase {
