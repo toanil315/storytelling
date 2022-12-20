@@ -11,6 +11,7 @@ import React, {
 import Box from "src/components/commons/Box";
 import Center from "src/components/commons/Center";
 import PlaceholderLoading from "src/components/commons/Loading";
+import Text from "src/components/commons/Typography";
 import { LectureType } from "src/data-model/CourseTypes";
 import {
   useGetCourseById,
@@ -23,6 +24,10 @@ import { Path } from "src/utils/Path";
 import Comments from "./components/Comments";
 import VideoPlay from "./components/VideoPlay";
 import VideoPlayList from "./components/VideoPlayList";
+import CertificateModal from "./components/CertificateModal";
+import TrophyIcon from "src/components/icons/TrophyIcon";
+import { useModal } from "src/hooks";
+import { StyledCircleProgress } from "./styles";
 
 interface Props {
   courseId: string;
@@ -37,6 +42,7 @@ const CourseContainer = ({ courseId }: Props) => {
     useGetLecturesBySection(sections?.[0]?.id ?? "");
   const { user: currentUserLogin } = useUser();
   const { data: course } = useGetCourseById(courseId ?? "");
+  const certificateModal = useModal();
 
   useEffect(() => {
     if (!router.query.lectureId) {
@@ -84,6 +90,25 @@ const CourseContainer = ({ courseId }: Props) => {
 
   return (
     <div style={{ margin: "30px 0 0", height: "100%" }}>
+      <Box
+        className="flex items-center justify-between"
+        width="100%"
+        padding="15px"
+        margin="30px 0"
+        bg="white"
+        borderRadius="large"
+      >
+        <Text fontSize="lg" fontWeight="bold" lineHeight="xl" color="text">
+          {course?.name}
+        </Text>
+        <Box className="flex items-center gap-x-6">
+          <Box onClick={() => certificateModal.toggleModal()}>
+            <StyledCircleProgress>
+              <TrophyIcon color="#979393" />
+            </StyledCircleProgress>
+          </Box>
+        </Box>
+      </Box>
       <Box as={Row} width="100%" gutter={[10, 0]}>
         <Col span={16}>
           <Box as={Row} width="100%" gutter={[0, 30]}>
@@ -99,6 +124,7 @@ const CourseContainer = ({ courseId }: Props) => {
           <VideoPlayList sections={sections ?? []} />
         </Col>
       </Box>
+      <CertificateModal course={course} modal={certificateModal} />
     </div>
   );
 };

@@ -27,6 +27,7 @@ import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
 import { PAYMENT_STATUS } from "src/utils/constants";
+import { userServices } from "src/services/UserServices";
 
 interface Props {
   course: CourseType;
@@ -65,13 +66,19 @@ const CourseDetailContainer = ({ course }: Props) => {
     window.scrollY = 0;
   }, []);
 
-  // useLayoutEffect(() => {
-  //   if (currentUserLogin) {
-  //     const resultCheckIsPurchasedCourse = await fetch(
-  //       `${BASE_JAVA_URL}/subscribes/courses/${context.params?.id}/users/${context.query?.userId}/checkSubscribe`
-  //     );
-  //   }
-  // }, [currentUserLogin]);
+  useLayoutEffect(() => {
+    const checkIsPurchased = async (userId: string, courseId: string) => {
+      const resultCheckIsPurchasedCourse =
+        await userServices.checkPurchasedCourse(userId, courseId);
+      if (resultCheckIsPurchasedCourse.data) {
+        router.push(Path.home);
+      }
+    };
+
+    if (currentUserLogin) {
+      checkIsPurchased(currentUserLogin.userId, course.id);
+    }
+  }, [currentUserLogin, course]);
 
   useEffect(() => {
     const paymentStatus = router.query.vnp_TransactionStatus ?? "";
