@@ -5,6 +5,7 @@ import {
 } from "src/data-model/PaymentTypes";
 import {
   ChangePasswordType,
+  FollowInstructorType,
   UserDetail,
   UserType,
 } from "src/data-model/UserTypes";
@@ -87,5 +88,26 @@ export const userServices = {
     return axiosClient.get(
       `${BASE_JAVA_URL}/instructors/${instructorId}/revenue`
     );
+  },
+
+  followInstructor: (followData: {
+    userId: string;
+    instructorId: string;
+  }): Promise<any> => {
+    return axiosClient.post(`${BASE_JAVA_URL}/follows`, followData);
+  },
+
+  getListFollowByUser: (
+    userId: string
+  ): Promise<{
+    data: CustomAxiosResponseWithPagination<FollowInstructorType[]>;
+  }> => {
+    return axiosClient.get(
+      `${BASE_JAVA_URL}/users/${userId}/follows?page=1&paging=10&sort=createdAt&order=asc`
+    );
+  },
+
+  requestToBecomeAnInstructor: (): Promise<any> => {
+    return axiosClient.post(`/users/request-instructor`);
   },
 };

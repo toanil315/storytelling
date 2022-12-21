@@ -94,7 +94,9 @@
       },
       "updateUserProfile": "Update user profile successfully.",
       "changePassword": "Change Password successfully. Please login again",
-      "buyCourse": "Buy course successfully."
+      "buyCourse": "Buy course successfully.",
+      "followInstructor": "Follow instructor successfully.",
+      "requestToBecomeAnInstructor": "Request successfully. Please wait while we are processing and reviewing your instructor request"
     },
     "error": {
       "register": "Register failed. Please try again.",
@@ -115,7 +117,9 @@
       "updateUserProfile": "Update user profile failed. Please try again.",
       "changePassword": "Change Password failed. Please try again.",
       "cantBuyCourseWithoutLogin": "You must be login first to buy this course.",
-      "buyCourse": "Buy course fail. Please try again."
+      "buyCourse": "Buy course fail. Please try again.",
+      "followInstructor": "Follow instructor failed. Please try again.",
+      "requestToBecomeAnInstructor": "Request failed. Please try again"
     }
   },
   "courseContent": "Course Content",
