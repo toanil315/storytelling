@@ -8,6 +8,7 @@ import Text from "src/components/commons/Typography";
 import CourseCard from "src/components/CourseCard";
 import { UserType } from "src/data-model/UserTypes";
 import {
+  useFollowInstructor,
   useGetCoursesByInstructor,
   useGetMyPurchasedCourses,
   useGetUserById,
@@ -40,6 +41,7 @@ const ProfileContainer = ({ mode, instructorId }: Props) => {
   const { data: myPurchasedCourses } = useGetMyPurchasedCourses(
     currentUser?.userId
   );
+  const { follow, isLoading: isFollowLoading } = useFollowInstructor();
 
   const {
     users,
@@ -80,6 +82,10 @@ const ProfileContainer = ({ mode, instructorId }: Props) => {
     ));
   };
 
+  const handleFollowInstructor = () => {
+    follow(currentUser?.userId ?? "", instructor?.userId ?? "");
+  };
+
   return (
     <Box maxWidth="911px" margin="40px auto 0">
       {/* HEADER */}
@@ -94,6 +100,7 @@ const ProfileContainer = ({ mode, instructorId }: Props) => {
                   : (instructor?.avatarUrl as string)
               }
               alt="avatar"
+              objectFit="cover"
             />
           </ProfileImage>
           <Box padding=" 0 0 0 15px">
@@ -146,6 +153,8 @@ const ProfileContainer = ({ mode, instructorId }: Props) => {
               $type="secondary"
               height="fit-content"
               margin="0 0 0 10px"
+              onClick={handleFollowInstructor}
+              loading={isFollowLoading}
             >
               Follow
             </Box>

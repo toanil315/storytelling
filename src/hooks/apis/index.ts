@@ -32,6 +32,9 @@ export { default as useUpdateProfileUser } from "./User/useUpdateProfileUser";
 export { default as useChangePassword } from "./User/useChangePassword";
 export { default as useUploadAvatar } from "./User/useUploadAvatar";
 export { default as useGetRevenueOfTheMonths } from "./User/useGetRevenueOfTheMonths";
+export { default as useFollowInstructor } from "./User/useFollowInstructor";
+export { default as useGetListFollowByUser } from "./User/useGetListFollowByUser";
+export { default as useRequestToBecomeAnInstructor } from "./User/useRequestToBecomeAnInstructor";
 
 export { default as useRealTimeServices } from "./RealTime/useRealTimeServices";
 

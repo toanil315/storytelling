@@ -137,7 +137,6 @@ const VideoPlay = () => {
             >
               {authorOfVideo?.fullName}
             </Box>
-            <Button>Follow</Button>
           </Box>
           <Box className="flex items-center">
             <Box

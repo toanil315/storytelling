@@ -50,3 +50,13 @@ export interface ChangePasswordType {
   oldPassword: string;
   newPassword: string;
 }
+
+export interface FollowInstructorType {
+  instructorResponse: {
+    id: null;
+    email: string;
+    fullName: string;
+    role: string;
+    avatarUrl: string;
+  };
+}

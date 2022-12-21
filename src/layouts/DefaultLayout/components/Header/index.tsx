@@ -203,6 +203,7 @@ const UserDropdown = () => {
   const router = useRouter();
   const client = useQueryClient();
   const [init, destroy] = useRealTimeServices();
+  const { user } = useUser();
 
   const handleLogOut = useCallback(async () => {
     await authService.logout();
@@ -225,7 +226,22 @@ const UserDropdown = () => {
         ),
       },
       {
-        id: 2,
+        ...(user?.role === USER_ROLES.AUTHOR
+          ? {
+              id: 2,
+              label: (
+                <Link href={`${Path.statistic}`}>
+                  <Text>Statistic</Text>
+                </Link>
+              ),
+            }
+          : {
+              id: 0,
+              label: null,
+            }),
+      },
+      {
+        id: 3,
         label: (
           <Box onClick={handleLogOut}>
             <Text>Log Out</Text>
@@ -233,18 +249,20 @@ const UserDropdown = () => {
         ),
       },
     ],
-    [handleLogOut]
+    [handleLogOut, user]
   );
 
   return (
     <Box width="140px">
       <StyledMenu
-        items={userDropdownOptions.map((option) => {
-          return {
-            key: option.id,
-            label: option.label,
-          };
-        })}
+        items={userDropdownOptions
+          .filter((item) => Boolean(item.id))
+          .map((option) => {
+            return {
+              key: option.id,
+              label: option.label,
+            };
+          })}
       ></StyledMenu>
     </Box>
   );
