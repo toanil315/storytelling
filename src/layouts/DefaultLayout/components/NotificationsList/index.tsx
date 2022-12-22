@@ -82,12 +82,19 @@ const NotificationsList = () => {
       if (notifications) {
         const updatedCoursesId = { ...(coursesId ? coursesId : {}) };
         for (const notification of notifications) {
-          if (notification.type !== NOTIFICATIONS_TYPES.USER_SUBSCRIBE_COURSE) {
-            const lectureId = notification.objectableId;
-            if (!updatedCoursesId[lectureId]) {
-              const { courseId } = await getCourseByLectureId(lectureId);
-              updatedCoursesId[lectureId] = courseId;
+          switch (notification.type) {
+            case NOTIFICATIONS_TYPES.COMMENT_VIDEO:
+            case NOTIFICATIONS_TYPES.EMOTION_REACT_VIDEO: {
+              const lectureId = notification.objectableId;
+              if (!updatedCoursesId[lectureId]) {
+                const { courseId } = await getCourseByLectureId(lectureId);
+                updatedCoursesId[lectureId] = courseId;
+              }
+              break;
             }
+
+            default:
+              break;
           }
         }
 

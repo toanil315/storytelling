@@ -130,6 +130,7 @@ const Header = () => {
                   fallBack="/assets/ava.png"
                   src={user?.avatarUrl ?? ""}
                   alt="avatar"
+                  objectFit="cover"
                 />
               </Box>
             </StyledDropdown>

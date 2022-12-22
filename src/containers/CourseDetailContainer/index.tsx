@@ -215,15 +215,17 @@ const CourseDetailContainer = ({ course }: Props) => {
           >
             {formatNumber(course.price)} Vnd
           </Box>
-          <Box
-            onClick={handleBuyCourse}
-            as={Button}
-            width="100%"
-            margin="15px 0"
-            loading={buyCourseLoading}
-          >
-            Enroll Now
-          </Box>
+          {currentUserLogin?.userId !== course.userId && (
+            <Box
+              onClick={handleBuyCourse}
+              as={Button}
+              width="100%"
+              margin="15px 0"
+              loading={buyCourseLoading}
+            >
+              Enroll Now
+            </Box>
+          )}
           <Box as="ul">
             <Text
               fontSize="sm"

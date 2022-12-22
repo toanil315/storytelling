@@ -21,20 +21,6 @@ const PurchaseHistory = ({ instructorId }: Props) => {
   const { data: historyList, isLoading } = useGetPurchasedHistory(instructorId);
   const purchasedDetailModal = useModal();
 
-  if (isLoading) {
-    return (
-      <>
-        {new Array(5).map((_, index) => {
-          return (
-            <Box key={index} padding="15px 5px">
-              <Skeleton avatar active paragraph={{ rows: 1 }} />
-            </Box>
-          );
-        })}
-      </>
-    );
-  }
-
   return (
     <Box
       width="100%"
@@ -63,11 +49,36 @@ const PurchaseHistory = ({ instructorId }: Props) => {
         </Box>
       </Box>
       <Box as={Row} width="100%" gutter={[0, 10]} margin="20px 0 0">
-        {historyList?.map((historyItem) => (
-          <Col span={24} key={historyItem.id}>
-            <HistoryItem history={historyItem} />
-          </Col>
-        ))}
+        {historyList && historyList.length > 0 ? (
+          historyList?.map((historyItem) => (
+            <Col span={24} key={historyItem.id}>
+              <HistoryItem history={historyItem} />
+            </Col>
+          ))
+        ) : (
+          <Center className="flex-col p-4 w-full h-full">
+            <Box width="100%" height="220px">
+              <ImageComponent src="/assets/empty.png" alt="empty" />
+            </Box>
+            <Text
+              fontSize="sm"
+              fontWeight="medium"
+              lineHeight="large"
+              color="text"
+            >
+              Purchased history is empty
+            </Text>
+          </Center>
+        )}
+
+        {isLoading &&
+          new Array(5).map((_, index) => {
+            return (
+              <Box key={index} padding="15px 5px">
+                <Skeleton avatar active paragraph={{ rows: 1 }} />
+              </Box>
+            );
+          })}
       </Box>
       <PurchasedDetail modal={purchasedDetailModal} />
     </Box>
