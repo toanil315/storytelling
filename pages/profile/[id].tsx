@@ -4,6 +4,7 @@ import withAuth from "src/components/HOC/withAuth";
 import { USER_ROLES } from "src/utils/constants";
 import { NextPageWithLayout } from "../_app";
 import dynamic from "next/dynamic";
+import { useUser } from "src/hooks/apis";
 
 const ProfileContainer = dynamic(
   () => import("src/containers/ProfileContainer"),
@@ -15,6 +16,7 @@ const ProfileContainer = dynamic(
 const Profile: NextPageWithLayout = () => {
   const router = useRouter();
   const { id } = router.query;
+  const { user } = useUser();
 
   return (
     <>
@@ -22,8 +24,10 @@ const Profile: NextPageWithLayout = () => {
         <title>Storytelling - Profile</title>
       </Head>
       <ProfileContainer
-        mode={id === "me" ? "me" : "instructor"}
-        instructorId={id !== "me" ? (id as string) : ""}
+        mode={id === "me" || id === user?.userId ? "me" : "instructor"}
+        instructorId={
+          !(id === "me" || id === user?.userId) ? (id as string) : ""
+        }
       />
     </>
   );

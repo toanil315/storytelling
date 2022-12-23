@@ -99,9 +99,7 @@ export const userServices = {
 
   getListFollowByUser: (
     userId: string
-  ): Promise<{
-    data: CustomAxiosResponseWithPagination<FollowInstructorType[]>;
-  }> => {
+  ): Promise<CustomAxiosResponseWithPagination<FollowInstructorType[]>> => {
     return axiosClient.get(
       `${BASE_JAVA_URL}/users/${userId}/follows?page=1&paging=10&sort=createdAt&order=asc`
     );
@@ -109,5 +107,14 @@ export const userServices = {
 
   requestToBecomeAnInstructor: (): Promise<any> => {
     return axiosClient.post(`/users/request-instructor`);
+  },
+
+  checkFollowedOrNot: (
+    userId: string,
+    instructorId: string
+  ): Promise<CustomAxiosResponse<any>> => {
+    return axiosClient.get(
+      `${BASE_JAVA_URL}/follows/users/${userId}/instructors/${instructorId}/checkFollow`
+    );
   },
 };

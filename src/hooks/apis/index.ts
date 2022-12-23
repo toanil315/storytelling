@@ -24,6 +24,7 @@ export { default as useCountLikeOfVideo } from "./Course/useCountLikeOfVideo";
 export { default as useCheckLikeVideo } from "./Course/useCheckLikeVideo";
 export { default as useLikeVideo } from "./Course/useLikeVideo";
 export { default as useGetMyPurchasedCourses } from "./Course/useGetMyPurchasedCourses";
+export { default as useGetAttendanceByMonth } from "./Course/useGetAttendanceByMonth";
 
 export { default as useGetNotifications } from "./User/useGetNotifications";
 export { default as useMarkAllReadNotifications } from "./User/useMarkAllReadNotifications";
@@ -35,6 +36,7 @@ export { default as useGetRevenueOfTheMonths } from "./User/useGetRevenueOfTheMo
 export { default as useFollowInstructor } from "./User/useFollowInstructor";
 export { default as useGetListFollowByUser } from "./User/useGetListFollowByUser";
 export { default as useRequestToBecomeAnInstructor } from "./User/useRequestToBecomeAnInstructor";
+export { default as useCheckFollow } from "./User/useCheckFollow";
 
 export { default as useRealTimeServices } from "./RealTime/useRealTimeServices";
 

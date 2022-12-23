@@ -13,8 +13,8 @@ const useGetListFollowByUser = (userId: string) => {
   );
 
   return {
-    data: data?.data?.data,
-    pagination: data?.data?.pagination,
+    data: data?.data,
+    pagination: data?.pagination,
     isLoading,
     isError,
   };
