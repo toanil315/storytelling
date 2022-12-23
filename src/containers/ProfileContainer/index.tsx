@@ -8,6 +8,7 @@ import Text from "src/components/commons/Typography";
 import CourseCard from "src/components/CourseCard";
 import { UserType } from "src/data-model/UserTypes";
 import {
+  useCheckFollow,
   useFollowInstructor,
   useGetCoursesByInstructor,
   useGetMyPurchasedCourses,
@@ -21,6 +22,7 @@ import { USER_ROLES } from "src/utils/constants";
 import { Path } from "src/utils/Path";
 import UpdateProfileModal from "./components/UpdateProfileModal";
 import { ProfileHeader, ProfileImage } from "./styles";
+import CheckIcon from "src/components/icons/CheckMarkIcon";
 
 interface Props {
   mode: "me" | "instructor";
@@ -42,6 +44,10 @@ const ProfileContainer = ({ mode, instructorId }: Props) => {
     currentUser?.userId
   );
   const { follow, isLoading: isFollowLoading } = useFollowInstructor();
+  const { isFollowed } = useCheckFollow(
+    currentUser?.userId ?? "",
+    instructorId ?? ""
+  );
 
   const {
     users,
@@ -147,18 +153,37 @@ const ProfileContainer = ({ mode, instructorId }: Props) => {
             </Box>
           )}
 
-          {mode === "instructor" && (
-            <Box
-              as={Button}
-              $type="secondary"
-              height="fit-content"
-              margin="0 0 0 10px"
-              onClick={handleFollowInstructor}
-              loading={isFollowLoading}
-            >
-              Follow
-            </Box>
-          )}
+          {mode === "instructor" &&
+            (isFollowed ? (
+              <Box
+                className="cursor-default flex items-center"
+                bg="primary"
+                padding="8px 16px"
+                borderRadius="large"
+              >
+                <CheckIcon fill="color" />
+                <Box
+                  as={Text}
+                  padding="0 0 0 10px"
+                  fontSize="sm"
+                  fontWeight="bold"
+                  color="text"
+                >
+                  Followed
+                </Box>
+              </Box>
+            ) : (
+              <Box
+                as={Button}
+                $type="secondary"
+                height="fit-content"
+                margin="0 0 0 10px"
+                onClick={handleFollowInstructor}
+                loading={isFollowLoading}
+              >
+                Follow
+              </Box>
+            ))}
         </Box>
       </ProfileHeader>
       <Box margin="40px 0">

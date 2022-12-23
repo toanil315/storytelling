@@ -1,4 +1,5 @@
 import {
+  AttendanceByMonthType,
   CategoryType,
   CourseBase,
   CourseType,
@@ -9,6 +10,7 @@ import {
   SectionType,
 } from "src/data-model/CourseTypes";
 import { axiosClient } from "src/utils/axios";
+import { BASE_JAVA_URL } from "src/utils/constants";
 import {
   CustomAxiosResponse,
   CustomAxiosResponseWithPagination,
@@ -94,5 +96,13 @@ export const courseService = {
 
   getHashTags: (): Promise<CustomAxiosResponse<HashTagType[]>> => {
     return axiosClient.get("/hashtags");
+  },
+
+  getAttendanceByMonth: (
+    courseId: string
+  ): Promise<CustomAxiosResponse<AttendanceByMonthType[]>> => {
+    return axiosClient.get(
+      `${BASE_JAVA_URL}/courses/${courseId}/totalSubscribers`
+    );
   },
 };

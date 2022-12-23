@@ -57,3 +57,8 @@ export interface HashTagType {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface AttendanceByMonthType {
+  month: string;
+  totalSubscribers: number;
+}

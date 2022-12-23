@@ -26,14 +26,12 @@ const useFollowInstructor = () => {
             return {
               ...old,
               data: {
-                data: {
-                  data: [
-                    ...(followList ?? []),
-                    {
-                      instructorResponse: followedInstructor?.data,
-                    },
-                  ],
-                },
+                data: [
+                  ...(followList ?? []),
+                  {
+                    instructorResponse: followedInstructor?.data,
+                  },
+                ],
               },
             };
           }
