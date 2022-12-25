@@ -74,7 +74,7 @@ const handleNewNotification = (
     queryClient.setQueryData(
       [QUERY_KEYS.GET_NOTIFICATION_BY_USER_ID, currentUserId],
       (old: any) => {
-        const newNotificationsList = [...old.pages];
+        const newNotificationsList = [...old?.pages];
         newNotificationsList[0].data = [
           newNotification,
           ...newNotificationsList[0].data,

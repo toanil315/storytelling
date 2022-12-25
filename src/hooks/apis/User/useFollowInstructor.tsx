@@ -16,23 +16,18 @@ const useFollowInstructor = () => {
           QUERY_KEYS.GET_USER_BY_ID,
           instructorId,
         ]);
-        const followList: any = queryClient.getQueryData([
-          QUERY_KEYS.GET_LIST_FOLLOW_BY_USER,
-          userId,
-        ]);
+
         queryClient.setQueryData(
           [QUERY_KEYS.GET_LIST_FOLLOW_BY_USER, userId],
           (old: any) => {
             return {
               ...old,
-              data: {
-                data: [
-                  ...(followList.data ?? []),
-                  {
-                    instructorResponse: followedInstructor?.data,
-                  },
-                ],
-              },
+              data: [
+                ...(old?.data ?? []),
+                {
+                  instructorResponse: followedInstructor?.data,
+                },
+              ],
             };
           }
         );
