@@ -3,14 +3,19 @@ import { userServices } from "src/services/UserServices";
 import { QUERY_KEYS } from "src/utils/constants";
 import { useGetCourseByIdParallel } from "./useGetCourseById";
 
-const useGetMyPurchasedCourses = (userId?: string) => {
+const useGetMyPurchasedCourses = (
+  userId?: string,
+  page?: number,
+  pageSize?: number
+) => {
   const {
     data: purchasedHistory,
     isLoading: getHistoryLoading,
     isError,
   } = useQuery(
-    QUERY_KEYS.GET_MY_PURCHASED_COURSES,
-    () => userServices.getPurchasesOfUser(userId ?? ""),
+    [QUERY_KEYS.GET_MY_PURCHASED_COURSES, page, pageSize],
+    () =>
+      userServices.getPurchasesOfUser(userId ?? "", page ?? 1, pageSize ?? 9),
     {
       enabled: Boolean(userId),
     }
@@ -26,6 +31,7 @@ const useGetMyPurchasedCourses = (userId?: string) => {
 
   return {
     data: courses,
+    pagination: purchasedHistory?.pagination,
     isLoading: getHistoryLoading || getCoursesLoading,
     isError,
   };
