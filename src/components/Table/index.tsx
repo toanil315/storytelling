@@ -6,6 +6,7 @@ import { UseTableHelper } from "src/hooks/useTable";
 
 export interface TableProps<T> extends AntdTableProps<T> {
   table: UseTableHelper;
+  total?: number;
 }
 
 const CustomExpandIcon = (props: any) => {
@@ -43,6 +44,7 @@ const Table = ({ table, ...restProps }: TableProps<any>) => {
         hideOnSinglePage: true,
         onChange: table.onPageChange,
         pageSize: table.pageSize,
+        ...(restProps.total ? { total: restProps.total } : {}),
       }}
     />
   );

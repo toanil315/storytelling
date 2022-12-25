@@ -13,10 +13,19 @@ import { getPublishCoursesColumn } from "../../constants/column";
 import PublishCourseDetail from "../PublishCourseDetail";
 
 const PublishCourses = () => {
+  const table = useTable({
+    page: 1,
+    pageSize: 5,
+  });
+
   const { t } = useTranslation();
   const { user } = useUser();
-  const { data: publishCourseList, isLoading: getCourseLoading } =
-    useGetCoursesByInstructor(user?.userId);
+  const {
+    data: publishCourseList,
+    pagination,
+    isLoading: getCourseLoading,
+    isFetching: getCourseFetching,
+  } = useGetCoursesByInstructor(user?.userId, table.page, table.pageSize);
   const { data: categories, isLoading: getCategoryLoading } = useGetCategory();
 
   const [expandedRowKey, setExpandedRowKey] = useState<string>("");
@@ -26,13 +35,8 @@ const PublishCourses = () => {
     [categories]
   );
 
-  const table = useTable({
-    page: 1,
-    pageSize: 5,
-  });
-
   return (
-    <Box bg="white" padding="20px" borderRadius="large">
+    <Box bg="white" padding="20px" borderRadius="large" className="shadow-md">
       <Box
         as={Text}
         padding="0 0 15px"
@@ -44,11 +48,12 @@ const PublishCourses = () => {
         Publish Courses:
       </Box>
       <Table
-        loading={getCourseLoading || getCategoryLoading}
+        loading={getCourseLoading || getCategoryLoading || getCourseFetching}
         rowKey={(record) => record.id}
         columns={column}
         dataSource={publishCourseList}
         table={table}
+        total={pagination?.total_count}
         expandable={{
           expandedRowKeys: [expandedRowKey],
           expandedRowRender: (record: any) => (

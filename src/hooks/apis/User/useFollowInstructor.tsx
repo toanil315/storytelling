@@ -36,6 +36,12 @@ const useFollowInstructor = () => {
             };
           }
         );
+
+        queryClient.invalidateQueries([
+          QUERY_KEYS.CHECK_FOLLOWED_OR_NOT,
+          instructorId,
+        ]);
+
         toast.success(t("toast.success.followInstructor"));
       },
       onError: () => {

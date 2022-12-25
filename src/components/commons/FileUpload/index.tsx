@@ -9,6 +9,7 @@ import CloseIcon from "src/components/icons/CloseIcon";
 import ErrorMessage from "../ErrorMessage";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import ImageComponent from "../Image";
 
 export interface FileUploadProps extends BoxProps {
   label?: string;
@@ -111,42 +112,72 @@ const FileUpload = ({
       )}
 
       <Box style={{ cursor: "pointer" }} as="label" htmlFor={name}>
-        <Center
-          bg="lightGray"
-          padding="20px 20px"
-          borderRadius="large"
-          margin="0 auto 5px"
-          flexDirection="column"
-          borderWidth="2px"
-          borderStyle="solid"
-          borderColor={error ? "danger" : "transparent"}
-        >
-          <UploadFileIcon />
-          <Box
-            as={Text}
-            fontSize="sm"
-            fontWeight="medium"
-            lineHeight="normal"
-            color="text"
-            padding="20px 0 5px"
+        {Boolean(value) && accept === "image" ? (
+          <Center
+            bg="lightGray"
+            padding="24px 20px"
+            borderRadius="large"
+            margin="0 auto 5px"
+            flexDirection="column"
+            borderWidth="2px"
+            borderStyle="solid"
+            width="100%"
+            height="158px"
           >
-            Upload Your{" "}
-            <Box as="span" color="danger">
-              Videos,{" "}
-            </Box>
-            <Box as="span" color="danger">
-              Images
-            </Box>
-          </Box>
-          <Text
-            fontSize="xs"
-            fontWeight="regular"
-            lineHeight="small"
-            color="text"
+            <ImageComponent src={value} alt={value} />
+          </Center>
+        ) : (
+          <Center
+            bg="lightGray"
+            padding="12px 20px"
+            borderRadius="large"
+            margin="0 auto 5px"
+            flexDirection="column"
+            borderWidth="2px"
+            borderStyle="solid"
+            borderColor={error ? "danger" : "transparent"}
           >
-            Supports: MP4, MOV, WMV, PNG, JPEG
-          </Text>
-        </Center>
+            <UploadFileIcon />
+            <Box
+              as={Text}
+              fontSize="sm"
+              fontWeight="medium"
+              lineHeight="normal"
+              color="text"
+              padding="20px 0 5px"
+            >
+              Upload Your{" "}
+              {accept === "video" ? (
+                <Box as="span" color="danger">
+                  Videos
+                </Box>
+              ) : (
+                <Box as="span" color="danger">
+                  Images
+                </Box>
+              )}
+            </Box>
+            {accept === "video" ? (
+              <Text
+                fontSize="xs"
+                fontWeight="regular"
+                lineHeight="small"
+                color="text"
+              >
+                Supports: MP4, MOV, WMV...
+              </Text>
+            ) : (
+              <Text
+                fontSize="xs"
+                fontWeight="regular"
+                lineHeight="small"
+                color="text"
+              >
+                Supports: PNG, JPEG, GIF...
+              </Text>
+            )}
+          </Center>
+        )}
       </Box>
       <input
         {...restProps}

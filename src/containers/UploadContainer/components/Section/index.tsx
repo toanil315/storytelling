@@ -106,6 +106,7 @@ const Section = ({ section, sectionIndex }: Props) => {
             loading={createLectureLoading}
             mode="create"
             handleSubmit={handleAddLecture}
+            onCancel={() => setCanAddLecture(true)}
           />
         </Box>
       )}
