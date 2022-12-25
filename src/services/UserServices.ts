@@ -77,9 +77,13 @@ export const userServices = {
   },
 
   getPurchasesOfUser: (
-    userId: string
+    userId: string,
+    page: number,
+    pageSize: number
   ): Promise<CustomAxiosResponseWithPagination<PaymentHistory[]>> => {
-    return axiosClient.get(`${BASE_JAVA_URL}/users/${userId}/payments`);
+    return axiosClient.get(
+      `${BASE_JAVA_URL}/users/${userId}/payments?page=${page}&limit=${pageSize}`
+    );
   },
 
   getEarningDataOfInstructor: (

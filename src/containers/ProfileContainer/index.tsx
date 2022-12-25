@@ -23,6 +23,8 @@ import { Path } from "src/utils/Path";
 import UpdateProfileModal from "./components/UpdateProfileModal";
 import { ProfileHeader, ProfileImage } from "./styles";
 import CheckIcon from "src/components/icons/CheckMarkIcon";
+import { usePagination } from "src/hooks";
+import Pagination from "src/components/Pagination";
 
 interface Props {
   mode: "me" | "instructor";
@@ -30,6 +32,9 @@ interface Props {
 }
 
 const ProfileContainer = ({ mode, instructorId }: Props) => {
+  const pagination = usePagination({
+    pageSize: 9,
+  });
   const modal = useModal();
   const router = useRouter();
   const [usersById, setUsersById] = useState<
@@ -37,12 +42,21 @@ const ProfileContainer = ({ mode, instructorId }: Props) => {
   >(undefined);
   const { user: currentUser } = useUser();
   const { user: instructor } = useGetUserById(instructorId);
-  const { data: courses, isLoading } = useGetCoursesByInstructor(
-    mode === "instructor" ? instructorId : undefined
+  const {
+    data: courses,
+    pagination: paginationCoursesInstructor,
+    isLoading,
+  } = useGetCoursesByInstructor(
+    mode === "instructor" ? instructorId : undefined,
+    pagination.page,
+    pagination.pageSize
   );
-  const { data: myPurchasedCourses } = useGetMyPurchasedCourses(
-    currentUser?.userId
-  );
+  const { data: myPurchasedCourses, pagination: paginationMyPurchasedCode } =
+    useGetMyPurchasedCourses(
+      currentUser?.userId,
+      pagination.page,
+      pagination.pageSize
+    );
   const { follow, isLoading: isFollowLoading } = useFollowInstructor();
   const { isFollowed } = useCheckFollow(
     currentUser?.userId ?? "",
@@ -118,7 +132,7 @@ const ProfileContainer = ({ mode, instructorId }: Props) => {
             >
               {mode === "me" ? currentUser?.fullName : instructor?.fullName}
             </Text>
-            <Box display="flex">
+            {/* <Box display="flex">
               <Box
                 as={Text}
                 fontSize="sm"
@@ -131,7 +145,7 @@ const ProfileContainer = ({ mode, instructorId }: Props) => {
               <Text fontSize="sm" fontWeight="regular" lineHeight="large">
                 0 Students
               </Text>
-            </Box>
+            </Box> */}
           </Box>
         </Box>
         <Box display="flex" alignItems="center">
@@ -191,7 +205,23 @@ const ProfileContainer = ({ mode, instructorId }: Props) => {
           {mode === "me" ? "My Purchased Courses:" : "Courses:"}
         </Text>
 
-        {courses?.length === 0 || myPurchasedCourses?.length === 0 ? (
+        {mode === "instructor" && courses?.length === 0 && (
+          <Center width="100%" className="flex-col p-4">
+            <Box width="120%" height="300px">
+              <ImageComponent src="/assets/empty.png" alt="empty" />
+            </Box>
+            <Text
+              fontSize="sm"
+              fontWeight="medium"
+              lineHeight="large"
+              color="text"
+            >
+              This instructor doesn't have any course
+            </Text>
+          </Center>
+        )}
+
+        {mode === "me" && myPurchasedCourses?.length === 0 && (
           <Center width="100%" className="flex-col p-4">
             <Box width="120%" height="300px">
               <ImageComponent src="/assets/empty.png" alt="empty" />
@@ -205,11 +235,25 @@ const ProfileContainer = ({ mode, instructorId }: Props) => {
               You currently haven't purchased any course
             </Text>
           </Center>
-        ) : (
+        )}
+
+        {(myPurchasedCourses?.length !== 0 || courses?.length !== 0) && (
           <Box margin="20px 0 0" className="grid grid-cols-3 gap-x-4 gap-y-8">
             {renderCourseList()}
           </Box>
         )}
+
+        <Box className="flex justify-end" margin="40px 0 0">
+          <Pagination
+            pagination={pagination}
+            total={
+              mode === "instructor"
+                ? paginationCoursesInstructor?.total_count
+                : paginationMyPurchasedCode?.total_count
+            }
+            current={Number(router.query.page ?? 1)}
+          />
+        </Box>
       </Box>
       <UpdateProfileModal modal={modal} />
     </Box>
