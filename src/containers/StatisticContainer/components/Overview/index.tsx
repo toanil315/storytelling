@@ -24,6 +24,7 @@ const Overview = () => {
 const OverviewItem = () => {
   return (
     <Box
+      className="shadow-md"
       padding="20px"
       border="1px solid"
       borderColor="lightGray"

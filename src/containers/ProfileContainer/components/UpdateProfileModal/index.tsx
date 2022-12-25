@@ -72,6 +72,7 @@ const UpdateProfileModal = ({
               fallBack="/assets/ava.png"
               src={user?.avatarUrl ?? ""}
               alt="ava image"
+              objectFit="cover"
             />
             <input
               onChange={handleUploadAvatar}

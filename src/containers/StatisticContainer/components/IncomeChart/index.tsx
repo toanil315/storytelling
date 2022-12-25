@@ -25,6 +25,7 @@ const IncomeChart = () => {
       border="1px solid"
       borderColor="lightGray"
       borderRadius="large"
+      className="shadow-md"
     >
       <Box style={{ textAlign: "center" }}>
         <Text fontSize="base" fontWeight="bold" lineHeight="xl" color="text">

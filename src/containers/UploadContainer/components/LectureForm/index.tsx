@@ -122,13 +122,23 @@ const LectureForm = ({
 
             <Box width="100%">
               {mode === "create" ? (
-                <Box
-                  loading={loading}
-                  as={Button}
-                  type="submit"
-                  margin="13px 0 0 auto"
-                >
-                  Add Lecture
+                <Box className="flex justify-end" margin="13px 0 0 0px">
+                  <Button
+                    onClick={onCancel && onCancel}
+                    $type="white"
+                    type="button"
+                    width="20%"
+                  >
+                    <Box padding="0 20px">Cancel</Box>
+                  </Button>
+                  <Box
+                    loading={loading}
+                    as={Button}
+                    type="submit"
+                    margin="0 0 0 15px"
+                  >
+                    Add Lecture
+                  </Box>
                 </Box>
               ) : (
                 <Box className="flex justify-end" margin="13px 0 0 0px">

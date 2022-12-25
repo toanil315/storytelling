@@ -23,7 +23,6 @@ export const courseService = {
   searchCourses: (
     queryParams: any
   ): Promise<CustomAxiosResponseWithPagination<CourseType[]>> => {
-    console.log("query params: ", queryParams);
     return axiosClient.get("/courses/search", {
       params: queryParams,
     });
@@ -32,9 +31,13 @@ export const courseService = {
     axiosClient.get(`/courses/${courseId}`),
 
   getCourseByInstructor: (
-    instructorId: string
-  ): Promise<CustomAxiosResponse<CourseType[]>> =>
-    axiosClient.get(`/users/courses/${instructorId}`),
+    instructorId: string,
+    page: number,
+    pageSize: number
+  ): Promise<CustomAxiosResponseWithPagination<CourseType[]>> =>
+    axiosClient.get(
+      `/users/${instructorId}/courses?page=${page}&limit=${pageSize}`
+    ),
 
   getCategories: (): Promise<CustomAxiosResponse<CategoryType[]>> =>
     axiosClient.get("/category-topics"),

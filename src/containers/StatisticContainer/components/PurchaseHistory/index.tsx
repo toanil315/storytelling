@@ -30,7 +30,7 @@ const PurchaseHistory = ({ instructorId }: Props) => {
       border="1px solid"
       borderColor="lightGray"
       borderRadius="large"
-      className="overflow-y-auto"
+      className="overflow-y-auto shadow-md"
     >
       <Box className="w-full flex items-center justify-between">
         <Text fontSize="base" fontWeight="bold" lineHeight="large" color="text">
@@ -97,7 +97,7 @@ const HistoryItem = ({
       width="100%"
       height="100%"
       padding="10px 5px"
-      className="flex items-center"
+      className="flex items-center "
     >
       <Box
         className="flex-shrink-0"

@@ -5,6 +5,7 @@ import SearchIcon from "src/components/icons/SearchIcon";
 import { useRouter } from "next/router";
 import { Path } from "src/utils/Path";
 import { QUERY_PARAMS_FOR_SEARCH_COURSE } from "src/utils/constants";
+import Box from "src/components/commons/Box";
 
 const Searchbar = () => {
   const router = useRouter();
@@ -36,17 +37,19 @@ const Searchbar = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <SearchbarWrapper>
-        <WaveIcon />
-        <input
-          value={searchTerm}
-          onChange={handleChange}
-          placeholder="Search something..."
-        />
-        <SearchIcon />
-      </SearchbarWrapper>
-    </form>
+    <Box className="shadow-md" borderRadius="24px">
+      <form onSubmit={handleSubmit}>
+        <SearchbarWrapper>
+          <WaveIcon />
+          <input
+            value={searchTerm}
+            onChange={handleChange}
+            placeholder="Search something..."
+          />
+          <SearchIcon />
+        </SearchbarWrapper>
+      </form>
+    </Box>
   );
 };
 
