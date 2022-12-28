@@ -15,7 +15,7 @@ const useSearchCourses = (queryParams: { [key: string]: any }) => {
     searchCourses: () => {
       trigger();
     },
-    data: (data as any)?.data.courses as CourseType[] | undefined,
+    data: (data as any)?.data as CourseType[] | undefined,
     isLoading,
     isError,
   };
