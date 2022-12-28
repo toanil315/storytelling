@@ -37,12 +37,12 @@ const CourseDetailContainer = ({ course }: Props) => {
   const router = useRouter();
   const { t } = useTranslation();
   const { data } = useGetCategory();
-  const { data: sections } = useGetSection(course.id ?? "");
+  const { data: sections } = useGetSection(course?.id ?? "");
   const { user: currentUserLogin } = useUser();
   const [description, setDescription] = useState<
     string | JSX.Element | JSX.Element[]
   >("");
-  const { user } = useGetUserById(course.userId);
+  const { user } = useGetUserById(course?.userId);
   const { buyCourse, isLoading: buyCourseLoading } = useBuyCourse();
   const handleBuyCourse = () => {
     if (!currentUserLogin) {

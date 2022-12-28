@@ -6,17 +6,30 @@ import Center from "src/components/commons/Center";
 import PlusWithNoBorderIcon from "src/components/icons/PlusWithNoBorderIcon";
 import SectionForm from "../SectionForm";
 import Section from "../Section";
-import { useGetSection, useCreateSection } from "src/hooks/apis";
+import {
+  useGetSection,
+  useCreateSection,
+  usePublishCourse,
+  useGetCourseById,
+  useUser,
+} from "src/hooks/apis";
 import Text from "src/components/commons/Typography";
+import PlaceholderLoading from "src/components/commons/Loading";
+import { useRouter } from "next/router";
+import { Path } from "src/utils/Path";
 
 interface Props {
   courseId: string;
 }
 
 const CreateSections = ({ courseId }: Props) => {
+  const router = useRouter();
+  const { user: currentUserLogin } = useUser();
   const [canAddSection, setCanAddSection] = useState<boolean>(true);
   const { data: sections, isLoading, isError } = useGetSection(courseId);
   const { createSection, isLoading: createSectionLoading } = useCreateSection();
+  const { publishCourse, isLoading: publishCourseLoading } = usePublishCourse();
+  const { data: course } = useGetCourseById(courseId);
 
   const renderSection = () => {
     return sections?.map((section, index) => (
@@ -41,7 +54,11 @@ const CreateSections = ({ courseId }: Props) => {
   };
 
   if (isLoading) {
-    return <Box>Loading</Box>;
+    return (
+      <Center width="100%" height="50vh">
+        <PlaceholderLoading />
+      </Center>
+    );
   }
 
   return (
@@ -74,9 +91,30 @@ const CreateSections = ({ courseId }: Props) => {
           </Col>
         )}
         <Col span={24}>
-          <Box as={Button} width="50%" margin="20px auto 0">
-            Publish Course
-          </Box>
+          {course?.isPublic ? (
+            <Box
+              onClick={() =>
+                router.push(
+                  `${Path.courses}/${courseId}?userId=${currentUserLogin?.userId}`
+                )
+              }
+              as={Button}
+              width="50%"
+              margin="20px auto 0"
+            >
+              View Course
+            </Box>
+          ) : (
+            <Box
+              onClick={() => publishCourse(courseId)}
+              loading={publishCourseLoading}
+              as={Button}
+              width="50%"
+              margin="20px auto 0"
+            >
+              Publish Course
+            </Box>
+          )}
         </Col>
       </Row>
     </Box>

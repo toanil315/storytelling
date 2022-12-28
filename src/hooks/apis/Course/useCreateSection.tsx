@@ -38,15 +38,9 @@ const useCreateSection = (): {
         queryClient.setQueryData(
           [QUERY_KEYS.GET_SECTIONS, newSection.courseId],
           (old: any) => {
-            console.log(old);
             return {
               ...old,
-              data: {
-                sections: [
-                  ...old.data.sections,
-                  { ...newSection, id: String(Date.now()) },
-                ],
-              },
+              data: [...old.data, { ...newSection, id: String(Date.now()) }],
             };
           }
         );

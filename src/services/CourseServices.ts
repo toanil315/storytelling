@@ -44,7 +44,7 @@ export const courseService = {
 
   getSections: (
     courseId: string
-  ): Promise<CustomAxiosResponse<{ sections: SectionType[] }>> =>
+  ): Promise<CustomAxiosResponse<SectionType[]>> =>
     axiosClient.get(`/courses/${courseId}/sections`),
 
   getSectionById: (
@@ -95,6 +95,10 @@ export const courseService = {
   ): Promise<CustomAxiosResponse<LectureType>> => {
     const { id, ...restLectureData } = lectureData;
     return axiosClient.put(`/videos/${id}`, restLectureData);
+  },
+
+  publishCourse: (courseId: string): Promise<any> => {
+    return axiosClient.get(`/courses/${courseId}/public`);
   },
 
   getHashTags: (): Promise<CustomAxiosResponse<HashTagType[]>> => {
