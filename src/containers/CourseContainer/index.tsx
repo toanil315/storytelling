@@ -49,9 +49,6 @@ const CourseContainer = ({ courseId }: Props) => {
     courseId
   );
 
-  console.log(courseId);
-  console.log("========================sections: ", sections);
-
   useEffect(() => {
     if (!router.query.lectureId) {
       router.replace({
