@@ -76,7 +76,6 @@ const CourseCard = ({ course, user }: Props) => {
           <button className="play-btn">
             <PlayIcon />
           </button>
-          <span className="duration">4:36</span>
         </Thumbnail>
         <CategoryName>
           {data?.find((item) => item.id === course.categoryTopicId)?.name}

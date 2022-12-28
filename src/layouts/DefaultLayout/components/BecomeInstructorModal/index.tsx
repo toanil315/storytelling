@@ -38,7 +38,6 @@ const BecomeInstructorModal = ({ modal }: Props) => {
     const everyFieldIsFilled = fieldNeedToCheck.every((key) => {
       return Boolean(user?.[key as keyof typeof user]);
     });
-    console.log(user, everyFieldIsFilled);
     if (everyFieldIsFilled) requestToBecomeAnInstructor();
     else errorModal.toggleModal();
   };

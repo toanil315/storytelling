@@ -122,7 +122,7 @@ const HistoryItem = ({
           lineHeight="normal"
           color="text"
         >
-          has bought {course?.name.slice(0, 15) + "..."}
+          has bought {course?.name.slice(0, 20) + "..."}
         </Text>
       </Box>
       <Center
