@@ -11,16 +11,6 @@ export const getRoutes = (): RouteItem[] => [
     path: Path.home,
     Icon: HomeIcon,
   },
-  {
-    title: "Popular Video",
-    path: Path.popular,
-    Icon: PlayIcon,
-  },
-  {
-    title: "Trendy",
-    path: Path.trendy,
-    Icon: TrendyIcon,
-  },
 ];
 
 export const NotificationMapperContent = {

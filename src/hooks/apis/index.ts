@@ -25,6 +25,7 @@ export { default as useCheckLikeVideo } from "./Course/useCheckLikeVideo";
 export { default as useLikeVideo } from "./Course/useLikeVideo";
 export { default as useGetMyPurchasedCourses } from "./Course/useGetMyPurchasedCourses";
 export { default as useGetAttendanceByMonth } from "./Course/useGetAttendanceByMonth";
+export { default as useCheckFinishedCourse } from "./Course/useCheckFinishedCourse";
 
 export { default as useGetNotifications } from "./User/useGetNotifications";
 export { default as useMarkAllReadNotifications } from "./User/useMarkAllReadNotifications";

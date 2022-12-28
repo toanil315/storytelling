@@ -14,6 +14,7 @@ import PlaceholderLoading from "src/components/commons/Loading";
 import Text from "src/components/commons/Typography";
 import { LectureType } from "src/data-model/CourseTypes";
 import {
+  useCheckFinishedCourse,
   useGetCourseById,
   useGetLecturesBySection,
   useGetSection,
@@ -43,6 +44,10 @@ const CourseContainer = ({ courseId }: Props) => {
   const { user: currentUserLogin } = useUser();
   const { data: course } = useGetCourseById(courseId ?? "");
   const certificateModal = useModal();
+  const { isFinishCourse } = useCheckFinishedCourse(
+    currentUserLogin?.userId ?? "",
+    courseId
+  );
 
   useEffect(() => {
     if (!router.query.lectureId) {
@@ -102,11 +107,19 @@ const CourseContainer = ({ courseId }: Props) => {
           {course?.name}
         </Text>
         <Box className="flex items-center gap-x-6">
-          <Box onClick={() => certificateModal.toggleModal()}>
-            <StyledCircleProgress>
-              <TrophyIcon color="#979393" />
-            </StyledCircleProgress>
-          </Box>
+          {isFinishCourse ? (
+            <Box onClick={() => certificateModal.toggleModal()}>
+              <StyledCircleProgress>
+                <TrophyIcon color="#ebeb10" />
+              </StyledCircleProgress>
+            </Box>
+          ) : (
+            <Box>
+              <StyledCircleProgress>
+                <TrophyIcon color="#979393" />
+              </StyledCircleProgress>
+            </Box>
+          )}
         </Box>
       </Box>
       <Box as={Row} width="100%" gutter={[10, 0]}>
