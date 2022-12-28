@@ -16,7 +16,7 @@ const useCheckFinishedCourse = (userId: string, courseId: string) => {
   );
 
   return {
-    isFinishCourse: Boolean(data?.data?.[0].check_done),
+    isFinishCourse: Boolean(data?.data?.check_done),
   };
 };
 
