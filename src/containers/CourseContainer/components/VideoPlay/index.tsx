@@ -19,8 +19,11 @@ import { videoServices } from "src/services/VideoServices";
 import moment from "moment";
 import { DATE_FORMATS } from "src/utils/helpers/formatDate";
 import { useDebounceWithoutDependencies } from "src/hooks";
+import { useQueryClient } from "react-query";
+import { QUERY_KEYS } from "src/utils/constants";
 
 const VideoPlay = () => {
+  const queryClient = useQueryClient();
   const { query } = useRouter();
   const { user: currentUser } = useUser();
   const { lectureId } = query;
@@ -45,12 +48,19 @@ const VideoPlay = () => {
     userId: string,
     lectureId: string
   ) => {
-    videoServices.updateViewLecture({
-      userId: userId as string,
-      videoId: lectureId as string,
-      lastDuration: Math.floor(Number(node?.currentTime)) / 60,
-      lastestViewDate: moment(new Date()).format(DATE_FORMATS.UPDATE_VIEW),
-    });
+    videoServices
+      .updateViewLecture({
+        userId: userId as string,
+        videoId: lectureId as string,
+        lastDuration: Math.floor(Number(node?.currentTime)) / 60,
+        lastestViewDate: moment(new Date()).format(DATE_FORMATS.UPDATE_VIEW),
+      })
+      .then(() => {
+        queryClient.invalidateQueries([
+          QUERY_KEYS.CHECK_FINISHED_COURSE,
+          query.id,
+        ]);
+      });
   };
 
   useEffect(() => {
@@ -63,14 +73,12 @@ const VideoPlay = () => {
 
   useEffect(() => {
     const handleGetLastDuration = async () => {
-      const result = (
-        await videoServices.getLastDuration(
-          lectureId as string,
-          currentUser?.userId as string
-        )
-      ).data;
+      const result = await videoServices.getLastDuration(
+        lectureId as string,
+        currentUser?.userId as string
+      );
       if (videoRef.current) {
-        videoRef.current.currentTime = result.data?.lastDuration
+        videoRef.current.currentTime = result?.data?.lastDuration
           ? Number(result.data?.lastDuration) * 60
           : 0;
       }

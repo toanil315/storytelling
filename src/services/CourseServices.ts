@@ -108,4 +108,11 @@ export const courseService = {
       `${BASE_JAVA_URL}/courses/${courseId}/totalSubscribers`
     );
   },
+
+  checkFinishedCourse: (checkData: {
+    userId: string;
+    courseId: string;
+  }): Promise<CustomAxiosResponse<any>> => {
+    return axiosClient.post(`/courses/check-finish-course`, checkData);
+  },
 };

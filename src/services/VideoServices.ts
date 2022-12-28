@@ -49,7 +49,7 @@ export const videoServices = {
   getLastDuration: (
     videoId: string,
     userId: string
-  ): Promise<CustomAxiosResponse<{ data: LastDurationType }>> => {
+  ): Promise<CustomAxiosResponse<LastDurationType>> => {
     return axiosClient.get(`/users/${userId}/videos/${videoId}/videoviews`);
   },
 };

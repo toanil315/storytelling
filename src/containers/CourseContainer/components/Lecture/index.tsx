@@ -16,15 +16,6 @@ interface Props {
 const Lecture = ({ lecture, index }: Props) => {
   return (
     <LectureWrapper display="flex" alignItems="center" padding="15px 10px">
-      <Center
-        width="18px"
-        height="18px"
-        borderRadius="base"
-        border="1px solid"
-        borderColor="textLight"
-      >
-        <CheckMarkIcon fill="#ffffff" />
-      </Center>
       <Box margin="0 0 0 15px">
         <Text
           fontSize="base"
